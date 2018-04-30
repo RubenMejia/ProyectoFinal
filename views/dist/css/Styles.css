@@ -1,0 +1,134 @@
+/*mis estilos*/
+.col-md-offset-1{
+	margin-top: 2em;
+}
+
+.SearchByNamet{
+	border-radius: 3px;
+    border: 1px solid #374850;
+    margin: 10px 10px;
+}
+
+.SearchByNamet{
+	border-radius:3px;
+	border:1px solid #374850;
+	margin:10px 10px
+}
+
+.SearchByNamet input[type="text"], .SearchByNamet .btn{
+	box-shadow:none;
+	background-color:#374850;
+	border:1px solid transparent;
+	height:35px
+} 
+
+.SearchByNamet input[type="text"]{
+	color:#666;
+	border-top-left-radius:2px;
+	border-top-right-radius:0;
+	border-bottom-right-radius:0;
+	border-bottom-left-radius:2px
+} 
+
+.SearchByNamet input[type="text"]:focus, 
+.SearchByNamet input[type="text"]:focus+.input-group-btn .btn{
+	background-color:#fff;
+	color:#666
+} 
+
+.SearchByNamet input[type="text"]:focus+.input-group-btn .btn{
+	border-left-color:#fff
+} 
+
+.SearchByNamet .btn{
+	color:#999;
+	border-top-left-radius:0;
+	border-top-right-radius:2px;
+	border-bottom-right-radius:2px;
+	border-bottom-left-radius:0
+}
+/*Estilos de Andres*/
+
+.mensaje{
+	text-align: center;
+	margin-top: 16%;
+	font-family:'Bangers',Bangers-Regular;
+	font-size: 2em;
+}
+
+.mas{
+	position: fixed;
+	bottom: 0px;
+	right: 0px;
+	margin-bottom: 53px;
+	margin-right: 18px;
+}
+
+.tamano{
+	width: 10px;
+}
+
+.calend{
+	float: left;
+}
+.calends{
+	float: left;
+}
+.calends1{
+	float: left;
+	margin-left: 635px;
+}
+
+
+/*Beto´s Styles login-register*/
+
+.body_login{
+	
+	background-image: url('../img/background.png');
+
+	/* Nos aseguramos que la imagen de fondo este centrada vertical y horizontalmente en todo momento */
+	background-position: center center;
+
+	/* La imagen de fondo no se repite */
+	background-repeat: no-repeat;
+
+	/*La imagen de fondo está fija en el viewport, de modo que no se mueva cuando la altura del contenido supere la altura de la imagen. */
+	background-attachment: fixed;
+
+	/* La imagen de fondo se reescala cuando se cambia el ancho de ventana del navegador */
+	background-size: cover;
+
+	/* Fijamos un color de fondo para que se muestre mientras se está cargando la imagen de fondo o si hay problemas para cargarla  */
+
+	background-color: black;
+
+}
+ 
+.form{
+	color: white;
+}
+
+
+.registros{
+	background: rgba(0,0,0,0.5);
+	padding: 2em;
+	padding-bottom: 0.5em;
+	border-radius: 10px;
+}
+
+.terminos:hover{
+	text-decoration: underline;
+	cursor: pointer;
+
+}
+
+.pie_pagina{
+	background: #f6decf;
+	opacity: 0.5;
+	color: black;
+	position: absolute;
+	bottom: 0px;
+	padding: 0.2em;
+
+}
+
