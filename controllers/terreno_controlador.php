@@ -36,8 +36,8 @@
 
 	switch ($accion) {
 		case "registrar_terreno":
-			$nombre_usuario=$_POST['nombre_usuario'];
-			$nombre_terreno=$_POST['nombre_terreno']; 
+			$nombre_usuario=$_POST['usuario'];
+			$nombre_terreno=$_POST['terreno']; 
 			$terreno = new terreno_controlador;
 			$terreno->nuevoTerreno(null,$nombre_terreno,$nombre_usuario);
 		break;

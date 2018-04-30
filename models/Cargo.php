@@ -45,6 +45,29 @@
 
 			$conectar=new Conexion();
 
+			try {
+				$sql=$conectar->prepare("SELECT * FROM ".self::TABLA);
+				$sql->execute();
+				$num=$sql->rowCount();
+				if($num>0){
+						$registros=$sql->fetchAll();
+						$data['estado']='ok';
+						$data['resultado']=$registros;
+				}else{
+					$registros="No se encontro informacion acerca de los cargos de trabajadores";
+					$data['estado']='err';
+					$data['resultado']=$registros;
+				}
+
+				
+			} catch (Exception $e) {
+				$data="Por favor verifique que no hallan problemas de conectividad".$e->getMessage(); 
+			}
+
+			$conexion=null;
+			echo json_encode($data);
+			/*
+
 			$sql=$conectar->prepare("SELECT * FROM ".self::TABLA);
 
 				if($sql->execute()){
@@ -67,7 +90,7 @@
 				}
 				
 
-			
+			*/
 		}
 
 	}

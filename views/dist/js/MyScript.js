@@ -14,8 +14,9 @@ function iniciar(){
 
 }
 
+
 function cerrar(){
-	localStorage['usuario']="";
+	localStorage['usuario']="nada";
 	localStorage['pass']="";
 	localStorage['tipo_usuario']="";
 	localStorage['id_persona']="";
@@ -24,11 +25,13 @@ function cerrar(){
 }
 
 function comprobarLogin(){
-	if(localStorage['usuario']!=""){
+	
+	if(localStorage['usuario']=="nada"){
+		location.href="../template.php";
+	}else{
 		$('.user-image').attr("src",localStorage['foto_perfil']);
 		$('.nombre_usuario').html(localStorage['usuario']);
 		$('.tipo_usuario').html(localStorage['tipo_usuario']);
-	}else{
 		
 
 	}
@@ -166,7 +169,7 @@ function show_view_dashboard(){
 	})
 
 	var json_2={
-		'accion':'cantidad_!',
+		'accion':'cantidad',
 		'tipo':'encargado',
 		'user':localStorage['usuario']
 	};
@@ -282,7 +285,7 @@ function listaEmpleados(){
 
 			var i = 0;
 			var tabla1 ='<tr>';
-			console.log(data)
+			
 			if (data.status == "ok") {
 			 while(i<data.result.length){
 			 	tabla1 +=		'<td class="apellido" >'+data.result[i][1]+'</td>';
@@ -414,11 +417,13 @@ function clean(){
 }
 
 function buscar_cargos(){
+
 	$.ajax({
 		type:"POST",
+		dataType:"Json",
 		url:'../controllers/cargo_controlador.php',
-		dataType: "Json",
 		success:function(data){
+			
 			if(data.estado=="ok"){
 				var i=0;
 				var html;

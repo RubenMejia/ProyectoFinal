@@ -16,6 +16,10 @@
  				$comprobar=Usuario::get_usuario($username,$pass);
  			}
 
+ 			public function comprobarNombreUsuario($username){
+ 				$comprobar=Usuario::ComprobarDisponibilidad($username);
+ 			}
+
 
  		}
 
@@ -39,6 +43,12 @@
  			$pass=$_POST['pass'];
  			$obj=new UsuarioControlador;
  			$obj->getUsuario($usuario,$pass);
+ 		}
+
+ 		if($accion=="comprobar_nickname"){
+ 			$nombre_usuario=$_POST['nombre_usuario'];
+ 			$obj=new UsuarioControlador;
+ 			$obj->comprobarNombreUsuario($nombre_usuario);
  		}
 
 ?>

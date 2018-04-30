@@ -11,7 +11,6 @@
 	} 
 
 
-
 	$obj=new cargo_controlador;
 	$obj->getCargos();
 

@@ -122,6 +122,26 @@
 			}
 		}
 
+		function ComprobarDisponibilidad($nombre_usuario){
+			$data=array();
+			$conectar=new Conexion();
+			$sql=$conectar->prepare("SELECT nombre_usuario FROM ".self::TABLA." WHERE nombre_usuario=:nombre_usuario");
+			$sql->bindParam(':nombre_usuario',$nombre_usuario);
+			if($sql->execute()){
+				$num=$sql->rowCount();
+				if($num>0){
+					$data['resultado']='yes';
+				}else{
+					$data['resultado']='not';
+				}
+
+				$conectar=null;
+				echo json_encode($data);
+			}else{
+				echo json_encode("Error al conectar con la base de datos");
+			}
+		}
+
 	}
 
 ?>

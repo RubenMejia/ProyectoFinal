@@ -42,42 +42,46 @@
 			<div class="tab-content" id="pills-tabContent">
 			  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 			  	<!--.............................................................. Login .....................................................................-->
-			  	<form class="form">
+			  	<form class="form" id="entrar" method="POST">
 			  	  <div class="form-group">
 			  	    <label for="exampleInputEmail1">Nombre de Usuario</label>
-			  	    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nombre de Usuario">
+			  	    <input type="text" class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nombre de Usuario"  >
 			  	  </div>
 			  	  <div class="form-group">
 			  	    <label for="exampleInputPassword1">Contraseña</label>
-			  	    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Contraseña">
+			  	    <input type="password" class="form-control" id="exampleInputPassword1" name="exampleInputPassword1" placeholder="Contraseña">
 			  	  </div>
-			  	  <div class="form-group form-check">
+			  	  <!--<div class="form-group form-check">
 			  	    <input type="checkbox" class="form-check-input" id="exampleCheck1">
 			  	    <label class="form-check-label" for="exampleCheck1">Recordarme</label>
-			  	  </div>
-			  	  <button type="submit" class="btn btn-success" id="entrar">Entrar</button>
+			  	  </div>-->
+			  	  <button type="submit" class="btn btn-success" >Entrar</button>
 			  	</form>
 			  </div>
 			  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-			  	<!--.............................................................. Registro ..................................................................-->
-			  	<form class="form">
+			  	<!--...................................... Registro...............................................-->
+			  	<form class="form" id="registrarse" method="POST" >
 			  	  <div class="form-row">
 			  	    <div class="form-group col-md-6">
 			  	      <label for="inputNombre">Nombres</label>
-			  	      <input type="text" class="form-control" id="inputNombre" placeholder="Nombres">
+			  	      <input type="text" class="form-control" id="inputNombre" name="inputNombre" placeholder="Nombres" required />
 			  	    </div>
 			  	    <div class="form-group col-md-6">
 			  	      <label for="inputApellidos">Apellidos</label>
-			  	      <input type="text" class="form-control" id="inputApellidos" placeholder="Apellidos">
+			  	      <input type="text" class="form-control" id="inputApellidos" name="inputApellidos" placeholder="Apellidos" required />
 			  	    </div>
 			  	  </div>
 			  	  <div class="form-group">
 			  	    <label for="inputUsuario">Nombre de Usuario</label>
-			  	    <input type="text" class="form-control" id="inputUsuario" placeholder="Nombre de Usuario"/>
+			  	    <input type="text" class="form-control " id="inputUsuario" name="inputUsuario" placeholder="Nombre de Usuario" onblur="disponibilidad(this)" required />
+			  	     <div class="invalid-feedback">
+			  	        Nombre de usuario no disponible
+			  	    </div>
 			  	  </div>
+			  	   
 			  	  <div class="form-group">
 			  	    <label for="inputPass">Contraseña</label>
-			  	    <input type="password" class="form-control" id="inputPass" placeholder="*****">
+			  	    <input type="password" class="form-control" id="inputPass" name="inputPass" placeholder="*****" required />
 			  	  </div>
 			  	  <div class="form-row">
 			  	    <div class="form-group col-md-6">
@@ -86,7 +90,7 @@
 			  	    </div>
 			  	    <div class="form-group col-md-6">
 			  	      <label for="inputTerreno">Nombre del Terreno</label>
-			  	      <input type="text" name="terreno" id="inputTerreno" class="form-control " placeholder="Asigna un nombre"> 
+			  	      <input type="text" name="terreno" id="inputTerreno" class="form-control " placeholder="Asigna un nombre" required /> 
 			  	
 			  	    </div>
 			  	  </div>
@@ -99,7 +103,8 @@
 			  	      </label>
 			  	    </div>
 			  	  </div>-->
-			  	  <button type="button" class="btn btn-success" id="registrarse">Registrarse</button>
+			  	  <input type="submit" class="btn btn-success"  id="registrar" value="Registrarse">
+			  	  
 			  	</form>
 
 			  </div>
@@ -114,14 +119,23 @@
             <img src="views/dist/img/logo_sena.png" class="col-md-1" style="width: auto; height: 50px;">         
         </div>
     </div>
-      <!-- jQuery 3 -->
+
+  <!-- jQuery 3 -->
   <script src="views/bower_components/jquery/dist/jquery.min.js"></script>
+
   <!-- Bootstrap 3.3.7 -->
   <script src="views/dist/js/bootstrap.min.js"></script>
 
   <script src="views/dist/js/adminlte.min.js"></script>
+
+  <!-- jQuery Validator -->
+  <script type="text/javascript" src="views/dist/js/jquery.validate.min.js"></script>
+
+ 
+
   <!-- My Script -->
   <script src="views/dist/js/LoginScript.js"></script>
+
 
 
 </body>
