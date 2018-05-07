@@ -36,9 +36,9 @@
     <!-- Logo -->
     <a href="index2.html" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b style="color: #502416;">SOFT</b></span>
+      <span class="logo-mini"><b>SOFT</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg" style="color: #502416;"><b style="color: #502416;">SOFT</b>CACOL</span>
+      <span class="logo-lg"><b >SOFT</b>CACOL</span>
     </a>
 
     <!-- Header Navbar -->
@@ -94,7 +94,7 @@
   </header>
 
   <!-- Menu Lateral -->
-  <aside class="main-sidebar" style="background: #4a2111">
+  <aside class="main-sidebar" >
 
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
@@ -116,7 +116,7 @@
       <ul class="sidebar-menu" data-widget="tree">
         
         <li>
-          <a href="#" class="text-center mostrar_terrenos">
+          <a href="#" class="text-center mostrar_terrenos" >
             <i class="fa fa-map-marker icono" aria-hidden="true"></i>
              <br><span class="icono "> Terrenos </span>
           </a>
@@ -137,12 +137,20 @@
           </a>
         </li>
 
-        <li >
-          <a href="#" class="text-center">
-            <i class="fa fa-calendar-plus-o icono" aria-hidden="true"></i> 
-            <br>
-            <span class="icono"> Empezar Dia </span>
+        <li class="treeview menu_dia">
+          <a href="#" class="text-center empezarDia">
+            <i class="fa fa-pie-chart"></i>
+            <span>Empezar Dia</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+            <li><a href="pages/charts/chartjs.html"><i class="fa fa-check-square-o"></i> Asistencia</a></li>
+            <li><a href="pages/charts/morris.html"><i class="fa fa-usd"></i> Pago a Trabajadores</a></li>
+            <li><a href="pages/charts/flot.html"><i class="fa fa-times"></i> Cancelar Dia</a></li>
+            <li><a href="pages/charts/inline.html"><i class="fa fa-check"></i> Finalizar Dia</a></li>
+          </ul>
         </li>
       </ul>
     </section>
@@ -163,6 +171,58 @@
         </ol>
       </section>
     <!-- Fin Mantener !-->
+
+    <!-- Modals -->
+
+      <div class="modal fade " id="modal-default" >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">x</span></button>
+                    <h4 class="modal-title">Mis Terrenos</h4><span>Escoge el terreno en el que quieres empezar dia</span>
+                  </div>
+                  <div class="modal-body ">
+                    <div class="box-body table-responsive no-padding">
+                      <table class="table table-hover">
+                        <tr>
+                          <th>ID</th>
+                          <th>Nombre</th>
+                          <th>Asignar</th>
+                        </tr>
+                        <tr>
+                          <td>183</td>
+                          <td>John Doe</td>
+                          <th><span class="fa fa-check-square-o"></span></th>
+                        </tr>
+                        <tr>
+                          <td>219</td>
+                          <td>Alexander Pierce</td>
+                          <th><span class="fa fa-check-square-o"></span></th>
+                        </tr>
+                        <tr>
+                          <td>657</td>
+                          <td>Bob Doe</td>
+                          <th><span class="fa fa-check-square-o"></span></th>
+                        </tr>
+                        <tr>
+                          <td>175</td>
+                          <td>Mike Doe</td>
+                          <th><span class="fa fa-check-square-o"></span></th>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary">Escoger</button>
+                  </div>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+      </div>
+    <!-- /.modal -->  
 
 
     <br/>
@@ -313,7 +373,7 @@
                   <span class="info-box-icon bg-green"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i> </span>
                   <div class="info-box-content">
                     <span class="info-box-text text-center"> Dias De Trabajo</span>
-                    <span class="info-box-number"> 7 </span>
+                    <span class="info-box-number">  </span>
                   </div><!-- /.info-box-content -->
                 </div><!-- /.info-box -->
             </div>     
@@ -323,7 +383,7 @@
 
     <!-- *****************Inicio Vista Terrenos **********************-->
 
-        <!-- *******Vista Cuando  halla Terrenos**********-->
+      <!-- *******Vista Cuando  halla Terrenos**********-->
       <section class="tabla_terrenos" hidden="true">
         <table class="table table-condensed terrenos">
           <thead>
@@ -361,7 +421,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              <button type="button" class="btn btn-primary">Enviar</button>
+              <button type="button" class="btn btn-primary">Registrar</button>
             </div>
           </div>
         </div>
@@ -369,6 +429,42 @@
       <!-- ******* fin del modal de ingreso de terrenos **** -->
         <!-- *******Fin vista cuando  halla Terrenos******-->
     <!-- **************** Fin vista Terrenos **************************-->
+
+    <!-- ****************Inicio vista Empezar Dia ********************-->
+      <section class="container dia" hidden="true">
+        <!-- Apply any bg-* class to to the info-box to color it -->
+          <div class="container" >
+            
+            <div class="row" style="margin-top: 2em;">
+              <div class="col-md-3 col-md-offset-2" >
+                <input type="text" class="dial " value="75" data-min="0" data-max="100" name="" readOnly  >
+                <h5 class="text-center">Pagos Realizados Hoy</h5>
+              </div>
+              <div class="col-md-3">
+                <input type="text" class="dial" value="3" data-min="0" data-max="100" name="" readOnly >
+                <h5 class="text-center">Asistencia de Trabajadores Hoy</h5>
+              </div>
+            </div>
+            
+            <!--
+            <div class="row" style="margin-top: 2em;">
+              <div class="col-md-3 col-md-offset-2">
+                <input type="text" class="dial" value="45" data-min="0" data-max="100" name="" readOnly >
+              </div>
+              <div class="col-md-3">
+                <input type="text" class="dial" value="100" data-min="0" data-max="100" name="" readOnly >
+              </div>
+            </div>-->
+            
+            
+          </div>
+        
+
+
+        
+
+      </section>
+    <!-- ****************Fin vista Empezar Dia ********************-->
   </div>
   <!-- Footer -->
   <footer class="main-footer">
@@ -531,6 +627,8 @@
 
   <!-- jQuery 3 -->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <!--jQuery Knob-->
+  <script type="text/javascript" src="bower_components/jquery-knob/js/jquery.knob.js"></script>
   <!-- Bootstrap 3.3.7 -->
   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   <!-- AdminLTE App -->

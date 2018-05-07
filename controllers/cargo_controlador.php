@@ -9,10 +9,11 @@
 		}
 		
 	} 
+	
 
-
-	$obj=new cargo_controlador;
-	$obj->getCargos();
+			$obj=new cargo_controlador;
+			$obj->getCargos();
+	
 
 
 

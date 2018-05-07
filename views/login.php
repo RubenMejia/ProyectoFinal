@@ -20,7 +20,7 @@
 	
 	<!-- Menu de logo y nombre de la web -->
 	<div class="container" style="margin-bottom: 3%; margin-top: 2%;">
-		<div class="col-md-5">
+		<div class="col-md-12 col-sm-12 col-xs-12" >
 			<a href="#" style="text-decoration: none;"><h2 style="color: white;">Bienvenido a Softcacol</h2></a>
 		</div>
 		
@@ -111,14 +111,29 @@
 			</div>
 		</div>
 	</div>
-
-	<div class="footer-bottom pie_pagina col-md-12">
-        <div class="container col-md-12"">
-            <p class="pull-left col-md-10" style="display: inline-block;"> Copyright © 2018. All right reserved. adsi2018@misena.edu.co </p> 
-            <img src="views/dist/img/logo_1.png" class="col-md-1"> 
-            <img src="views/dist/img/logo_sena.png" class="col-md-1" style="width: auto; height: 50px;">         
+<!--
+	<div class=" pie_pagina ">
+        <div class="container-fluid ">
+        	<div class="row">
+        		<div class="col-md-6 ">
+        			<p class="pull-left col-md-9"> Copyright © 2018. All right reserved. adsi2018@misena.edu.co </p> 
+        		</div>
+        		
+        			<div class="col-md-1">
+        				<img src="views/dist/img/logo_1.png" class="col-md-12 " > 
+        			</div>
+        			<div class="col-md-1">
+        				<img src="views/dist/img/logo_sena.png" class="col-md-10 " >
+        			</div>
+      
+        		
+        	</div>
+            
+            
+                     
         </div>
     </div>
+-->
 
   <!-- jQuery 3 -->
   <script src="views/bower_components/jquery/dist/jquery.min.js"></script>
@@ -130,8 +145,6 @@
 
   <!-- jQuery Validator -->
   <script type="text/javascript" src="views/dist/js/jquery.validate.min.js"></script>
-
- 
 
   <!-- My Script -->
   <script src="views/dist/js/LoginScript.js"></script>

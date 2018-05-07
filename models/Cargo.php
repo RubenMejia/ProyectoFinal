@@ -6,46 +6,19 @@
 	{
 		private $id;
 		private $tipo;
-		const TABLA="cargo";
-
 		
-		function __construct($tipo,$id=null)
-		{
-			$this->tipo=$tipo;
-			$this->id=$id;
-		}
-
-
-		//Getter and setters 
-
-		function getId(){
-			return $this->id;
-		}
-
-		function setId($id){
-			$this->id=$id;
-		}
-
-
-		function getTipo(){
-			return $this->tipo;
-		}
-
-
-		function setTipo($tipo){
-			$this->tipo=$tipo;
-		}
-
+		const TABLA="cargo";
 
 		//Metodos
 
 		function getRegistros(){
-			$data=array();
+
+			 $data=array();
 
 
 			$conectar=new Conexion();
 
-			try {
+			
 				$sql=$conectar->prepare("SELECT * FROM ".self::TABLA);
 				$sql->execute();
 				$num=$sql->rowCount();
@@ -60,12 +33,12 @@
 				}
 
 				
-			} catch (Exception $e) {
-				$data="Por favor verifique que no hallan problemas de conectividad".$e->getMessage(); 
-			}
+			
 
-			$conexion=null;
-			echo json_encode($data);
+			$conectar=null;
+			echo json_encode($data);	
+
+			
 			/*
 
 			$sql=$conectar->prepare("SELECT * FROM ".self::TABLA);
@@ -97,3 +70,4 @@
 
 
 ?>
+
