@@ -12,6 +12,7 @@ function iniciar(){
 	$('.inicio').on('click',show_view_dashboard);
 	$('.mostrar_terrenos').on('click',show_view_ground);
 	$('.empezarDia').on('click',show_view_day);
+	$('.registrar_terreno').on('click',registrar_terreno);
 }
 
 function show_view_day(){
@@ -163,7 +164,7 @@ function show_view_ground(){
 
 	var Json={
 		'accion':'buscar_todos_terrenos',
-		'nombres':'',
+		'nombre_usuario':localStorage['usuario'],
 	};
 	$.ajax({
 		type:"POST",
@@ -176,18 +177,112 @@ function show_view_ground(){
 			var verterrenos ='<tr>';
 
 			while(i<data.result.length){
-				verterrenos += '<td class="nombre">'+data.result[i][1]+'</td>';
-				verterrenos += '<td class="tamano"><button id="eliminar_terreno" class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>';
-				verterrenos += '<td class="tamano"><button id="editar" class="btn btn-success" type="submit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></td>';
-				verterrenos += '<td class="tamano"><button id="eliminar" class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-check"></span></button></td>';
-				verterrenos += '</tr>';
+				if(i==0){
+					verterrenos += '<td class="nombre" id="'+data.result[i]['id']+'">'+data.result[i][1]+'</td>';
+					verterrenos += '<td class="tamano" id="'+data.result[i]['id']+'"><button  class="btn btn-primary editar_terreno" type="submit" data-toggle="modal" data-target="#ModalEditarTerreno"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></td>';
+					verterrenos += '<td class="tamano" id="'+data.result[i]['id']+'"><button  class="btn btn-success asignar_trabajadores" type="submit" data-toggle="modal" data-target="#ModalAsignarTrabajadores"><span class="glyphicon glyphicon-check"></span></button></td>';
+					verterrenos += '</tr>';
+				}else{
+					verterrenos += '<td class="nombre" id="'+data.result[i]['id']+'">'+data.result[i][1]+'</td>';
+					verterrenos += '<td class="tamano" id="'+data.result[i]['id']+'"><button class="btn btn-danger eliminar_terreno" type="submit"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>';
+					verterrenos += '<td class="tamano" id="'+data.result[i]['id']+'"><button class="btn btn-primary editar_terreno" type="submit" data-toggle="modal" data-target="#ModalEditarTerreno"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></td>';
+					verterrenos += '<td class="tamano" id="'+data.result[i]['id']+'"><button class="btn btn-success asignar_trabajadores" type="submit" data-toggle="modal" data-target="#ModalAsignarTrabajadores"><span class="glyphicon glyphicon-check"></span></button></td>';
+					verterrenos += '</tr>';
+				}
+				
 
 				i++;
 			}
 			$(".ver_terrenos").html(verterrenos)
-			$("#eliminar_terreno").on("click",eliminar_terreno);
+			$(".eliminar_terreno").on("click",eliminar_terreno);
+			$('.editar_terreno').on('click',editar_terreno);
+			$('.asignar_trabajadores').on('click',asignar_trabajadores_terreno);
+
 		}
 	});
+}
+
+
+function registrar_terreno(){
+	var nombre_terreno=$('#nombre_terreno').val();
+	var json={
+		'usuario':localStorage['usuario'],
+		'accion':'registrar_terreno',
+		'terreno':nombre_terreno
+	};
+
+	$.ajax({
+		type:'POST',
+		data:json,
+		dataType:'Json',
+		url:'../controllers/terreno_controlador.php',
+		success:function(data){
+			alert(data.resultado);
+			show_view_ground();
+		}
+	})
+}
+
+function editar_terreno(){
+	
+	var nombre_terreno=$(this).parent().siblings('.nombre').html();
+	var id=$(this).parent().siblings('.nombre').attr('id');
+	
+
+	$('#nombreTerreno').attr('value',nombre_terreno);
+
+	$('.actualizar_terreno').on('click',function(){
+		nombre_terreno=$('#nombreTerreno').val();
+		var json={
+			'accion':'actualizar_terreno',
+			'nombre_terreno':nombre_terreno,
+			'id':id
+		};
+
+		$.ajax({
+			type:'POST',
+			dataType:'Json',
+			url:'../controllers/terreno_controlador.php',
+			data:json,
+			success:function(data){
+				$('#ModalEditarTerreno').modal('hide');
+				alert("Informacion del Terreno Actualizada con Exito");
+				show_view_ground();
+			}
+		})
+	})
+
+}
+
+function asignar_trabajadores_terreno(){
+	var id_terreno=$(this).parent().attr('id');
+	var Json={
+		'accion':'mostrar_trabajadores',
+		'user':localStorage['usuario']
+	};
+	$.ajax({
+		type:"POST",
+		data:Json,
+		dataType:"Json",
+		url:"../controllers/controller_trabajador.php",
+		success:function(data){
+			console.log(data.resultado);
+			var html="";
+			var i=0;
+			while(i<data.resultado.length){
+				html+='<tr>';
+				html+=' <td>'+data.resultado[i]['id']+'</td>';
+				html+= '<td>'+data.resultado[i]['nombres']+'</td>';
+				html+= '<td>'+data.resultado[i]['apellidos']+'</td>';
+				html+= '<td><span class="fa fa-check-square-o"></span></td>';
+				html+='</tr>';
+				i++;
+			}
+
+			html.html('#asignar_trabajadores');
+		}
+
+	})
 }
 
 function eliminar_terreno(){

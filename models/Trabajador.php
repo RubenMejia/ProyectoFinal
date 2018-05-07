@@ -155,6 +155,27 @@ class Trabajador{
 		}	
 	}
 
+	public function getTrabajadores($user){
+		$array=array();
+		$conexion=new Conexion();
+		$sql=$conexion->prepare('SELECT * FROM '.self::TABLA." WHERE nombre_usuario=:nom");
+		$sql->bindParam(':nom',$user);
+		$sql->execute();
+		$num=$sql->rowCount();
+		if($num>0){
+			$registros=$sql->fetchAll();
+			$data['estado']="ok";
+			$data['resultado']=$registros;
+		}else{
+			$registros="No Hay trabajadores registrados aun";
+			$data['estado']="err";
+			$data['resultado']=$registros;
+		}
+
+		$conexion=null;
+		echo json_encode($array);
+	}
+
 	public function getCantidadTrabajadores($user){
 		$data="0";
 		$tipo="trabajador";

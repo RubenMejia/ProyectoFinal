@@ -11,8 +11,8 @@
 			  $registrar->guardar();
 		}
 
-		public function BuscarTodosTerrenos(){
-			$terreno = new Terreno(null, null, null);
+		public function BuscarTodosTerrenos($usuario){
+			$terreno = new Terreno(null, null, $usuario);
 			$terreno->BuscarTodosTerrenos();
 		}
 		public function EliminarTerreno($id){
@@ -42,8 +42,9 @@
 			$terreno->nuevoTerreno(null,$nombre_terreno,$nombre_usuario);
 		break;
 		case 'buscar_todos_terrenos':
+			$usuario=$_POST['nombre_usuario'];
 			$terreno = new terreno_controlador;
-			$terreno->BuscarTodosTerrenos();
+			$terreno->BuscarTodosTerrenos($usuario);
 		break;
 		case 'eliminar_terreno':
 			$id = $_POST['id'];

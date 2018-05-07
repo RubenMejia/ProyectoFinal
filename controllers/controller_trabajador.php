@@ -38,6 +38,11 @@
 			Trabajador::getCantidadEncargtadosT($user);
 		}
 
+		public function getTrabajadores($user)
+		{
+			Trabajador::getTrabajadores($user);
+		}
+
 	}
 
 	$accion = $_POST['accion'];
@@ -85,13 +90,18 @@
 		break;
 
 		case 'cantidad':
-			$user = "david";
+			$user = $_POST['user'];
 			controller_Trabajador::getCantidad($user);
 		break;
 
 		case 'cantidad_!':
 			$user = $_POST['user'];
 			controller_Trabajador::getCantidadEncargtados($user);
+		break;
+
+		case 'mostrar_trabajadores':
+			$user=$_POST['user'];
+
 		break;
 
 

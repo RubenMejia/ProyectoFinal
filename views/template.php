@@ -402,8 +402,8 @@
       </section>
       
       <!-- *******modal para ingreso nuevos de terenos****** -->
-      <!-- Modal -->
-      <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <!-- Modal -->
+        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -413,20 +413,151 @@
             <div class="modal-body">
               <form class="form-horizontal">
                 <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">Ingrese su terreno</label>
+                <label for="nombre_terreno" class="col-sm-2 control-label">Ingrese el nombre del terreno</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" name="terreno" id="nombre" placeholder="Ingrese su terreno">
+                  <input type="text" class="form-control" name="terreno" id="nombre_terreno" placeholder="Ingrese su terreno">
                 </div>
               </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              <button type="button" class="btn btn-primary">Registrar</button>
+              <button type="button" class="btn btn-primary registrar_terreno">Registrar</button>
             </div>
           </div>
         </div>
-      </div>
+        </div>
       <!-- ******* fin del modal de ingreso de terrenos **** -->
+      <!-- ******* Modal para Editar Terreno ********-->
+        <!-- Modal -->
+        <div class="modal fade" id="ModalEditarTerreno" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Editar Terreno</h4>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label for="inputNombreTerreno">Nuevo Nombre:</label>
+                    <input type="text" class="form-control" name="nombreTerreno" id="nombreTerreno"/>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary actualizar_terreno">Actualizar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal para Asignar trabajadores y encragados -->
+          <!-- Modal -->
+          <div class="modal fade" id="ModalAsignarTrabajadores" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Asignar Empleados</h4>
+                </div>
+                <div class="modal-body">
+                  
+                    <h2>Asignar Empleados</h2>
+                    <ul class="nav nav-tabs">
+                      <li class="active"><a data-toggle="tab" href="#home">Trabajadores</a></li>
+                      <li><a data-toggle="tab" href="#menu1">Encargados</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                      <div id="home" class="tab-pane fade in active">
+                        <div class="box-body table-responsive no-padding">
+                          <table class="table table-hover">
+                            <tr>
+                              <th>ID</th>
+                              <th>Nombre</th>
+                              <th>Apellido</th>
+                              <th>Asignar</th>
+                            </tr>
+                            <tbody id="asignar_trabajadores">
+                              <tr>
+                                <td>183</td>
+                                <td>John Doe</td>
+                                <th><span class="fa fa-check-square-o"></span></th>
+                              </tr>
+                              <tr>
+                                <td>219</td>
+                                <td>Alexander Pierce</td>
+                                <th><span class="fa fa-check-square-o"></span></th>
+                              </tr>
+                              <tr>
+                                <td>657</td>
+                                <td>Bob Doe</td>
+                                <th><span class="fa fa-check-square-o"></span></th>
+                              </tr>
+                              <tr>
+                                <td>175</td>
+                                <td>Mike Doe</td>
+                                <th><span class="fa fa-check-square-o"></span></th>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div id="menu1" class="tab-pane fade">
+                        <div class="box-body table-responsive no-padding">
+                          <table class="table table-hover">
+                            <tr>
+                              <th>ID</th>
+                              <th>Nombre</th>
+                              <th>Apellido</th>
+                              <th>Asignar</th>
+                            </tr>
+                            <tbody id="asignar_encargados">
+                              <tr>
+                                <td>183</td>
+                                <td>John Doe</td>
+                                <th><span class="fa fa-check-square-o"></span></th>
+                              </tr>
+                              <tr>
+                                <td>219</td>
+                                <td>Alexander Pierce</td>
+                                <th><span class="fa fa-check-square-o"></span></th>
+                              </tr>
+                              <tr>
+                                <td>657</td>
+                                <td>Bob Doe</td>
+                                <th><span class="fa fa-check-square-o"></span></th>
+                              </tr>
+                              <tr>
+                                <td>175</td>
+                                <td>Mike Doe</td>
+                                <th><span class="fa fa-check-square-o"></span></th>
+                              </tr>
+                            </tbody>
+                            
+                          </table>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                  <button type="button" class="btn btn-primary actualizar_terreno">Actualizar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <!-- Fin Modal -->
+
+
+        
+      <!-- ****** Fin Modal para editar Terreno *******-->
+
+
         <!-- *******Fin vista cuando  halla Terrenos******-->
     <!-- **************** Fin vista Terrenos **************************-->
 

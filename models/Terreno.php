@@ -43,7 +43,8 @@
 
 			$conection = new Conexion();
 
-			$stmt = $conection->prepare("SELECT * FROM ".self::TABLA);
+			$stmt = $conection->prepare("SELECT * FROM ".self::TABLA." WHERE nombre_usuario=:nom");
+			$stmt->bindParam(':nom',$this->username);
 
 			if ($stmt->execute()){
 
