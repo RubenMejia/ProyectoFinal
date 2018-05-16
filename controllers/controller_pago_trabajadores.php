@@ -6,6 +6,21 @@
 			$objeto = new PagoTrabajadores(null,$comprobante,$cantidad_pago,$fecha,$id_trabajador,$nombre_usuario);
 			$objeto->Insert();
 		}
+
+		public function cantidad_pagos($fecha){
+			$obj=new PagoTrabajadores(null,null,null,$fecha,null,null);
+			$obj->cantidadPagosDia();
+		}
+
+		public function cantidadPagosByidTrabajador($id_trabajador){
+			$obj=new PagoTrabajadores(null,null,null,null,$id_trabajador,null);
+			$obj->getPagosByIdTrabajador();
+		}
+
+		public function TotalPagadoByidTrabajador($id_trabajador){
+			$obj=new PagoTrabajadores(null,null,null,null,$id_trabajador,null);
+			$obj->getTotalPagado();
+		}
 	}
 
 	$accion = $_POST['accion'];
@@ -21,6 +36,24 @@
 			$objeto->insertar($comprobante,$cantidad_pago,$fecha,$id_trabajador,$nombre_usuario);
 		break;
 		
+		case 'consultarPagosByFecha':
+			$fecha=$_POST['fecha'];
+			$consulta=new controller_pago_trabajadores;
+			$consulta->cantidad_pagos($fecha);
+		break;
+
+		case 'consultarPagosByIdTrabajador':
+			$id_trabajador=$_POST['id_trabajador'];
+			$consulta=new controller_pago_trabajadores;
+			$consulta->cantidadPagosByidTrabajador($id_trabajador);
+		break;
+
+		case 'consultarTotalPagadoById':
+			$id_trabajador=$_POST['id_trabajador'];
+			$consulta=new controller_pago_trabajadores;
+			$consulta->TotalPagadoByidTrabajador($id_trabajador);
+		break;
+
 		default:
 		
 		break;

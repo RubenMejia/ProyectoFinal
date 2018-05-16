@@ -11,15 +11,15 @@
 			$objeto->insert();
 		}
 	
-		public function get_Trabajador($nombres)
+		public function get_Trabajador($usuario,$nombre_trabajador)
 		{
-			$objeto = new Trabajador(null, null, null, null, $nombres, null, null);
+			$objeto = new Trabajador(null, $nombre_trabajador, null, null, $usuario, null, null);
 			$objeto->searchByName();
 		}
 
 		public function update_Trabajador($id,$nombres,$apellidos,$telefono,$nombre_usuario,$id_cargo)
 		{
-			$objeto = new Trabajador($id,$nombres,$apellidos,$telefono,$nombre_usuario,$id_cargo);
+			$objeto = new Trabajador($id,$nombres,$apellidos,$telefono,$nombre_usuario,$id_cargo,null);
 			$objeto->Update();
 		}
 
@@ -43,6 +43,12 @@
 			Trabajador::getTrabajadores($user);
 		}
 
+		public function getCargoTrabajador($id_trabajador)
+		{
+			$consulta=new Trabajador($id_trabajador,null,null,null,null,null,null);
+			$consulta->getCargoTrabajador();
+		}
+
 	}
 
 	$accion = $_POST['accion'];
@@ -62,11 +68,12 @@
 			$obj->nuevo_Trabajador($id,$nombres,$apellidos,$telefono,$nombre_usuario,$id_cargo,$tipo_trabajador);
 
 		break;
-
+		
 		case 'SearchByName':
-			$nombre = "david";
+			$usuario = $_POST['usuario'];
+			$nombre_trabajador=$_POST['nombre_buscar'];
 			$obj = new controller_Trabajador;
-			$obj->get_Trabajador($nombre);
+			$obj->get_Trabajador($usuario,$nombre_trabajador);
 		break;
 
 		case 'Update':
@@ -101,7 +108,12 @@
 
 		case 'mostrar_trabajadores':
 			$user=$_POST['user'];
+			controller_Trabajador::getTrabajadores($user);
+		break;
 
+		case 'consultar_cargo_trabajador':
+			$id_trabajador=$_POST['id_trabajador'];
+			controller_Trabajador::getCargoTrabajador($id_trabajador);
 		break;
 
 

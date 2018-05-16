@@ -4,8 +4,13 @@
 	class controller_asignar_trabajador_a_terreno
 	{
 		public function Insertar($id_terreno,$id_trabajador){
-			$asignacion = new AsignarTrabajadorATerreno(null, $id_terreno, $id_trabajador);
+			$asignacion = new AsignarTrabajadorATerreno($id_terreno, $id_trabajador);
 			$asignacion->Insert();
+		}
+
+		public function consultarTerreno($id_trabajador){
+			$consulta=new AsignarTrabajadorATerreno(null,$id_trabajador);
+			$consulta->getTerreno();
 		}
 
 	}
@@ -18,6 +23,12 @@
 			$asignacion->Insertar($id_terreno,$id_trabajador);
 		break;
 		
+		case 'consultarTerreno':
+			$id_trabajador=$_POST['id_trabajador'];
+			$consultar=new controller_asignar_trabajador_a_terreno;
+			$consultar->consultarTerreno($id_trabajador);
+		break;
+
 		default:
 			echo "NO ENTRO A NINGUN CASO";
 		break;

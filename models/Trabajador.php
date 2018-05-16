@@ -65,9 +65,10 @@ class Trabajador{
 			$array = array();
 			$Conexion = new Conexion();
 			
-			$stmt = $Conexion->prepare('SELECT * FROM '.self::TABLA.' WHERE nombre_usuario LIKE "%" :nombres "%" ');
+			$stmt = $Conexion->prepare('SELECT * FROM '.self::TABLA.' WHERE nombre_usuario=:nombre_usuario AND nombres LIKE "%" :nombres "%" ');
 			
-			$stmt->bindParam(':nombres', $this->nombre_usuario);
+			$stmt->bindParam(':nombre_usuario', $this->nombre_usuario);
+			$stmt->bindParam(':nombres',$this->nombres);
 				
 				if($stmt->execute()) {
 
@@ -79,7 +80,7 @@ class Trabajador{
 		        		$array['result'] = $registros;      			
 					} else {
 					
-						$registros = 'No se encontro el nombre del personaje que buscas';
+						$registros = 'No se encontro el trabajador que buscabas';
 						$array['status'] = 'err';//pone un estado
 		        		$array['result'] = $registros;//pone un resulatado  es decir un regristro
 					
@@ -164,12 +165,12 @@ class Trabajador{
 		$num=$sql->rowCount();
 		if($num>0){
 			$registros=$sql->fetchAll();
-			$data['estado']="ok";
-			$data['resultado']=$registros;
+			$array['estado']="ok";
+			$array['resultado']=$registros;
 		}else{
 			$registros="No Hay trabajadores registrados aun";
-			$data['estado']="err";
-			$data['resultado']=$registros;
+			$array['estado']="err";
+			$array['resultado']=$registros;
 		}
 
 		$conexion=null;
@@ -226,6 +227,44 @@ class Trabajador{
 		}
 
 		$conexion=null;
+		echo json_encode($data);
+	}
+
+
+	public function getCargoTrabajador(){
+		$data=array();
+		$conexion=new Conexion();
+		//Convertir caracteres en utf-8 (se puede llegar a implementar en la construccion de la conexion)
+		//o usarlo de esta manera:
+		$conexion->exec("SET CHARACTER SET utf8"); 
+		try {
+			$sql=$conexion->prepare("SELECT tipo FROM cargo INNER JOIN trabajador ON cargo.id=id_cargo WHERE trabajador.id=:id");
+			$sql->bindParam(':id',$this->id);
+
+			$sql->execute();
+			$num_row=$sql->rowCount();
+
+			if($num_row>0){
+				while ($row=$sql->fetch($conexion::FETCH_ASSOC)) {
+					$data['resultado']=$row['tipo'];
+
+				}
+				
+				$data['estado']="ok";
+			}else{
+				$data['estado']="err";
+				$data['resultado']="El Trabajador no tiene ningun cargo asginado aun";
+			}
+
+
+		} catch (Exception $e) {
+			$data['estado']="err";
+			$data['resultado']="Hubo un error al ejecutar la peticion con la base de datos:".$e->getMessage();
+		}
+
+		$conexion=null;
+
+	
 		echo json_encode($data);
 	}		
 

@@ -47,7 +47,7 @@
 			$terreno->BuscarTodosTerrenos($usuario);
 		break;
 		case 'eliminar_terreno':
-			$id = $_POST['id'];
+			$id = $_POST['id_terreno'];
 			$terreno = new terreno_controlador;
 			$terreno->EliminarTerreno($id);
 		break;

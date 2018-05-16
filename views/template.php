@@ -9,7 +9,7 @@
   <title>Panel De Control</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-<!-- Todos Los Link Que Utilizo -->
+<!-- Todos Los CSS Que Utilizo -->
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Link Del Font Awesome -->
   <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
@@ -123,9 +123,9 @@
         </li>
         
         <li>
-          <a href="#" class="text-center"> 
+          <a href="#" class="text-center encargados"> 
             <i class="fa fa-users icono" aria-hidden="true"></i>
-            <br><span class="icono"> Encargados </span>
+            <br><span class="icono "> Encargados </span>
           </a>
         </li>
         
@@ -188,34 +188,36 @@
                         <tr>
                           <th>ID</th>
                           <th>Nombre</th>
-                          <th>Asignar</th>
+                          <th>Escoger</th>
                         </tr>
-                        <tr>
-                          <td>183</td>
-                          <td>John Doe</td>
-                          <th><span class="fa fa-check-square-o"></span></th>
-                        </tr>
-                        <tr>
-                          <td>219</td>
-                          <td>Alexander Pierce</td>
-                          <th><span class="fa fa-check-square-o"></span></th>
-                        </tr>
-                        <tr>
-                          <td>657</td>
-                          <td>Bob Doe</td>
-                          <th><span class="fa fa-check-square-o"></span></th>
-                        </tr>
-                        <tr>
-                          <td>175</td>
-                          <td>Mike Doe</td>
-                          <th><span class="fa fa-check-square-o"></span></th>
-                        </tr>
+                        <tbody id="lista_terrenos">
+                          <tr>
+                            <td>183</td>
+                            <td>John Doe</td>
+                            <th><span class="fa fa-check-square-o"></span></th>
+                          </tr>
+                          <tr>
+                            <td>219</td>
+                            <td>Alexander Pierce</td>
+                            <th><span class="fa fa-check-square-o"></span></th>
+                          </tr>
+                          <tr>
+                            <td>657</td>
+                            <td>Bob Doe</td>
+                            <th><span class="fa fa-check-square-o"></span></th>
+                          </tr>
+                          <tr>
+                            <td>175</td>
+                            <td>Mike Doe</td>
+                            <td><span class="fa fa-check-square-o"></span></td>
+                          </tr>
+                        </tbody>
+                        
                       </table>
                     </div>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Escoger</button>
                   </div>
                 </div>
                 <!-- /.modal-content -->
@@ -230,7 +232,7 @@
       <div class="col-md-3 col-md-offset-9">
         <form method="get" class="SearchByNamet" hidden="true">
           <div class="input-group">
-            <input type="text" class="form-control SearchByName" placeholder="Que Deseas Buscar...">
+            <input type="text" class="form-control buscar_trabajadores "  placeholder="Que Deseas Buscar..">
             <span class="input-group-btn">
                 <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
                 </button>
@@ -240,7 +242,7 @@
         <div class="col-md-1"></div>
         
       </div>
-      <section class="container mensaje" hidden="true">
+      <section class="container mensaje_trabajador mensaje" hidden="true">
           <div>
             <p>No hay trabajadores, que tal si empezamos a registrar algunos</p>
           </div>
@@ -312,12 +314,75 @@
               </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
               <button id="guardar_registro" type="button" class="btn btn-success">Enviar</button>
             </div>
           </div>
         </div>
-     </div>
+      </div>
+
+      <div class="modal fade" id="ModalPagos" tabindex="-1" role="dialog" aria-labelledby="ModalPagosLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Pagos Realizados a: <span class="nombreTrabajador"></span></h4>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="box">
+                    <div class="box-header">
+                      <h5>Cantidad Pagada Hasta la Fecha: $<span class="cantidadPagado"></span></h5>
+
+                      <div class="box-tools">
+                        <div class="input-group input-group-sm" style="width: 150px;">
+                          
+                          <div class='input-group date' style="margin-top: 10px;" >
+                            <input type='date' class="form-control" />
+                            <span class="input-group-addon">
+                              <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding">
+                      <table class="table table-hover">
+                        <tbody id="mostrarInformacionPagos">
+                          <tr>
+                            <th>ID</th>
+                            <th>Responsable</th>
+                            <th>Fecha</th>
+                            <th>Cantidad Pagada</th>
+                            <!--<th>Comprobante</th>-->
+                          </tr>
+                          <tr>
+                            <td>183</td>
+                            <td>John Doe</td>
+                            <td>11-7-2014</td>
+                            <td>100.000</td>
+                          </tr>
+                        </tbody>
+                        
+                        
+                      </table>
+                    </div>
+                    <!-- /.box-body -->
+                  </div>
+                  <!-- /.box -->
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              <button id="guardar_registro" type="button" class="btn btn-success">Enviar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     <!-- ***********************Fin vista Trabajadores ************** -->
 
     <!-- *****************Inicio vista Panel de control*******************-->
@@ -331,7 +396,7 @@
                     <span class="info-box-icon bg-blue"><i class="fa fa-users" aria-hidden="true"></i></span>
                     <div class="info-box-content">
                       <span class="info-box-text text-center"> Encargados </span>
-                      <span class="info-box-number cantidad_encargados"></span>
+                      <span class="info-box-number cantidad_encargados">0</span>
                     </div><!-- /.info-box-content -->
                   </div><!-- /.info-box -->
             </div>
@@ -373,7 +438,7 @@
                   <span class="info-box-icon bg-green"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i> </span>
                   <div class="info-box-content">
                     <span class="info-box-text text-center"> Dias De Trabajo</span>
-                    <span class="info-box-number">  </span>
+                    <span class="info-box-number">0</span>
                   </div><!-- /.info-box-content -->
                 </div><!-- /.info-box -->
             </div>     
@@ -479,7 +544,7 @@
                               <th>Apellido</th>
                               <th>Asignar</th>
                             </tr>
-                            <tbody id="asignar_trabajadores">
+                            <tbody id="lista_trabajadores">
                               <tr>
                                 <td>183</td>
                                 <td>John Doe</td>
@@ -566,13 +631,13 @@
         <!-- Apply any bg-* class to to the info-box to color it -->
           <div class="container" >
             
-            <div class="row" style="margin-top: 2em;">
+            <div class="row" style="margin-top: 2em;" id="pie_pago">
               <div class="col-md-3 col-md-offset-2" >
-                <input type="text" class="dial " value="75" data-min="0" data-max="100" name="" readOnly  >
+                <input type="text" class="dial" id="pagos_realizados" value="" data-min="0" data-max="100" name="" readOnly  >
                 <h5 class="text-center">Pagos Realizados Hoy</h5>
               </div>
               <div class="col-md-3">
-                <input type="text" class="dial" value="3" data-min="0" data-max="100" name="" readOnly >
+                <input type="text" class="dial" id="asistencia_trabajadores" value="3" data-min="0" data-max="100" name="" readOnly >
                 <h5 class="text-center">Asistencia de Trabajadores Hoy</h5>
               </div>
             </div>
@@ -596,6 +661,133 @@
 
       </section>
     <!-- ****************Fin vista Empezar Dia ********************-->
+
+    <!-- **************** Inicio vista Encargados *****************-->
+      <section class="container vista_encargados" hidden="true">
+         <div class="col-md-3 col-md-offset-9">
+           <form method="get" class="SearchByNameEncargados" hidden="true">
+             <div class="input-group">
+               <input type="text" class="form-control SearchByNameEncargados" placeholder="Que Deseas Buscar...">
+               <span class="input-group-btn">
+                   <button type="submit" name="search_encargados" id="search_encargados" class="btn btn-flat"><i class="fa fa-search"></i>
+                   </button>
+                 </span>
+             </div>
+           </form>
+           <div class="col-md-1"></div>   
+         </div>
+         <!-- *********** Muestra si no hay encargados registrados aun **************-->
+           <section class="mensaje_encargados mensaje" hidden="true">
+               <div>
+                 <p>No hay Encargados, que tal si empezamos a registrar algunos</p>
+               </div>
+               <button class="btn-lg btn-success agregar_nuevo_encargado" data-toggle="modal" data-target="#myModalAgregarEncargados">Continuar</button>
+           </section>
+         <!-- *********** Muestra si no hay encargados registrados aun **************-->
+         <section class="mostrar"></section>
+         
+         <!-- Muestra La tabla con la lista de Trabajadores que hay -->
+         <div class="col-md-12 ">
+           <div class="col-md-11 ">
+             <table class="table table-condensed table-hover responsive tablaEncargados" hidden="true">
+               <thead>
+                 <tr>
+                   <th>Nombre</th>
+                   <th>Apellido</th>
+                   <th>Telefono</th>
+                   <th>Usuario Asignado</th>
+                   <th>Contraseña Asignada</th>
+                   <th>Acciones</th>
+                 </tr>
+                 </thead>
+                 <tbody class= "contenedor">
+                  <tr>
+                    <td>Jose</td>
+                    <td>Andres</td>
+                    <td>3015634543</td>
+                    <td>Jose123</td>
+                    <td>976712453</td>
+                    <td><button class="btn btn-danger" ><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>
+                    <td><button class="btn btn-success" ><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></td>
+                    <td><button class="btn btn-info" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button></td>
+                  </tr>
+                  
+                 </tbody>
+             </table>
+             <div class="caja_mas" hidden="true">
+                   <button class="btn btn-primary agregar_nuevo_encargado" type="submit" data-toggle="modal" data-target="#myModalAgregarEncargados"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button>
+             </div>
+           </div>
+         </div>
+
+         <!-- ******************** Modal Para Registrar Encargado **********************-->
+
+            <div class="modal fade" id="myModalAgregarEncargados" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+           <div class="modal-dialog" role="document">
+             <div class="modal-content">
+               <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                 <h4 class="modal-title" id="myModalLabel">Registro Encargados</h4>
+               </div>
+               <div class="modal-body">
+                 <!--FORMULARIO INGRESO TRABAJADORES-->
+                 <form class="form-horizontal">
+                   <div class="form-group">
+                     <label for="nombre_encargado" class="col-sm-2 control-label">Nombre</label>
+                     <div class="col-sm-10">
+                       <input type="text" class="form-control" name="nombre" id="nombre_encargado" placeholder="Ingrese su nombre">
+                     </div>
+                   </div>
+                   
+                   <div class="form-group">
+                     <label for="apellido_encargado" class="col-sm-2 control-label">Apellido</label>
+                     <div class="col-sm-10">
+                       <input type="text" class="form-control" name="apellido" id="apellido_encargado" placeholder="Ingrese su apellido">
+                     </div>
+                   </div>
+                   
+                   <div class="form-group">
+                     <label for="telefono_encargado" class="col-sm-2 control-label">Telefono o Celular</label>
+                     <div class="col-sm-10">
+                       <input type="number" class="form-control" name="telefono" id="telefono_encargado" placeholder="Ingrese su telefono o celular">
+                     </div>
+                   </div>
+                                
+                     <div class="form-group">
+                       <label for="terrenos_para_encargado" class="col-sm-2 control-label">Asignar un terreno</label>
+                       <div class="col-sm-10">
+                         <select class="col-sm-12 form-control terreno_asignado_encargado" id="terrenos_para_encargado" >
+                              
+                         </select>
+                       </div>
+                     </div>
+
+                     <div class="form-group">
+                       <label for="nombre_usuario_encargado" class="col-sm-2 control-label">Nombre de Usuario</label>
+                       <div class="col-sm-10">
+                         <input type="text" class="form-control" name="nombre" id="nombre_usuario_encargado" placeholder="Ingrese su nombre">
+                       </div>
+                     </div>
+
+                     <div class="form-group">
+                       <label for="pass_encargado" class="col-sm-2 control-label">Contraseña</label>
+                       <div class="col-sm-10">
+                         <input type="password" class="form-control" name="nombre" id="pass_encargado" placeholder="Ingrese su nombre">
+                       </div>
+                     </div>
+
+                 </form>
+               </div>
+               <div class="modal-footer">
+                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                 <button id="guardar_encargado" type="button" class="btn btn-success">Enviar</button>
+               </div>
+             </div>
+           </div>
+         <!-- ********************* fin Modal para Registrar Encargado ****************-->  
+        </div>
+      </section>
+    <!-- **************** Fin vista Encargados *********************-->
   </div>
   <!-- Footer -->
   <footer class="main-footer">
@@ -670,42 +862,41 @@
           <div class="modal-body">
             <form>
               <div class="form-group">
-                <label for="nuevo_nombre" class="control-label">NOMBRE</label>
-                <input type="text" class="form-control" id="nuevo_nombre" placeholder="NOMBRE">
+                <label for="nuevo_nombre" class="control-label">Nombre</label>
+                <input type="text" class="form-control" id="nuevo_nombre" placeholder="Nombre">
               </div>
               <div class="form-group">
-                <label for="nuevo_apellido" class="control-label">APELLIDO</label>
-                <input type="text" class="form-control" id="nuevo_apellido" placeholder="APELLIDO">
+                <label for="nuevo_apellido" class="control-label">Apellido</label>
+                <input type="text" class="form-control" id="nuevo_apellido" placeholder="Apellido">
               </div>
               <div class="form-group">
-                <label for="nuevo_apellido" class="control-label">TELEFONO</label>
-                <input type="text" class="form-control" id="nuevo_telefono" placeholder="TELEFONO">
+                <label for="nuevo_apellido" class="control-label">Telefono</label>
+                <input type="text" class="form-control" id="nuevo_telefono" placeholder="Telefono">
               </div>
               <div class="box-body">
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label>CARGO</label>
-                      <select class="form-control select2 cargo" style="width: 100%;" name="cargo">
-                      
+                      <label>Cargo</label>
+                      <select class="form-control cargo cargo_trabajador"  name="cargo">
+                        
                       </select>
                     </div>
+                    <!--
                     <div class="form-group">
-                      <label>TERRENO</label>
-                      <select class="form-control select2" style="width: 100%;" name="terreno" id="terreno">
-                        <option selected="selected">Seleccione el terreno</option>
-                       <option type="radio" name="terreno" id="hectaria1" value="0">Hectaria 1</option>
-                       <option type="radio" name="terreno" id="hectaria2" value="1">Hectaria 2</option>
+                      <label>Terreno</label>
+                      <select class="form-control terreno_asignado_encargado" name="asignar_terreno_empleado">
+                        
                       </select>
-                    </div>
+                    </div>-->
                   </div>
                 </div>
               </div> 
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">NO GUARDAR</button>
-            <button id="guardar_nuevo" type="button" class="btn btn-primary">GUARDAR</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">No Guardar</button>
+            <button id="actualizar_trabajador" type="button" class="btn btn-success">Guardar</button>
           </div>
         </div>
       </div>
@@ -713,39 +904,38 @@
 
      <!-- VER INFORMACION -->
         <!-- Modal -->
-        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal fade " id="bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
           <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Informacion del empleado</h4>
+                <h4 class="modal-title">Informacion acerca de: <span class="nombreTrabajador"></span></h4>
               </div>
               <div class="modal-body">
-                
+                <!--
                 <section class="calend row">
-                  <div class="calends ">
-                    <h4 class="modal-title" id="exampleModalLabel">Empleado:</h4>
-                  </div>
+                  
                   <div class="calends1">
                    <input type="date" name="fecha">
                  </div>
-                </section>
+                </section>-->
 
                 <table class="table table-condensed tabla">
                   <thead>
                     <tr>
-                      <th>PAGOS REALIZADOS</th>
-                      <th>FECHA</th>
-                      <th>KILOS DE CAFE</th>
-                      <th>CARGO</th>
-                      <th>CONSTANCIA DE PAGO</th>
+                      <th>Terrenos Asignado</th>
+                      <th>Cargo</th>
+                      <th>Ver Informacion Sobre Pagos</th>
+                      <!--<th>Constancia de Pago</th>-->
                     </tr>
                   </thead>
-                  <tbody class= "ver-informacion">
+                  <tbody id= "ver_informacion_trabajador">
+
                   </tbody>
                 </table>
               </div>
                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                </div>
             </div>
           </div>
