@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-05-2018 a las 18:58:37
+-- Tiempo de generación: 18-05-2018 a las 17:59:41
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.4
 
@@ -21,42 +21,47 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `softcacol`
 --
-CREATE DATABASE IF NOT EXISTS `softcacol` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish2_ci;
-USE `softcacol`;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `administrador_encargados`
+--
+
+CREATE TABLE `administrador_encargados` (
+  `id` int(11) NOT NULL,
+  `id_usuario` varchar(40) COLLATE utf8mb4_spanish2_ci DEFAULT NULL,
+  `id_encargado` varchar(40) COLLATE utf8mb4_spanish2_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `asignar_trabajador_a_terreno`
 --
--- Creación: 16-04-2018 a las 14:21:55
---
 
 CREATE TABLE `asignar_trabajador_a_terreno` (
-  `id` int(11) NOT NULL,
   `id_terreno` int(11) NOT NULL,
   `id_trabajador` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- RELACIONES PARA LA TABLA `asignar_trabajador_a_terreno`:
---   `id_trabajador`
---       `trabajador` -> `id`
---   `id_terreno`
---       `terrenos` -> `id`
+-- Volcado de datos para la tabla `asignar_trabajador_a_terreno`
 --
 
---
--- Truncar tablas antes de insertar `asignar_trabajador_a_terreno`
---
+INSERT INTO `asignar_trabajador_a_terreno` (`id_terreno`, `id_trabajador`) VALUES
+(3, 1),
+(3, 9),
+(3, 2),
+(10, 9),
+(10, 10),
+(10, 1),
+(10, 2);
 
-TRUNCATE TABLE `asignar_trabajador_a_terreno`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `asignar_usuario_a_terreno`
---
--- Creación: 16-04-2018 a las 14:21:55
 --
 
 CREATE TABLE `asignar_usuario_a_terreno` (
@@ -65,65 +70,36 @@ CREATE TABLE `asignar_usuario_a_terreno` (
   `nombre_usuario` varchar(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- RELACIONES PARA LA TABLA `asignar_usuario_a_terreno`:
---   `nombre_usuario`
---       `usuario` -> `nombre_usuario`
---   `id_terreno`
---       `terrenos` -> `id`
---
-
---
--- Truncar tablas antes de insertar `asignar_usuario_a_terreno`
---
-
-TRUNCATE TABLE `asignar_usuario_a_terreno`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `asistencia`
 --
--- Creación: 16-04-2018 a las 14:21:55
---
 
 CREATE TABLE `asistencia` (
   `id` int(11) NOT NULL,
-  `nombre_usuario` varchar(40) DEFAULT NULL
+  `nombre_usuario` varchar(40) DEFAULT NULL,
+  `fecha` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- RELACIONES PARA LA TABLA `asistencia`:
---   `nombre_usuario`
---       `usuario` -> `nombre_usuario`
+-- Volcado de datos para la tabla `asistencia`
 --
 
---
--- Truncar tablas antes de insertar `asistencia`
---
+INSERT INTO `asistencia` (`id`, `nombre_usuario`, `fecha`) VALUES
+(12, 'userAdmin', '2018-05-18');
 
-TRUNCATE TABLE `asistencia`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `cargo`
 --
--- Creación: 16-04-2018 a las 14:21:55
---
 
 CREATE TABLE `cargo` (
   `id` int(11) NOT NULL,
-  `tipo` varchar(40) DEFAULT NULL
+  `tipo` varchar(40) CHARACTER SET utf8 DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- RELACIONES PARA LA TABLA `cargo`:
---
-
---
--- Truncar tablas antes de insertar `cargo`
---
-
-TRUNCATE TABLE `cargo`;
 --
 -- Volcado de datos para la tabla `cargo`
 --
@@ -137,8 +113,6 @@ INSERT INTO `cargo` (`id`, `tipo`) VALUES
 --
 -- Estructura de tabla para la tabla `pago_a_trabajadores`
 --
--- Creación: 16-04-2018 a las 14:21:55
---
 
 CREATE TABLE `pago_a_trabajadores` (
   `id` int(11) NOT NULL,
@@ -149,25 +123,10 @@ CREATE TABLE `pago_a_trabajadores` (
   `nombre_usuario` varchar(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- RELACIONES PARA LA TABLA `pago_a_trabajadores`:
---   `nombre_usuario`
---       `usuario` -> `nombre_usuario`
---   `id_trabajador`
---       `trabajador` -> `id`
---
-
---
--- Truncar tablas antes de insertar `pago_a_trabajadores`
---
-
-TRUNCATE TABLE `pago_a_trabajadores`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `persona`
---
--- Creación: 16-04-2018 a las 14:31:04
 --
 
 CREATE TABLE `persona` (
@@ -178,15 +137,6 @@ CREATE TABLE `persona` (
   `nombre_empresa` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- RELACIONES PARA LA TABLA `persona`:
---
-
---
--- Truncar tablas antes de insertar `persona`
---
-
-TRUNCATE TABLE `persona`;
 --
 -- Volcado de datos para la tabla `persona`
 --
@@ -200,8 +150,6 @@ INSERT INTO `persona` (`id`, `nombres`, `apellidos`, `telefono`, `nombre_empresa
 --
 -- Estructura de tabla para la tabla `registo_asistencia`
 --
--- Creación: 16-04-2018 a las 14:21:55
---
 
 CREATE TABLE `registo_asistencia` (
   `id` int(11) NOT NULL,
@@ -211,24 +159,19 @@ CREATE TABLE `registo_asistencia` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- RELACIONES PARA LA TABLA `registo_asistencia`:
---   `id_asistencia`
---       `asistencia` -> `id`
---   `id_trabajador`
---       `trabajador` -> `id`
+-- Volcado de datos para la tabla `registo_asistencia`
 --
 
---
--- Truncar tablas antes de insertar `registo_asistencia`
---
+INSERT INTO `registo_asistencia` (`id`, `fecha`, `id_trabajador`, `id_asistencia`) VALUES
+(65, '2018-05-18', 9, 12),
+(66, '2018-05-18', 1, 12),
+(67, '2018-05-18', 10, 12),
+(68, '2018-05-18', 2, 12);
 
-TRUNCATE TABLE `registo_asistencia`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `registro_trabajo_realizado`
---
--- Creación: 16-04-2018 a las 14:21:55
 --
 
 CREATE TABLE `registro_trabajo_realizado` (
@@ -237,28 +180,22 @@ CREATE TABLE `registro_trabajo_realizado` (
   `descripcion` varchar(40) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
   `nombre_usuario` varchar(40) DEFAULT NULL,
-  `id_trabajador` int(11) DEFAULT NULL
+  `id_trabajador` int(11) DEFAULT NULL,
+  `id_terreno` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- RELACIONES PARA LA TABLA `registro_trabajo_realizado`:
---   `nombre_usuario`
---       `usuario` -> `nombre_usuario`
---   `id_trabajador`
---       `trabajador` -> `id`
+-- Volcado de datos para la tabla `registro_trabajo_realizado`
 --
 
---
--- Truncar tablas antes de insertar `registro_trabajo_realizado`
---
+INSERT INTO `registro_trabajo_realizado` (`id`, `kilos_de_cafe`, `descripcion`, `fecha`, `nombre_usuario`, `id_trabajador`, `id_terreno`) VALUES
+(14, NULL, NULL, '2018-05-17', 'userAdmin', NULL, 3),
+(15, NULL, NULL, '2018-05-18', 'userAdmin', NULL, 10);
 
-TRUNCATE TABLE `registro_trabajo_realizado`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `terrenos`
---
--- Creación: 16-04-2018 a las 14:21:55
 --
 
 CREATE TABLE `terrenos` (
@@ -268,17 +205,6 @@ CREATE TABLE `terrenos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- RELACIONES PARA LA TABLA `terrenos`:
---   `nombre_usuario`
---       `usuario` -> `nombre_usuario`
---
-
---
--- Truncar tablas antes de insertar `terrenos`
---
-
-TRUNCATE TABLE `terrenos`;
---
 -- Volcado de datos para la tabla `terrenos`
 --
 
@@ -287,14 +213,13 @@ INSERT INTO `terrenos` (`id`, `nombre`, `nombre_usuario`) VALUES
 (7, 'La comparsa', 'RubenMejia'),
 (8, 'Comparsa2', 'RubenMejia'),
 (9, 'Comparsa3', 'RubenMejia'),
-(10, 'OtroTerreno', 'userAdmin');
+(10, 'OtroTerrenoxD', 'userAdmin'),
+(12, 'NuevoTerreno', 'userAdmin');
 
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `trabajador`
---
--- Creación: 11-05-2018 a las 16:23:17
 --
 
 CREATE TABLE `trabajador` (
@@ -308,31 +233,19 @@ CREATE TABLE `trabajador` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- RELACIONES PARA LA TABLA `trabajador`:
---   `nombre_usuario`
---       `usuario` -> `nombre_usuario`
---   `id_cargo`
---       `cargo` -> `id`
---
-
---
--- Truncar tablas antes de insertar `trabajador`
---
-
-TRUNCATE TABLE `trabajador`;
---
 -- Volcado de datos para la tabla `trabajador`
 --
 
 INSERT INTO `trabajador` (`id`, `nombres`, `apellidos`, `telefono`, `nombre_usuario`, `id_cargo`, `tipo_trabajador`) VALUES
-(1, 'Trabajador1', 'Apellido', 3217225482, 'userAdmin', 1, 'trabajador');
+(1, 'Trabajador1', 'Apellido', 3217225482, 'userAdmin', 2, 'trabajador'),
+(2, 'Trabajador2', 'Apellido', 3212311, 'userAdmin', 1, 'trabajador'),
+(9, 'Trabajador3', 'Apellido', 3333335, 'userAdmin', 2, 'trabajador'),
+(10, 'Jose', 'Ortiz', 3454357, 'userAdmin', 1, 'trabajador');
 
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `usuario`
---
--- Creación: 16-04-2018 a las 14:21:55
 --
 
 CREATE TABLE `usuario` (
@@ -343,17 +256,6 @@ CREATE TABLE `usuario` (
   `id_persona` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- RELACIONES PARA LA TABLA `usuario`:
---   `id_persona`
---       `persona` -> `id`
---
-
---
--- Truncar tablas antes de insertar `usuario`
---
-
-TRUNCATE TABLE `usuario`;
 --
 -- Volcado de datos para la tabla `usuario`
 --
@@ -367,10 +269,17 @@ INSERT INTO `usuario` (`nombre_usuario`, `password`, `foto_perfil`, `tipo_usuari
 --
 
 --
+-- Indices de la tabla `administrador_encargados`
+--
+ALTER TABLE `administrador_encargados`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_usuario` (`id_usuario`),
+  ADD KEY `id_encargado` (`id_encargado`);
+
+--
 -- Indices de la tabla `asignar_trabajador_a_terreno`
 --
 ALTER TABLE `asignar_trabajador_a_terreno`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `id_trabajador` (`id_trabajador`),
   ADD KEY `id_terreno` (`id_terreno`);
 
@@ -423,7 +332,8 @@ ALTER TABLE `registo_asistencia`
 ALTER TABLE `registro_trabajo_realizado`
   ADD PRIMARY KEY (`id`),
   ADD KEY `nombre_usuario` (`nombre_usuario`),
-  ADD KEY `id_trabajador` (`id_trabajador`);
+  ADD KEY `id_trabajador` (`id_trabajador`),
+  ADD KEY `fk_terrenos` (`id_terreno`);
 
 --
 -- Indices de la tabla `terrenos`
@@ -452,10 +362,10 @@ ALTER TABLE `usuario`
 --
 
 --
--- AUTO_INCREMENT de la tabla `asignar_trabajador_a_terreno`
+-- AUTO_INCREMENT de la tabla `administrador_encargados`
 --
-ALTER TABLE `asignar_trabajador_a_terreno`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `administrador_encargados`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `asignar_usuario_a_terreno`
@@ -467,7 +377,7 @@ ALTER TABLE `asignar_usuario_a_terreno`
 -- AUTO_INCREMENT de la tabla `asistencia`
 --
 ALTER TABLE `asistencia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `cargo`
@@ -491,25 +401,25 @@ ALTER TABLE `persona`
 -- AUTO_INCREMENT de la tabla `registo_asistencia`
 --
 ALTER TABLE `registo_asistencia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_trabajo_realizado`
 --
 ALTER TABLE `registro_trabajo_realizado`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `terrenos`
 --
 ALTER TABLE `terrenos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `trabajador`
 --
 ALTER TABLE `trabajador`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Restricciones para tablas volcadas
@@ -553,6 +463,7 @@ ALTER TABLE `registo_asistencia`
 -- Filtros para la tabla `registro_trabajo_realizado`
 --
 ALTER TABLE `registro_trabajo_realizado`
+  ADD CONSTRAINT `fk_terrenos` FOREIGN KEY (`id_terreno`) REFERENCES `terrenos` (`id`),
   ADD CONSTRAINT `registro_trabajo_realizado_ibfk_1` FOREIGN KEY (`nombre_usuario`) REFERENCES `usuario` (`nombre_usuario`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `registro_trabajo_realizado_ibfk_2` FOREIGN KEY (`id_trabajador`) REFERENCES `trabajador` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
