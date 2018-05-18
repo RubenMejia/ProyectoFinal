@@ -7,7 +7,7 @@
 			$objeto->Insert();
 		}
 
-		public function cantidad_pagos($fecha){
+		public function cantidadTotalPagos($fecha){
 			$obj=new PagoTrabajadores(null,null,null,$fecha,null,null);
 			$obj->cantidadPagosDia();
 		}
@@ -39,7 +39,7 @@
 		case 'consultarPagosByFecha':
 			$fecha=$_POST['fecha'];
 			$consulta=new controller_pago_trabajadores;
-			$consulta->cantidad_pagos($fecha);
+			$consulta->cantidadTotalPagos($fecha);
 		break;
 
 		case 'consultarPagosByIdTrabajador':

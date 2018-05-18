@@ -71,8 +71,6 @@
 				die("Error Fatal: ".$e->getmessage());
 			}
 		}
-
-
 		public function getTerreno(){
 			$data=array();
 			$conexion=new Conexion();
@@ -90,15 +88,33 @@
 				}
 			}else{
 				$data['estado']="err";
-				$data['resultado']="Error al Ejecutat la consulta sql";
+				$data['resultado']="Error al Ejecutar la consulta sql";
 			}
-
 			$conexion=null;
 			echo json_encode($data);
-
 		}
+		public function getTrabajadores(){
+			$data=array();
+			$conexion=new Conexion();
+			$sql=$conexion->prepare("SELECT * FROM trabajador  INNER JOIN ".self::TABLA." ON id=id_trabajador  WHERE id_terreno=:id_terreno");
+			$sql->bindParam(':id_terreno',$this->id_terreno);
+			if($sql->execute()){
+				$num_row=$sql->rowCount();
+				if($num_row>0){
+					$registros=$sql->fetchAll();
+					$data['estado']="ok";
+					$data['resultado']=$registros;
+				}else{
+					$data['estado']="err";
+					$data['resultado']="El terreno no tiene Trabajadores Asignados, Cancela el dia y asigna primero trabajadores";
+				}
+			}
+			$conexion=null;
+			echo json_encode($data);
+		}
+	
 	}
 	
-
+	
 
 ?>  

@@ -13,6 +13,12 @@
 			$consulta->getTerreno();
 		}
 
+		public function getTrabajadoresByTerreno($id_terreno)
+		{
+			$consulta=new AsignarTrabajadorATerreno($id_terreno,null);
+			$consulta->getTrabajadores();
+		}
+
 	}
 	$accion = $_POST['accion'];
 	switch ($accion) {
@@ -32,5 +38,14 @@
 		default:
 			echo "NO ENTRO A NINGUN CASO";
 		break;
+
+
+		case 'mostrar_trabajadores_por_terreno':
+			$id_terreno=$_POST['id_terreno'];
+			$consultar=new controller_asignar_trabajador_a_terreno;
+			$consultar->getTrabajadoresByTerreno($id_terreno);
+		break;
+
+		
 	}
 ?>

@@ -12,10 +12,12 @@
 		private $tipo;
 		private $id_persona;
 		const TABLA="usuario";
+		const TABLA2="administrador_encargados";
+
 		private $data=array();
 
 		
-		function __construct($username,$pass,$tipo,$id_persona,$foto_perfil)
+		function __construct($username, $pass, $foto_perfil, $tipo, $id_persona)
 		{
 			$this->username=$username;
 			$this->pass=$pass;
@@ -25,44 +27,44 @@
 		}
 
 
-		public function setUsername($user){
+		public function getUsername($user){
 			$this->username=$user;
 
 		}
 
-		public function getUsername(){
+		public function setUsername(){
 			return $this->username;
 		}
 
-		public function setPass($pass){
+		public function getPass($pass){
 			$this->pass=$pass;
 		}
 
-		public function getPass(){
+		public function setPass(){
 			return $this->pass;
 		}
 
-		public function setFoto($foto){
+		public function getFoto($foto){
 			$this->foto_perfil=$foto;
 		}
 
-		public function getFoto(){
+		public function setFoto(){
 			return $this->foto_perfil;
 		}
 
-		public function setTipo($tipo){
+		public function getTipo($tipo){
 			$this->tipo=$tipo;
 		}
 
-		public function getTipo(){
+		public function setTipo(){
 			return $this->tipo;
 		}
 
-		public function setIdPersona($id){
+		public function getIdPersona($id){
 			$this->id_persona=$id;
 		}
 
-		public function getIdPersona(){
+		public function setIdPersona(){
 			return $this->id_persona;
 		}
 
@@ -70,20 +72,21 @@
 
 
 		function Insert(){
+			$conectar = new Conexion();
+			
+			$stmt=$conectar->prepare("INSERT INTO ".self::TABLA."(nombre_usuario, password, foto_perfil, tipo_usuario, id_persona) VALUES(:user, :pass, :foto, :tipo, :id_persona)");
 
-			$conectar=new Conexion();
-			$sql=$conectar->prepare("INSERT INTO ".self::TABLA." (nombre_usuario,password,foto_perfil,tipo_usuario,id_persona) VALUES (:user,:pass,:foto,:tipo,:id_persona)");
+			$stmt->bindParam(':user', $this->username);
+			$stmt->bindParam(':pass', $this->pass);
+			$stmt->bindParam(':foto', $this->foto_perfil);
+			$stmt->bindParam(':tipo', $this->tipo);
+			$stmt->bindParam(':id_persona',$this->id_persona);
 
-			$sql->bindParam(":user",$this->username);
-			$sql->bindParam(":pass",$this->pass);
-			$sql->bindParam(":foto",$this->foto_perfil);
-			$sql->bindParam(":tipo",$this->tipo);
-			$sql->bindParam(":id_persona",$this->id_persona);
-
-			if($sql->execute()){
+			if($stmt->execute()){
 				$data['estado']="ok";
 				$data['resultado']="Usuario agregado";
 				//$data['nombre_usuario']=$this->username;
+
 			}else{
 				$data['estado']="err";
 				$data['resultado']="Error al registrar el usuario ";
@@ -97,21 +100,67 @@
 
 
 		function getCantidad(){
-			$conectar=new Conexion();
-			$sql=$conectar->prepare("SELECT COUNT(id) AS cantidad from ".self::TABLA." WHERE tipo_usuario='encargado'");
 
-			$num_row=$sql->rowCount();
-			if($num_row>0){
-				while ($row=$sql->fetch($conectar::FETCH_ASSOC)) {
-					$data['result']=$row['cantidad'];
+			$data =  array();
+			$conectar=new Conexion();
+
+			$stmt = $conectar->prepare("SELECT COUNT(nombre_usuario) AS cantidad from ".self::TABLA." WHERE tipo_usuario = 'encargado'");
+			
+			if ($stmt->execute()) {
+				
+				$num_row  =$stmt->rowCount();
+
+				if($num_row>0){
+
+						$data['result'] = $stmt->fetch();
+
+				}else{
+
+					$data['result']="0";
+
 				}
-			}else{
-				$data['result']="0";
+
 			}
 
 			$conectar=null;
-			json_encode($data);
 
+			echo json_encode($data);
+
+		}
+		function getEncargados(){
+			$data =  array();
+			$conectar=new Conexion();
+			$stmt = $conectar->prepare("SELECT Usuario.* from ".self::TABLA." INNER JOIN ".self::TABLA2." on ".self::TABLA2.".id_encargado = ".self::TABLA.".nombre_usuario WHERE ".self::TABLA2.".id_usuario = :nombre_usuario");
+			$stmt->bindParam(':nombre_usuario',$this->username);
+			
+			if ($stmt->execute()) {
+				$num_row = $stmt->rowCount();
+				if($num_row>0){
+						$data['status'] = "ok";
+						$data['result'] = $stmt->fetchall();
+				}else{
+					$data['status'] = "err";
+					$data['result']="0";
+				}
+			}
+
+			$conectar=null;
+
+			echo json_encode($data);
+		}
+
+		function Delete(){
+			$data =  array();
+			$conectar=new Conexion();
+			$stmt = $conectar->prepare("DELETE FROM ".self::TABLA." WHERE nombre_usuario = :nombre_usuario");
+			$stmt->bindParam(':nombre_usuario',$this->username);
+			if ($stmt->execute()) {
+				$data['result'] = "Eliminidaco correctamente";
+			}else{
+				$data['result']="No se Elmino el encargado";
+			}
+			$conectar=null;
+			echo json_encode($data);
 		}
 	}
 

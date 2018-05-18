@@ -145,9 +145,9 @@
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-          <ul class="treeview-menu">
-            <li><a href="pages/charts/chartjs.html"><i class="fa fa-check-square-o"></i> Asistencia</a></li>
-            <li><a href="pages/charts/morris.html"><i class="fa fa-usd"></i> Pago a Trabajadores</a></li>
+          <ul class="treeview-menu menu_dia_hover">
+            <li><a href="#"  data-toggle="modal" data-target="#ModalAsistenciaTrabajadores" class="mostrar_trabajadores_asistencia"><i class="fa fa-check-square-o"></i> Asistencia</a></li>
+            <li><a href="#" class=" mostrar_trabajadores_pagos" data-toggle="modal" data-target="#ModalPagoTrabajadores"><i class="fa fa-usd"></i> Pago a Trabajadores</a></li>
             <li><a href="pages/charts/flot.html"><i class="fa fa-times"></i> Cancelar Dia</a></li>
             <li><a href="pages/charts/inline.html"><i class="fa fa-check"></i> Finalizar Dia</a></li>
           </ul>
@@ -248,29 +248,32 @@
           </div>
           <button class="btn-lg btn-success agregar_nuevo" data-toggle="modal" data-target="#myModal">Continuar</button>
         </section>
-      <section class="mostrar"></section>
-      
-      <!-- Muestra La tabla con la lista de Trabajadores que hay -->
-      <div class="col-md-12 ">
-        <div class="col-md-11 ">
-          <table class="table table-condensed table-hover responsive tabla" hidden="true">
-            <thead>
-              <tr>
-                <th>NOMBRE</th>
-                <th>APELLIDO</th>
-                <th>TELEFONO</th>
-                <th>CARGO</th>
-                <th>ACCIONES</th>
-              </tr>
-              </thead>
-              <tbody class= "contenedor">
-              </tbody>
-          </table>
-          <div class="caja_mas" hidden="true">
-                <button class="btn btn-primary mas agregar_nuevo" type="submit" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button>
+      <section class="tabla_trabajadores">
+        <!-- Muestra La tabla con la lista de Trabajadores que hay -->
+        <div class="col-md-12 ">
+          <div class="col-md-11 ">
+            <table class="table table-condensed table-hover responsive tabla" hidden="true">
+              <thead>
+                <tr>
+                  <th>NOMBRE</th>
+                  <th>APELLIDO</th>
+                  <th>TELEFONO</th>
+                  <th>CARGO</th>
+                  <th>ACCIONES</th>
+                </tr>
+                </thead>
+                <tbody class= "contenedor">
+                </tbody>
+            </table>
+            <div class="caja_mas" hidden="true">
+                  <button class="btn btn-primary mas agregar_nuevo" type="submit" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button>
+            </div>
           </div>
         </div>
-      </div>
+
+      </section>
+      
+      
 
       <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -627,34 +630,347 @@
     <!-- **************** Fin vista Terrenos **************************-->
 
     <!-- ****************Inicio vista Empezar Dia ********************-->
-      <section class="container dia" hidden="true">
+      <section class="dia" hidden="true">
         <!-- Apply any bg-* class to to the info-box to color it -->
-          <div class="container" >
-            
-            <div class="row" style="margin-top: 2em;" id="pie_pago">
-              <div class="col-md-3 col-md-offset-2" >
-                <input type="text" class="dial" id="pagos_realizados" value="" data-min="0" data-max="100" name="" readOnly  >
-                <h5 class="text-center">Pagos Realizados Hoy</h5>
+
+          
+            <section class="content">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="box box-success">
+                    <div class="box-header with-border">
+                      <h3 class="box-title">¿Que ha pasado hoy?</h3>
+
+                      <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" type="button" data-widget="collapse">
+                          <i class="fa fa-minus"></i>
+                        </button>
+
+                        <button  class="btn btn-box-tool" type="button" data-widget="remove">
+                          <i class="fa fa-times"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="box-body">
+                      <div class="container-fluid" >
+                        <div class="row">
+                          <div class="col-md-3 col-md-offset-4 " >
+                            <input type="text" class="dial" id="pagos_realizados" value="0" data-min="0" data-max="100" name=""   >
+                            
+                          </div>
+                          <div class="col-md-3">
+                            <input type="text" class="dial" id="asistencia_trabajadores" value="0" data-min="0" data-max="100" name=""  >
+                            
+                          </div>
+                          <div class="row">
+                            <h5 class="col-md-2 col-md-offset-4 " style="margin-right: 4em; margin-left: 28em;" >Pagos Realizados </h5>
+                            <h5 class="col-md-3">Asistencia de Trabajadores</h5>
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+                
               </div>
-              <div class="col-md-3">
-                <input type="text" class="dial" id="asistencia_trabajadores" value="3" data-min="0" data-max="100" name="" readOnly >
-                <h5 class="text-center">Asistencia de Trabajadores Hoy</h5>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="box box-success">
+                    <div class="box-header with-border">
+                      <h3 class="box-title">¿Que vamos a hacer hoy?</h3>
+
+                      <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" type="button" data-widget="collapse">
+                          <i class="fa fa-minus"></i>
+                        </button>
+
+                        <button  class="btn btn-box-tool" type="button" data-widget="remove">
+                          <i class="fa fa-times"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="box-body">
+                      <div class="container-fluid" >
+                        <div class="row">
+                          <div class="col-xs-3">
+                            <div class="small-box bg-aqua">
+                              <div class="inner">
+                                
+                                <h4>Asistencia</h4>
+                                <p>Tomar Asistencia</p>
+                              </div>
+                              <div class="icon">
+                                <i class="fa fa-check-square-o"></i>
+                              </div>
+                              <a href="#" class="small-box-footer mostrar_trabajadores_asistencia" data-toggle="modal" data-target="#ModalAsistenciaTrabajadores" >
+                                Registrar Ahora <i class="fa fa-arrow-circle-right"></i>
+                              </a>
+                            </div>
+                          </div>
+
+                          <div class="col-xs-3">
+                            <div class="small-box bg-green">
+                              <div class="inner">
+                                
+                                <h4>Pagos </h4>
+                                <p>Realizar Pagos</p>
+                              </div>
+                              <div class="icon">
+                                <i class="fa fa-usd"></i>
+                              </div>
+                              <a href="#" class="small-box-footer mostrar_trabajadores_pagos" data-toggle="modal" data-target="#ModalPagoTrabajadores">
+                                Realizar Ahora <i class="fa fa-arrow-circle-right"></i>
+                              </a>
+                            </div>
+                          </div>
+
+
+                          <div class="col-xs-3">
+                            <div class="small-box bg-yellow">
+                              <div class="inner">
+                                
+                                <h4>Finalizar Dia</h4>
+                                <p>Finalinar Trabajo</p>
+                              </div>
+                              <div class="icon">
+                                <i class="fa fa-check"></i>
+                              </div>
+                              <a href="#" class="small-box-footer">
+                                Finalizar Ahora <i class="fa fa-arrow-circle-right"></i>
+                              </a>
+                            </div>
+                          </div>
+
+                          <div class="col-xs-3">
+                            <div class="small-box bg-red">
+                              <div class="inner">
+                                
+                                <h4>Cancelar Dia</h4>
+                                <p>Cancelar Dia de Trabajo</p>
+                              </div>
+                              <div class="icon">
+                                <i class="fa fa-close"></i>
+                              </div>
+                              <a href="#" class="small-box-footer">
+                                Cancelar Ahora <i class="fa fa-arrow-circle-right"></i>
+                              </a>
+                            </div>
+                          </div>
+
+
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
               </div>
-            </div>
+             
+              
+            </section>
             
-            <!--
-            <div class="row" style="margin-top: 2em;">
-              <div class="col-md-3 col-md-offset-2">
-                <input type="text" class="dial" value="45" data-min="0" data-max="100" name="" readOnly >
+
+            <!-- Modales -->
+
+            <!-- Modal para Asistencia -->
+                <div class="modal fade" id="ModalAsistenciaTrabajadores" tabindex="-1" role="dialog" aria-labelledby="modalAsistencia">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modalAsistencia">Tomar Asistencia</h4>
+                      </div>
+                      <div class="modal-body">
+                        
+                          
+                          <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#home">Trabajadores</a></li>
+                            <!--<li><a data-toggle="tab" href="#menu2">Encargados</a></li>-->
+                          </ul>
+
+                          <div class="tab-content">
+                            <div id="home" class="tab-pane fade in active">
+                              <div class="box-body table-responsive no-padding">
+                                <table class="table table-hover">
+                                  <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Accion</th>
+                                  </tr>
+                                  <tbody id="lista_trabajadores_asistencia">
+                                    <tr>
+                                      <td>183</td>
+                                      <td>John Doe</td>
+                                      <th><span class="fa fa-check-square-o"></span></th>
+                                    </tr>
+                                    <tr>
+                                      <td>219</td>
+                                      <td>Alexander Pierce</td>
+                                      <th><span class="fa fa-check-square-o"></span></th>
+                                    </tr>
+                                    <tr>
+                                      <td>657</td>
+                                      <td>Bob Doe</td>
+                                      <th><span class="fa fa-check-square-o"></span></th>
+                                    </tr>
+                                    <tr>
+                                      <td>175</td>
+                                      <td>Mike Doe</td>
+                                      <th><span class="fa fa-check-square-o"></span></th>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                            <div id="menu2" class="tab-pane fade">
+                              <div class="box-body table-responsive no-padding">
+                                <table class="table table-hover">
+                                  <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Asignar</th>
+                                  </tr>
+                                  <tbody id="asignar_encargados">
+                                    <tr>
+                                      <td>183</td>
+                                      <td>John Doe</td>
+                                      <th><span class="fa fa-check-square-o"></span></th>
+                                    </tr>
+                                    <tr>
+                                      <td>219</td>
+                                      <td>Alexander Pierce</td>
+                                      <th><span class="fa fa-check-square-o"></span></th>
+                                    </tr>
+                                    <tr>
+                                      <td>657</td>
+                                      <td>Bob Doe</td>
+                                      <th><span class="fa fa-check-square-o"></span></th>
+                                    </tr>
+                                    <tr>
+                                      <td>175</td>
+                                      <td>Mike Doe</td>
+                                      <th><span class="fa fa-check-square-o"></span></th>
+                                    </tr>
+                                  </tbody>
+                                  
+                                </table>
+                              </div>
+                            </div>
+                            
+                          </div>
+                        
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+            <!-- Fin Modal para Asistencia-->
+          
+            <!-- Modal para Pago a trabajadores -->
+              <div class="modal fade" id="ModalPagoTrabajadores" tabindex="-1" role="dialog" aria-labelledby="modalPagoTrabajador">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="modalPagoTrabajador">Realizar Pagos</h4>
+                    </div>
+                    <div class="modal-body">
+                      
+                        
+                        <ul class="nav nav-tabs">
+                          <li class="active"><a data-toggle="tab" href="#home">Trabajadores</a></li>
+                          <!--<li><a data-toggle="tab" href="#menu2">Encargados</a></li>-->
+                        </ul>
+
+                        <div class="tab-content">
+                          <div id="home" class="tab-pane fade in active">
+                            <div class="box-body table-responsive no-padding">
+                              <table class="table table-hover">
+                                <tr>
+                                  <th>ID</th>
+                                  <th>Nombre</th>
+                                  <th>Apellido</th>
+                                  <th>Accion</th>
+                                </tr>
+                                <tbody id="lista_trabajadores_pagos">
+                                  <tr>
+                                    <td>183</td>
+                                    <td>John Doe</td>
+                                    <th><span class="fa fa-check-square-o"></span></th>
+                                  </tr>
+                                  <tr>
+                                    <td>219</td>
+                                    <td>Alexander Pierce</td>
+                                    <th><span class="fa fa-check-square-o"></span></th>
+                                  </tr>
+                                  <tr>
+                                    <td>657</td>
+                                    <td>Bob Doe</td>
+                                    <th><span class="fa fa-check-square-o"></span></th>
+                                  </tr>
+                                  <tr>
+                                    <td>175</td>
+                                    <td>Mike Doe</td>
+                                    <th><span class="fa fa-check-square-o"></span></th>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                          <div id="menu2" class="tab-pane fade">
+                            <div class="box-body table-responsive no-padding">
+                              <table class="table table-hover">
+                                <tr>
+                                  <th>ID</th>
+                                  <th>Nombre</th>
+                                  <th>Apellido</th>
+                                  <th>Asignar</th>
+                                </tr>
+                                <tbody id="asignar_encargados">
+                                  <tr>
+                                    <td>183</td>
+                                    <td>John Doe</td>
+                                    <th><span class="fa fa-check-square-o"></span></th>
+                                  </tr>
+                                  <tr>
+                                    <td>219</td>
+                                    <td>Alexander Pierce</td>
+                                    <th><span class="fa fa-check-square-o"></span></th>
+                                  </tr>
+                                  <tr>
+                                    <td>657</td>
+                                    <td>Bob Doe</td>
+                                    <th><span class="fa fa-check-square-o"></span></th>
+                                  </tr>
+                                  <tr>
+                                    <td>175</td>
+                                    <td>Mike Doe</td>
+                                    <th><span class="fa fa-check-square-o"></span></th>
+                                  </tr>
+                                </tbody>
+                                
+                              </table>
+                            </div>
+                          </div>
+                          
+                        </div>
+                      
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="col-md-3">
-                <input type="text" class="dial" value="100" data-min="0" data-max="100" name="" readOnly >
-              </div>
-            </div>-->
-            
-            
-          </div>
-        
+            <!-- Fin Modal pago a trabajadores -->
 
 
         
@@ -788,6 +1104,9 @@
         </div>
       </section>
     <!-- **************** Fin vista Encargados *********************-->
+
+    <!-- **************** Inicio vista  Asistencia ******************-->
+    <!-- **************** Fin vista Asistencia **********************-->
   </div>
   <!-- Footer -->
   <footer class="main-footer">

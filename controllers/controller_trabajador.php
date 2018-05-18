@@ -116,6 +116,8 @@
 			controller_Trabajador::getCargoTrabajador($id_trabajador);
 		break;
 
+		
+
 
 		
 	}

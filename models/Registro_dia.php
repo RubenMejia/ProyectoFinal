@@ -26,8 +26,8 @@
 		public function empezarDia(){
 			$data=array();
 			$conectar=new Conexion();
-			$sql=$conectar->prepare('INSERT INTO '.self::TABLA.' (fecha,nombre_usuario,id_terreno) VALUES (:fecha,:nombre_usuario,:id_terreno)');
-			$sql->bindParam(':fecha',$this->fecha);
+			$sql=$conectar->prepare('INSERT INTO '.self::TABLA.' (fecha,nombre_usuario,id_terreno) VALUES (NOW(),:nombre_usuario,:id_terreno)');
+			//$sql->bindParam(':fecha',$this->fecha);
 			$sql->bindParam(':nombre_usuario',$this->nombre_usuario);
 			$sql->bindParam(':id_terreno',$this->id_terreno);
 
@@ -43,6 +43,34 @@
 
 			echo json_encode($data);
 			$conectar=null;
+		}
+
+		public function ComprobarDisponibilidad(){
+			$data=array();
+			$conectar=new Conexion();
+			$sql=$conectar->prepare('SELECT id FROM '.self::TABLA.' WHERE fecha=:fecha AND id_terreno=:id_terreno');
+			$sql->bindParam(':fecha',$this->fecha);
+			$sql->bindParam(':id_terreno',$this->id_terreno);
+
+			if($sql->execute()){
+				$num_row=$sql->rowCount();
+				if($num_row>0){
+					$data['estado']="No disponible";
+					$data['resultado']="El dia ya se esta realizando o se ha realizado";
+				}else{
+					$data['estado']="disponible";
+					$data['resultado']="Dia Disponible";
+				}
+
+
+			}else{
+				$data['estado']="err";
+				$data['resultado']="Hubo un error al ejecutar la consulta SQL";
+			}
+
+			$conectar=null;
+			echo json_encode($data);
+
 		}
 	}
 
