@@ -27,7 +27,8 @@
 
 	switch ($accion) {
 		case 'insert':
-			$comprobante =$_POST['comprobante'];
+			//$comprobante =$_POST['comprobante'];
+			$comprobante =null;
 			$cantidad_pago = $_POST['cantidad_pago'];
 			$fecha = $_POST['fecha'];
 			$id_trabajador=$_POST['id_trabajador'];

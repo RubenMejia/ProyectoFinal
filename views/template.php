@@ -30,6 +30,52 @@
 
 <div class="wrapper">
 
+  <!--Modales -->
+    <!--Modal Para Realizar Pagos a Trabajadores -->
+      <div class="modal fade" id="ModalRealizarPagos" tabindex="-1" role="dialog" aria-labelledby="ModalRealizarPagosLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Realizar Pago a: <a id="trabajador" class="nombreTrabajador ver_informacion_trabajador_2" data-toggle="modal" data-target="#bs-example-modal-lg_2"  style="cursor: pointer;"></a></h4>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="box">
+                    <div class="box-header">
+                      <h3>Realizar Pago</h3>
+                    </div>
+
+                    <form class="form">
+                      <div class="form-group">
+                       <label for="cantidad">Cantidad a Pagar: </label>
+                       <div class="input-group">
+                          <span class="input-group-addon">$</span>
+                          <input class="form-control" type="number" id="cantidad" name="cantidad" placeholder="Cantidad a Pagar">
+                          <span class="input-group-addon">.00</span>
+                        </div>
+                       </div>
+                    </form>
+
+                  </div>
+                  <!-- /.box -->
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              <input type="submit" name="hacerPago" class="btn btn-success" id="hacerPago" value="Pagar">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- Fin Modal para realizar pagos a Trabajadores -->
+
+  <!--  Fin Modales -->
+
+
   <!-- Main Header -->
   <header class="main-header">
 
@@ -148,8 +194,8 @@
           <ul class="treeview-menu menu_dia_hover">
             <li><a href="#"  data-toggle="modal" data-target="#ModalAsistenciaTrabajadores" class="mostrar_trabajadores_asistencia"><i class="fa fa-check-square-o"></i> Asistencia</a></li>
             <li><a href="#" class=" mostrar_trabajadores_pagos" data-toggle="modal" data-target="#ModalPagoTrabajadores"><i class="fa fa-usd"></i> Pago a Trabajadores</a></li>
-            <li><a href="pages/charts/flot.html"><i class="fa fa-times"></i> Cancelar Dia</a></li>
-            <li><a href="pages/charts/inline.html"><i class="fa fa-check"></i> Finalizar Dia</a></li>
+            <li><a href="#" class="cancelarDia"><i class="fa fa-times "></i> Cancelar Dia</a></li>
+            <li><a href="#" class="finalizarDia"><i class="fa fa-check"></i> Finalizar Dia</a></li>
           </ul>
         </li>
       </ul>
@@ -353,20 +399,15 @@
                     <!-- /.box-header -->
                     <div class="box-body table-responsive no-padding">
                       <table class="table table-hover">
+                        <tr>
+                          <th>ID</th>
+                          <th>Responsable</th>
+                          <th>Fecha</th>
+                          <th>Cantidad Pagada</th>
+                          <!--<th>Comprobante</th>-->
+                        </tr>
                         <tbody id="mostrarInformacionPagos">
-                          <tr>
-                            <th>ID</th>
-                            <th>Responsable</th>
-                            <th>Fecha</th>
-                            <th>Cantidad Pagada</th>
-                            <!--<th>Comprobante</th>-->
-                          </tr>
-                          <tr>
-                            <td>183</td>
-                            <td>John Doe</td>
-                            <td>11-7-2014</td>
-                            <td>100.000</td>
-                          </tr>
+                          
                         </tbody>
                         
                         
@@ -441,7 +482,7 @@
                   <span class="info-box-icon bg-green"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i> </span>
                   <div class="info-box-content">
                     <span class="info-box-text text-center"> Dias De Trabajo</span>
-                    <span class="info-box-number">0</span>
+                    <span class="info-box-number cantidad_dias"></span>
                   </div><!-- /.info-box-content -->
                 </div><!-- /.info-box -->
             </div>     
@@ -548,26 +589,7 @@
                               <th>Asignar</th>
                             </tr>
                             <tbody id="lista_trabajadores">
-                              <tr>
-                                <td>183</td>
-                                <td>John Doe</td>
-                                <th><span class="fa fa-check-square-o"></span></th>
-                              </tr>
-                              <tr>
-                                <td>219</td>
-                                <td>Alexander Pierce</td>
-                                <th><span class="fa fa-check-square-o"></span></th>
-                              </tr>
-                              <tr>
-                                <td>657</td>
-                                <td>Bob Doe</td>
-                                <th><span class="fa fa-check-square-o"></span></th>
-                              </tr>
-                              <tr>
-                                <td>175</td>
-                                <td>Mike Doe</td>
-                                <th><span class="fa fa-check-square-o"></span></th>
-                              </tr>
+                              
                             </tbody>
                           </table>
                         </div>
@@ -738,8 +760,8 @@
                               <div class="icon">
                                 <i class="fa fa-check"></i>
                               </div>
-                              <a href="#" class="small-box-footer">
-                                Finalizar Ahora <i class="fa fa-arrow-circle-right"></i>
+                              <a href="#" class="small-box-footer finalizarDia">
+                                Finalizar Ahora <i class="fa fa-arrow-circle-right "></i>
                               </a>
                             </div>
                           </div>
@@ -754,7 +776,7 @@
                               <div class="icon">
                                 <i class="fa fa-close"></i>
                               </div>
-                              <a href="#" class="small-box-footer">
+                              <a href="#" class="small-box-footer cancelarDia">
                                 Cancelar Ahora <i class="fa fa-arrow-circle-right"></i>
                               </a>
                             </div>
@@ -802,26 +824,7 @@
                                     <th>Accion</th>
                                   </tr>
                                   <tbody id="lista_trabajadores_asistencia">
-                                    <tr>
-                                      <td>183</td>
-                                      <td>John Doe</td>
-                                      <th><span class="fa fa-check-square-o"></span></th>
-                                    </tr>
-                                    <tr>
-                                      <td>219</td>
-                                      <td>Alexander Pierce</td>
-                                      <th><span class="fa fa-check-square-o"></span></th>
-                                    </tr>
-                                    <tr>
-                                      <td>657</td>
-                                      <td>Bob Doe</td>
-                                      <th><span class="fa fa-check-square-o"></span></th>
-                                    </tr>
-                                    <tr>
-                                      <td>175</td>
-                                      <td>Mike Doe</td>
-                                      <th><span class="fa fa-check-square-o"></span></th>
-                                    </tr>
+                                    
                                   </tbody>
                                 </table>
                               </div>
@@ -901,26 +904,7 @@
                                   <th>Accion</th>
                                 </tr>
                                 <tbody id="lista_trabajadores_pagos">
-                                  <tr>
-                                    <td>183</td>
-                                    <td>John Doe</td>
-                                    <th><span class="fa fa-check-square-o"></span></th>
-                                  </tr>
-                                  <tr>
-                                    <td>219</td>
-                                    <td>Alexander Pierce</td>
-                                    <th><span class="fa fa-check-square-o"></span></th>
-                                  </tr>
-                                  <tr>
-                                    <td>657</td>
-                                    <td>Bob Doe</td>
-                                    <th><span class="fa fa-check-square-o"></span></th>
-                                  </tr>
-                                  <tr>
-                                    <td>175</td>
-                                    <td>Mike Doe</td>
-                                    <th><span class="fa fa-check-square-o"></span></th>
-                                  </tr>
+                                  
                                 </tbody>
                               </table>
                             </div>
@@ -1259,7 +1243,46 @@
             </div>
           </div>
         </div>
-        <!-- FIN DE LA VER INFORMACION-->
+      <!-- FIN DE LA VER INFORMACION-->
+
+      <!-- VER INFORMACION 2-->
+         <!-- Modal -->
+         <div class="modal fade " id="bs-example-modal-lg_2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+           <div class="modal-dialog modal-lg" role="document">
+             <div class="modal-content">
+               <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                 <h4 class="modal-title">Informacion acerca de: <span class="nombreTrabajador"></span></h4>
+               </div>
+               <div class="modal-body">
+                 <!--
+                 <section class="calend row">
+                   
+                   <div class="calends1">
+                    <input type="date" name="fecha">
+                  </div>
+                 </section>-->
+                 <table class="table table-condensed ">
+                   <thead>
+                     <tr>
+                       <th>Terrenos Asignado</th>
+                       <th>Cargo</th>
+                       <th>Ver Informacion Sobre Pagos</th>
+                       <!--<th>Constancia de Pago</th>-->
+                     </tr>
+                   </thead>
+                   <tbody id= "ver_informacion_trabajador_2">
+
+                   </tbody>
+                 </table>
+               </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+             </div>
+           </div>
+         </div>
+       <!-- FIN DE LA VER INFORMACION 2-->
 
 </div>
 

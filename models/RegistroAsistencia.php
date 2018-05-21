@@ -102,6 +102,27 @@
 
 		}
 
+		public function eliminar(){
+				$data=array();
+				$conexion=new Conexion();
+				$sql=$conexion->prepare("DELETE FROM ".self::TABLA." WHERE id_trabajador=:id_trabajador AND id_asistencia=:id_asistencia AND fecha=:fecha");
+
+				$sql->bindParam(":id_trabajador",$this->id_trabajador);
+				$sql->bindParam(':id_asistencia',$this->id_asistencia);
+				$sql->bindParam(':fecha',$this->fecha);
+
+				if ($sql->execute()){
+				  $data['status'] = "ok";
+				  $data['result'] = "Se ha eliminado el trabajador de la asistencia con exito!";
+				}else{
+			   	  $data['status'] = "err";
+				  $data['result'] = "Error en la consulta, por favor revisa los datos";
+				}
+
+				$conexion=null;
+				echo json_encode($data);
+		}
+
 		
 	}
 	

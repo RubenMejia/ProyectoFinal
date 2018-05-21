@@ -34,7 +34,9 @@
 				if ($stmt->execute()){
 				  $this->id=$conexion->lastInsertId();
 				  $data['status'] = "ok";
-				  $data['result'] = "Datos Ingresados Con Exito";
+				  $data['result'] = "Pago Realizado Con Exito";
+
+				  
 				}else{
 			   	  $data['status'] = "err";
 				  $data['result'] = "Error en la consulta, por favor revisa los datos";

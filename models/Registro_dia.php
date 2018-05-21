@@ -10,9 +10,10 @@
 		private $nombre_usuario;
 		private $id_trabajador;
 		private $id_terreno;
+		private $estado;
 		const TABLA="registro_trabajo_realizado";
 		
-		function __construct($id,$kilos_de_cafe,$descripcion,$fecha,$nombre_usuario,$id_trabajador,$id_terreno)
+		function __construct($id,$kilos_de_cafe,$descripcion,$fecha,$nombre_usuario,$id_trabajador,$id_terreno,$estado)
 		{
 			$this->id=$id;
 			$this->kilos_de_cafe=$kilos_de_cafe;
@@ -21,15 +22,17 @@
 			$this->nombre_usuario=$nombre_usuario;
 			$this->id_trabajador=$id_trabajador;
 			$this->id_terreno=$id_terreno;
+			$this->estado=$estado;
 		}
 
 		public function empezarDia(){
 			$data=array();
 			$conectar=new Conexion();
-			$sql=$conectar->prepare('INSERT INTO '.self::TABLA.' (fecha,nombre_usuario,id_terreno) VALUES (NOW(),:nombre_usuario,:id_terreno)');
+			$sql=$conectar->prepare('INSERT INTO '.self::TABLA.' (fecha,nombre_usuario,id_terreno,estado) VALUES (NOW(),:nombre_usuario,:id_terreno,:estado)');
 			//$sql->bindParam(':fecha',$this->fecha);
 			$sql->bindParam(':nombre_usuario',$this->nombre_usuario);
 			$sql->bindParam(':id_terreno',$this->id_terreno);
+			$sql->bindParam(':estado',$this->estado);
 
 			if($sql->execute()){
 				$this->id=$conectar->lastInsertId();
@@ -72,6 +75,101 @@
 			echo json_encode($data);
 
 		}
+
+		public function finalizarDia(){
+			$data=array();
+			$conectar=new Conexion();
+			$sql=$conectar->prepare("UPDATE ".self::TABLA." set estado='finalizado' WHERE id_terreno=:id_terreno AND fecha=:fecha");
+			$sql->bindParam(":id_terreno",$this->id_terreno);
+			$sql->bindParam(":fecha",$this->fecha);
+
+			if($sql->execute()){
+				$data['estado']="ok";
+				$data['resultado']="Dia Finalizado con Exito";
+			}else{
+				$data['estado']="err";
+				$data['resultado']="Error al ejecutar la consulta SQL";
+			}
+			$conexion=null;
+			echo json_encode($data);
+
+		}
+
+		public function getEstado(){
+			$data=array();
+			$conectar=new Conexion();
+			$sql=$conectar->prepare("SELECT estado from registro_trabajo_realizado WHERE fecha=:fecha and id_terreno=:id_terreno");
+			$sql->bindParam(":fecha",$this->fecha);
+			$sql->bindParam(":id_terreno",$this->id_terreno);
+			if($sql->execute()){
+				$num_row=$sql->rowCount();
+				
+				while ($row=$sql->fetch($conectar::FETCH_ASSOC)) {
+					$data['resultado']=$row['estado'];
+				}
+				$data['estado']="ok";
+						
+				
+			}else{
+				$data['estado']="err";
+				$data['resultado']="Error al ejecutar la consulta SQL";
+			}
+
+			$conexion=null;
+			echo json_encode($data);
+		}
+
+		public function getCantidadDias(){
+			$data="0";
+			$conexion=new Conexion();
+			try {
+				$sentencia=$conexion->prepare("SELECT COUNT(id) AS cantidad FROM ".self::TABLA." WHERE nombre_usuario = :user");
+
+				$sentencia->bindParam(":user", $this->nombre_usuario);
+				$sentencia->execute();
+				$num=$sentencia->rowCount();
+				if($num>0){
+					while($row=$sentencia->fetch($conexion::FETCH_ASSOC)){
+						$data=$row['cantidad'];
+					}
+				}else{
+					$data="0";
+				}
+			} catch (Exception $e) {
+				$data="Por favor verifique que no hallan problemas de conectividad".$e->getMessage(); 
+			}
+
+			$conexion=null;
+			echo json_encode($data);
+		}
+
+
+		public function cancelarDia(){
+			$conexion=new Conexion;
+			$sql=$conexion->prepare("DELETE * FROM ".self::TABLA." WHERE fecha=:fecha");
+			if($sql->execute()){
+				$data="Dia Cancelado con Exito!";
+			}else{
+				$data="Erro al ejecutar la consulta sql";
+			}
+			// eliminar los demas registros de las tablas: asistencia, pago a trabajadores y registro de asistencia
+
+
+			/* 
+				CREATE TRIGGER cancelarDia BEFORE delete on registro_trabajo_realizado for EACH row 
+				BEGIN
+				DELETE FROM asistencia WHERE asistencia.fecha=fecha;
+				DELETE FROM pago_a_trabajadores WHERE fecha=fecha;
+				DELETE FROM registo_asistencia WHERE fecha=fecha;
+				END;
+	
+			*/
+
+			//En caso de no poderse hacer con el trigger hacer las demas consultas para eliminar aqui mismo 
+		}
+
+
+
 	}
 
 

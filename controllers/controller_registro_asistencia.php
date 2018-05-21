@@ -15,9 +15,13 @@
 
 		public function consultarTrabajadoresAsistencia($id_terreno){
 			RegistroAsistencia::getTrabajadoresAsistencia($id_terreno);
+			
 		}
 		
-
+		public function Eliminar($fecha, $id_trabajador, $id_asistencia){
+			$asignacion = new RegistroAsistencia(null, $fecha, $id_trabajador, $id_asistencia);
+			$asignacion->eliminar();
+		}
 
 
 	}
@@ -42,6 +46,14 @@
 			$consultar=new controller_registro_asistencia;
 			$consultar->consultarTrabajadoresAsistencia($id_terreno);
 			
+		break;
+
+		case 'Eliminar':
+			$fecha=$_POST['fecha'];
+			$id_trabajador = $_POST['id_trabajador'];
+			$id_asistencia = $_POST['id_asistencia'];
+			$asignacion = new controller_registro_asistencia;
+			$asignacion->Eliminar($fecha, $id_trabajador, $id_asistencia);
 		break;
 		
 		default:
