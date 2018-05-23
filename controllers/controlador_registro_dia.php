@@ -34,6 +34,23 @@
 			$query=new RegistroDia(null,null,null,$fecha,null,null,null,null);
 			$query->cancelarDia();
 		}
+
+		function consultarEstado($fecha,$user){
+			$query=new RegistroDia(null,null,null,$fecha,$user,null,null,null);
+			$query->consultarEstado();
+		}
+
+		function finalizarTodos($fecha,$user){
+
+			$query=new RegistroDia(null,null,null,$fecha,$user,null,null,null);
+			$query->finalizarTodos();
+
+		}
+
+		function finalizarDia2($id){
+			$query=new RegistroDia($id,null,null,null,null,null,null,null);
+			$query->finalizarDia2();
+		}
 		
 	}
 
@@ -85,6 +102,22 @@
 			controllerRegistroDia::getCantidad($user);
 		break;
 
+		case 'consultarDia':
+			$user=$_POST['user'];
+			$fecha=$_POST['fecha'];
+			controllerRegistroDia::consultarEstado($fecha,$user);
+		break;
+
+		case 'finalizarTodosLosDias':
+			$fecha=$_POST['fecha'];
+			$user=$_POST['user'];
+			controllerRegistroDia::finalizarTodos($fecha,$user);
+		break;
+
+		case 'finalizarDia2':
+			$id=$_POST['id'];
+			controllerRegistroDia::finalizarDia2($id);
+		break;
 
 		
 		default:

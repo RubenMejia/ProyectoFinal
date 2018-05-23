@@ -12,7 +12,7 @@
 
 		function __construct($id,$tipo){
 			$this->id=$id;
-			$this->cargo=$tipo;
+			$this->tipo=$tipo;
 		}
 
 		//Metodos
@@ -89,6 +89,76 @@
 
 			
 		}
+
+		public function setCargo(){
+			$conectar=new Conexion;
+			$sql=$conectar->prepare("INSERT INTO ".self::TABLA." (tipo) VALUES (:nom)");
+			$sql->bindParam(":nom",$this->tipo);
+			if($sql->execute()){
+				$this->id=$conectar->lastInsertId();
+				$data="Cargo Registrado Correctamente";
+			}else{
+				$data="Error al registrar cargo";
+			}
+			$conectar=null;
+			echo json_encode($data);
+
+		}
+
+		public function editCargo(){
+
+		}
+
+
+		public function borrarCargo(){
+			$conectar=new Conexion;
+			$sql=$conectar->prepare("DELETE FROM ".self::TABLA." WHERE id=:id");
+			$sql->bindParam(":id",$this->id);
+			if($sql->execute()){
+
+				$data="Cargo Eliminado Correctamente";
+			}else{
+				$data="Error al Eliminar cargo";
+			}
+			$conectar=null;
+			echo json_encode($data);
+		}
+
+
+		public function updateCargo(){
+			$conectar=new Conexion;
+			$sql=$conectar->prepare("UPDATE ".self::TABLA." SET tipo=:tipo WHERE id=:id");
+			$sql->bindParam(":tipo",$this->tipo);
+			$sql->bindParam(":id",$this->id);
+
+			if($sql->execute()){
+
+				$data="Cargo Actualizado Correctamente";
+			}else{
+				$data="Error al Actualizar cargo";
+			}
+			$conectar=null;
+			echo json_encode($data);
+
+		}
+
+		public function deleteCargo(){
+			$conectar=new Conexion;
+			$sql=$conectar->prepare("DELETE FROM ".self::TABLA." WHERE id=:id");
+			$sql->bindParam(":id",$this->id);
+
+			if($sql->execute()){
+
+				$data="Cargo Eliminado Correctamente";
+			}else{
+				$data="Error al Eliminar cargo";
+			}
+			$conectar=null;
+			echo json_encode($data);
+
+		}
+
+
 
 
 

@@ -78,7 +78,7 @@
 			$data=array();
 			$conexion=new Conexion();
 			
-			$sql=$conexion->prepare("SELECT nombre from terrenos INNER JOIN asignar_trabajador_a_terreno ON terrenos.id=id_terreno WHERE id_trabajador=23");
+			$sql=$conexion->prepare("SELECT nombre from terrenos INNER JOIN asignar_trabajador_a_terreno ON terrenos.id=id_terreno WHERE id_trabajador=:id_trabajador");
 			
 			$sql->bindParam(':id_trabajador',$this->id_trabajador);
 			

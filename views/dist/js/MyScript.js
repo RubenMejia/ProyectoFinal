@@ -1,5 +1,5 @@
 $(document).ready(iniciar);
-//Deberia traer el valor desde BD
+
 
 $('.dial').knob({
 	'min':0,
@@ -7,9 +7,7 @@ $('.dial').knob({
 	readOnly: true,
 	fgColor: "#00a65a",
 	'width': "140" ,
-	'height':"140",
-
-});
+	'height':"140",});
 
 var f = new Date();
 var fecha=(f.getFullYear()+"-"+(f.getMonth() + 1 )+"-"+f.getDate());
@@ -18,9 +16,68 @@ var fecha=(f.getFullYear()+"-"+(f.getMonth() + 1 )+"-"+f.getDate());
 localStorage['fecha']=fecha;
 //alert(localStorage['fecha']);
 
+
+
+var consultaDia={
+	'accion':'consultarDia',
+	'fecha':fecha,
+	'user':localStorage['usuario']
+};
+
+
+
+$.ajax({
+	type:'POST',
+	dataType:'Json',
+	data:consultaDia,
+	url:'../controllers/controlador_registro_dia.php',
+	success:function(data){
+		var i=0;
+		//console.log(data);
+		while(i<data.resultado.length){
+			if(data.resultado[i][7].includes("activo")){
+				
+				
+				localStorage['dia']="no";
+				$('.menu_dia').removeClass("treeview");
+				$('.menu_dia_hover').removeClass("treeview-menu");
+				$('.menu_dia_hover').hide();
+
+
+				var json={
+					'accion':'finalizarDia2',
+					'id':data.resultado[i][0]
+				};
+
+				$.ajax({
+					type:'POST',
+					dataType:'json',
+					data:json,
+					url:'../controllers/controlador_registro_dia.php',
+					success:function(data){
+						//alert(data);
+					}
+				});
+
+			}else{
+				//alert("finalizado");
+			}
+			i++;
+		}
+		
+	},
+	error:function(data){
+		console.log(data);
+	}
+
+})
+
+
+
 //localStorage['consultarTrabajadoresAsistencia']=true;
 
 function iniciar(){
+	
 	
 	//localStorage['dia']="no";
 
@@ -49,8 +106,147 @@ function iniciar(){
 	$('#hacerPago').off('click').on('click',hacerPago);
 	$('.finalizarDia').on('click',finalizarDia);
 	$('.cancelarDia').on('click',cancelarDia);
+	$('.opcion_cargos').on('click',show_view_cargos);
+	$('#actualizar_cargo').off('click').on('click',actualizar_cargo);
+	$('.editarPerfil').on('click',editarPerfil);
 	
 }
+
+function editarPerfil(){
+	
+}
+
+function actualizar_cargo(){
+	
+	var json={
+		'accion':'actualizar_cargo',
+		'nombre':$('#nuevo_tipo').val(),
+		'id':$('#nuevo_tipo').attr('data_id')
+	};
+
+	$.ajax({
+		type:'POST',
+		dataType:'Json',
+		data:json,
+		url:'../controllers/cargo_controlador.php',
+		success:function(data){
+			alert(data);
+			show_view_cargos();
+		},
+		error:function(data){
+			console.log(data);
+		}
+	});
+}
+
+function show_view_cargos(){
+	$('#tabla_cargos').removeAttr('hidden');
+	$('.menu_dia').addClass("treeview");
+	$('.mensaje_trabajador').attr('hidden','true');
+	$('.show_info').attr('hidden','true');
+	$('#nivel').html("Cargos");
+	$('.vista_encargados').attr('hidden','true');
+	$('.mensaje_encargados').attr('hidden','true');
+	$('.tabla_terrenos').attr('hidden','true');
+	$('.tabla').attr('hidden','true');
+	
+
+	var json={
+		'accion':'buscar_cargos'
+	};
+	$.ajax({
+		type:"POST",
+		data:json,
+		url:'../controllers/cargo_controlador.php',
+		dataType:"Json",
+		success:function(data){
+			
+			if(data.estado=="ok"){
+				var i=0;
+				var html="";
+				
+				
+				while(i<data.resultado.length){
+					html+="<tr>";
+					html+="<td value="+data.resultado[i][0]+">"+data.resultado[i][0]+"</td>";
+					html+="<td class='nombre_actual' value="+data.resultado[i][0]+">"+data.resultado[i][1]+"</td>";
+					html +=	'<td><button data_id='+data.resultado[i][0]+'  class="btn btn-danger borrar_cargo" type="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>';
+					html +=	'<button data_id='+data.resultado[i][0]+'   class="btn btn-success editar_cargo" type="submit" data-toggle="modal" data-target="#exampleModal2" data-whatever="@mdo"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>';
+					html+="</tr>";
+					i++;
+				}
+
+				
+				
+				$("#ver_cargos").html(html);
+				$('#registrar_cargo').on('click',function(){
+					var json={
+						'accion':'registrar_cargo',
+						'nombre_cargo':$('#cargo').val()
+					};
+
+					$.ajax({
+						type:'POST',
+						dataType:'Json',
+						data:json,
+						url:'../controllers/cargo_controlador.php',
+						success:function(data){
+							alert(data);
+							show_view_cargos();
+						}
+					})
+				});
+
+				$('.editar_cargo').off('click').on('click',function(){
+					$('#nuevo_tipo').val($(this).parent().siblings('.nombre_actual').html());
+					$('#nuevo_tipo').attr('data_id',$(this).attr('data_id'));
+				});
+
+				$('.borrar_cargo').off('click').on('click',function(){
+					var opcion=confirm("Estas seguro de eliminar el cargo?");
+					if(opcion){
+						var json={
+							'accion':'eliminar_cargo',
+							'id_cargo':$(this).attr('data_id')
+						};
+
+						$.ajax({
+							type:'POST',
+							dataType:'Json',
+							data:json,
+							url:'../controllers/cargo_controlador.php',
+							success:function(data){
+								alert(data);
+								show_view_cargos();
+							}
+						})
+					}
+					
+				})
+
+				
+				$(function(){
+
+				  $('#example3').DataTable({
+				    "language": {
+				          "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+				        },
+				    "bDestroy": true
+				  });
+				  $('#example3').DataTable().ajax.reload();
+
+				});
+			}else if(data.estado=="err"){
+				alert(data.resultado);
+			}else{
+				alert("nada");			
+			}	
+		}
+	});
+
+
+}
+
 
 function cancelarDia(){
 	if (confirm("¿Deseas CANCELAR dia?. Si lo haces se perdera todos los registros referentes al dia de trabajo de hoy!")) {
@@ -65,10 +261,11 @@ function cancelarDia(){
        		data:json,
        		url:'../controllers/controlador_registro_dia.php',
        		success:function(data){
-       			alert(data.resultado);
+       			alert(data);
        			
        		}
        	});
+       	
        	localStorage['dia']="no";
        	$('.menu_dia').removeClass("treeview");
        	$('.menu_dia_hover').removeClass("treeview-menu");
@@ -99,7 +296,7 @@ function finalizarDia(){
 		data:json,
 		url:'../controllers/controlador_registro_dia.php',
 		success:function(data){
-			alert(data.resultado);
+			swal("Muchas gracias por estar con nosotros");
 		}
 	});
 
@@ -310,6 +507,7 @@ function show_view_managers(){
 	$('.caja_mas').attr('hidden','true');
 	$('.SearchByNamet').attr('hidden','true');
 	$('.tabla').attr('hidden','true');
+	$('#tabla_cargos').attr('hidden','true');
 }
 
 function show_view_day(){
@@ -337,7 +535,7 @@ function show_view_day(){
 						html+="<tr>";
 						html+='<td id="terreno_id">'+data.result[i]['id']+'</td>';
 						html+='<td>'+data.result[i]['nombre']+'</td>';
-						html+='<td class="escoger_terreno_dia"><span class="fa fa-check-square-o"></span></td>';
+						html+='<td><input type="checkbox" data-id="'+data.result[i][0]+'" class="check_add_terreno escoger_terreno_dia"></td>';						
 						i++;
 					}
 					$('#lista_terrenos').html(html);
@@ -368,13 +566,11 @@ function show_view_day(){
 				$('.vista_encargados').attr('hidden','true');
 				$('.mensaje_encargados').attr('hidden','true');
 				$('.tabla_terrenos').attr('hidden','true');
-				$('.tabla_trabajadores').attr('hidden','true');
+				$('.tabla').attr('hidden','true');
+				$('.mas').attr('hidden','true');
+				$('#tabla_cargos').attr('hidden','true');
 
 
-				
-		
-				
-				
 				
 				consultarPagosTrabajadores();
 				consultarAsistenciasTrabajadores();
@@ -391,10 +587,7 @@ function show_view_day(){
 			$('.vista_encargados').attr('hidden','true');
 			$('.mensaje_encargados').attr('hidden','true');
 			$('#nivel').html("Empezar Dia");
-			
-			
 		}
-		
 	}
 }
 
@@ -507,10 +700,14 @@ function comprobarLogin(){
 
 //Muestra La vista de Trabajadores y esconde las demas vistas 
 function show_view_workers() {
+
+
 	$('.vista_encargados').attr('hidden','true');
 	$('.mensaje_encargados').attr('hidden','true');
 	$('.dia').attr('hidden','true');
 	$(".tabla_terrenos").attr("hidden","true");
+	$('.ver_informacion_trabajador').off('click').on('click',ver_informacion_trabajador);
+	$('#tabla_cargos').attr('hidden','true');
 	//listaEmpleados();
 	var Json={
 		'accion':'mostrar_trabajadores',
@@ -518,18 +715,19 @@ function show_view_workers() {
 	};
 
 	$.ajax({
-
 		type:"POST",
 		data:Json,
 		dataType:"Json",
 		url:"../controllers/controller_trabajador.php",
 		success: function (data) {
-
+				console.log(data);
 				if (data.estado=="err") {
+				
 					$(".mensaje_trabajador").removeAttr("hidden");
 					$(".show_info").attr("hidden","true");
 					//Cambio de Nivel
 					$("#nivel").html("Trabajadores");
+				
 				}else if(data.estado=="ok"){
 
 					$(".caja_mas").removeAttr("hidden");
@@ -537,9 +735,11 @@ function show_view_workers() {
 					$(".tabla").removeAttr("hidden");
 					$(".show_info").attr("hidden","true");
 					$(".mensaje_trabajador").attr("hidden","true");
+
+					
 					//Cambio de Nivel
 					$("#nivel").html("Trabajadores");
-					var nombre_cargo;
+										var nombre_cargo;
 					var json={};
 					var html="";
 					var i=0;
@@ -548,38 +748,26 @@ function show_view_workers() {
 						html +=		'<td class="nombre" >'+data.resultado[i][1]+'</td>';
 						html +=		'<td class="apellido">'+data.resultado[i][2]+'</td>';
 						html +=		'<td class="telefono">'+data.resultado[i][3]+'</td>';
-
-						json={
-							'accion':'buscar_cargo_id',
-							'id_cargo':data.resultado[i][5]
-						};
-
-						html +=		'<td class="cargo_empleado">'+data.resultado[i][5]+'</td>';
-						html +=		'<td><button data_id='+data.resultado[i][0]+'  class="btn btn-danger borrar_trabajador" type="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>';
-						html +=		'<td ><button data_id='+data.resultado[i][0]+'   class="btn btn-success editar_trabajador" type="submit" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></td>';
-						html +=		'<td ><button  data_id='+data.resultado[i][0]+' class="btn btn-info ver_informacion_trabajador" type="submit" data-toggle="modal" data-target="#bs-example-modal-lg"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button></td>';
+						html +=		'<td class="cargo_empleado" data_id='+data.resultado[i][5]+'>'+data.resultado[i][7]+'</td>';
+						html +=		'<td><button data_id='+data.resultado[i][0]+'  class="btn btn-danger borrar_trabajador" type="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>';
+						html +=		'<button data_id='+data.resultado[i][0]+'   class="btn btn-success editar_trabajador" type="submit" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>';
+						html +=		'<button  data_id='+data.resultado[i][0]+' class="btn btn-info ver_informacion_trabajador" type="submit" data-toggle="modal" data-target="#bs-example-modal-lg"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button></td>';
 						html +=	'</tr>';
 
-						/* Bug al mostrar nombre del cargo en la lista de empleados 
-						$.ajax({
-
-							type:'POST',
-							dataType:'Json',
-							data:json,
-							url:'../controllers/cargo_controlador.php',
-							success:function(cargo){
-								nombre_cargo=cargo.resultado[0]['tipo'];
-								$('.cargo_empleado').html(nombre_cargo)
-								//alert(nombre_cargo);
-							},
-							error:function(data){
-								console.log(data);
-							}
-						})*/
-
+						
 						i++;
 					}
+
+					
+
+					  
+					  
+					
+
 					$('.contenedor').html(html);
+
+
+
 					$('.borrar_trabajador').off('click').on('click',borrar_trabajador);
 
 					$('.editar_trabajador').off('click').on('click',function(){
@@ -590,11 +778,25 @@ function show_view_workers() {
 						$('#actualizar_trabajador').attr('data_id',$(this).attr('data_id'));
 					});
 
-					$('.ver_informacion_trabajador').on('click',ver_informacion_trabajador);
+					$('.ver_informacion_trabajador').off('click').on('click',ver_informacion_trabajador);
+					$('#example2').DataTable().ajax.reload();
+					$(function(){
+					  $('#example2').DataTable({
+					    "language": {
+					          "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+					        },
+					    "bDestroy": true
+					  });
+					  
+					});
 					
 				}
 		}
+
+
 	});
+
+
 }
 
 function ver_informacion_trabajador() {
@@ -602,6 +804,7 @@ function ver_informacion_trabajador() {
 	var nombre_trabajador=$(this).parent().siblings('.nombre').html();
 	var apellido_trabajador=$(this).parent().siblings('.apellido').html();
 	var id_trabajador=$(this).attr('data_id');
+
 	
 	$('.nombreTrabajador').html(nombre_trabajador+" "+apellido_trabajador);
 	/* Orden de las consultas a realizar
@@ -626,7 +829,7 @@ function ver_informacion_trabajador() {
 		data:json,
 		url:'../controllers/controller_asignar_trabajador_a_terreno.php',
 		success:function(terrenos_asginados){
-			
+			console.log(terrenos_asginados);
 			var i=0;
 			if(terrenos_asginados.estado=="ok"){
 				//console.log[terrenos_asginados.resultado];
@@ -757,7 +960,7 @@ function actualizar_trabajador(){
 		dataType:'Json',
 		url:'../controllers/controller_trabajador.php',
 		success:function(data){
-			alert(data.result);
+			swal("El trabajador fue actualizado");
 			show_view_workers();
 			$('#exampleModal').modal('hide');
 		}
@@ -776,8 +979,8 @@ function borrar_trabajador(){
 		dataType:'Json',
 		url:'../controllers/controller_trabajador.php',
 		success:function(data){
-			alert(data.result);
 			show_view_workers();
+			swal("El trabajador fue eliminado");			
 		}
 	});
 
@@ -794,6 +997,7 @@ function show_view_dashboard(){
 	$(".show_info").removeAttr("hidden");
 	$(".mensaje_trabajador").attr("hidden","true");
 	$(".tabla_terrenos").attr("hidden","true");
+	$('#tabla_cargos').attr('hidden',"true");
 
 	var json_0={
 		'accion':'cantidad',
@@ -848,6 +1052,7 @@ function show_view_dashboard(){
 
 //Muestra la vista de Terrenos y esconde las demas vistas
 function show_view_ground(){
+
 	$('.vista_encargados').attr('hidden','true');
 	$('.mensaje_encargados').attr('hidden','true');
 	$('.dia').attr('hidden','true');
@@ -857,6 +1062,7 @@ function show_view_ground(){
 	$(".mensaje_trabajador").attr("hidden","true");
 	$(".tabla").attr("hidden","true");
 	$(".tabla_terrenos").removeAttr("hidden");
+	$('#tabla_cargos').attr('hidden','true');
 
 	var Json={
 		'accion':'buscar_todos_terrenos',
@@ -874,19 +1080,22 @@ function show_view_ground(){
 			var verterrenos ='';
 
 			while(i<data.result.length){
-				if(i==0){
+				if(data.result.length>1){
 					verterrenos +='<tr>';
 					verterrenos += '<td class="nombre" id="'+data.result[i]['id']+'">'+data.result[i][1]+'</td>';
+					verterrenos += '<td  id="'+data.result[i]['id']+'"><button  class="btn btn-danger eliminar_terreno" type="submit"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>';
 					verterrenos += '<td  id="'+data.result[i]['id']+'"><button  class="btn btn-primary editar_terreno" type="submit" data-toggle="modal" data-target="#ModalEditarTerreno"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></td>';
 					verterrenos += '<td  id="'+data.result[i]['id']+'"><button  class="btn btn-success asignar_trabajadores" type="submit" data-toggle="modal" data-target="#ModalAsignarTrabajadores"><span class="glyphicon glyphicon-check"></span></button></td>';
 					verterrenos += '</tr>';
 				}else{
-					verterrenos +='<tr>';
-					verterrenos += '<td class="nombre" id="'+data.result[i]['id']+'">'+data.result[i][1]+'</td>';
-					verterrenos += '<td  id="'+data.result[i]['id']+'"><button class="btn btn-danger eliminar_terreno" type="submit"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>';
-					verterrenos += '<td  id="'+data.result[i]['id']+'"><button class="btn btn-primary editar_terreno" type="submit" data-toggle="modal" data-target="#ModalEditarTerreno"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></td>';
-					verterrenos += '<td  id="'+data.result[i]['id']+'"><button class="btn btn-success asignar_trabajadores" type="submit" data-toggle="modal" data-target="#ModalAsignarTrabajadores"><span class="glyphicon glyphicon-check"></span></button></td>';
-					verterrenos += '</tr>';
+					if(data.result.length==1){
+						verterrenos +='<tr>';
+						verterrenos += '<td class="nombre" id="'+data.result[i]['id']+'">'+data.result[i][1]+'</td>';
+						verterrenos += '<td  id="'+data.result[i]['id']+'"><button  disabled class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>';
+						verterrenos += '<td  id="'+data.result[i]['id']+'"><button  class="btn btn-primary editar_terreno" type="submit" data-toggle="modal" data-target="#ModalEditarTerreno"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></td>';
+						verterrenos += '<td  id="'+data.result[i]['id']+'"><button  class="btn btn-success asignar_trabajadores" type="submit" data-toggle="modal" data-target="#ModalAsignarTrabajadores"><span class="glyphicon glyphicon-check"></span></button></td>';
+						verterrenos += '</tr>';
+					}					
 				}
 				i++;
 			}
@@ -894,6 +1103,23 @@ function show_view_ground(){
 			$(".eliminar_terreno").off('click').on("click",eliminar_terreno);
 			$('.editar_terreno').off('click').on('click',editar_terreno);
 			$('.asignar_trabajadores').off('click').on('click',asignar_trabajadores_terreno);
+
+			$('#example1').DataTable().ajax.reload();
+			$(function () {
+			  $('#example1').DataTable({
+			    "language": {
+			          "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+			        },
+			    "bDestroy": true,
+			    "fnDestroy": true
+			  });
+			  
+			});
+
+
+
+		
+
 		}
 	});
 }
@@ -915,7 +1141,7 @@ function buscarTrabajadoresAsistencia(){
 		success:function(data){
 			if(data.status=="ok"){
 				localStorage['id_asistencia']=data.result;
-				alert(localStorage['id_asistencia']);
+				//alert(localStorage['id_asistencia']);
 			}else if(data.status=="err"){
 				//alert(data.result_2);
 			}
@@ -1146,39 +1372,56 @@ function registrar_terreno(){
 		dataType:'Json',
 		url:'../controllers/terreno_controlador.php',
 		success:function(data){
-			alert(data.resultado);
+			swal("Terreno actualizado correctamente.");
 			show_view_ground();
+			$('#nombre_terreno').val("");			
 		}
 	})
 }
 
 function eliminar_terreno(){
-	var opcion = confirm("¿Estas seguro de Eliminar el Terreno?");
 
-	if(opcion == true){
-		var json={
-			'accion':'eliminar_terreno',
-			'id_terreno':$(this).parent().siblings('.nombre').attr('id')
-		};
+	swal({
+	  title: "Quieres eliminar este terreno?",
+	  text: "Una vez eliminado no podras recuperarlo!",
+	  icon: "warning",
+	  buttons: true,
+	  dangerMode: true,
+	})
+	.then((willDelete) => {
+	  if (willDelete) {
 
-		$.ajax({
-			type:'POST',
-			dataType:'json',
-			data:json,
-			url:'../controllers/terreno_controlador.php',
-			success:function(data){
-				if(data.status=="ok"){
-					alert(data.result);
-					show_view_ground();
-				}else if(data.status=="err"){
-					alert(data.result);
-				}
-				
-			}
-		});
-		
-		
-	}
+	  		var json={
+	  			'accion':'eliminar_terreno',
+	  			'id_terreno':$(this).parent().siblings('.nombre').attr('id')
+	  		};
+
+	  		$.ajax({
+	  			type:'POST',
+	  			dataType:'json',
+	  			data:json,
+	  			url:'../controllers/terreno_controlador.php',
+	  			success:function(data){
+	  				if(data.status=="ok"){
+	  					show_view_ground();
+	  					swal("El terreno fue eliminado con exito !", {
+	     				icon: "success",
+	   					});	 
+
+	  				}else if(data.status=="err"){
+	  					swal("No se pudo eliminar el terreno");	  					  			
+	  				}
+	  				
+	  			}
+	  		});				
+	  
+	  } else {	    
+	    swal("El terreno no ha sido eliminado!");	
+	  }
+	});
+
+
+	
 }
 
 function editar_terreno(){
@@ -1203,8 +1446,8 @@ function editar_terreno(){
 			data:json,
 			success:function(data){
 				$('#ModalEditarTerreno').modal('hide');
-				alert("Informacion del Terreno Actualizada con Exito");
 				show_view_ground();
+				swal("Nombre del terreno actualizado con exito!");				
 			}
 		})
 	})
@@ -1227,10 +1470,10 @@ function editar_trabajador(){
 //recoge los datos y revisa se se puede o no se puede guardar en la base de datos
 function save_worker() {
 
-	var nombre = $("#nombre").val();
-	var apellido = $("#apellido").val();
-	var telefono = $("#telefono").val();
-	var usuario = localStorage['usuario'];
+	var nombre = $("#nombre_trabajador").val();
+	var apellido = $("#apellido_trabajador").val();
+	var telefono = $("#telefono_trabajador").val();
+	
 	var cargo = $(".cargo").val();
 
 	var Json={
@@ -1238,7 +1481,7 @@ function save_worker() {
 		'nombres':nombre,
 		'apellidos':apellido,
 		'telefono':telefono,
-		'nombre_usuario':usuario,
+		'nombre_usuario':localStorage['usuario'],
 		'id_cargo':cargo
 	};
 
@@ -1248,7 +1491,9 @@ function save_worker() {
 		dataType:"Json",
 		url:"../controllers/controller_trabajador.php",
 		success: function (data) {
-				alert(data.result);
+				$("#nombre_trabajador").val("");
+				$("#apellido_trabajador").val("");
+				$("#telefono_trabajador").val("");
 				show_view_workers();
 		}
 	});
@@ -1365,10 +1610,12 @@ function buscar_cargos(){
 
 function empezarDia(){
 
-	var id_terreno=$(this).siblings('#terreno_id').html();
-	localStorage['id_terreno']=id_terreno;
+	if($(this).is(':checked')){
 
-	
+		var id_terreno=$(this).attr('data-id');
+		localStorage['id_terreno']=id_terreno;
+		
+
 		var json={
 			'accion':'consultarEstadoDia',
 			'fecha':localStorage['fecha'],
@@ -1385,7 +1632,7 @@ function empezarDia(){
 					alert("Hoy ya se realizo un dia de trabajo en este terreno.");
 					localStorage['dia']="no";
 				}else{
-					localStorage['consultarTrabajadoresAsistencia'] = true;
+					localStorage['consultarTrabajadoresAsistencia'] = false;
 
 					//Ocultamos el modal donde esta la lista 
 
@@ -1415,7 +1662,6 @@ function empezarDia(){
 						url:'../controllers/controlador_registro_dia.php',
 						data:json,
 						success:function(data){
-							alert(data.estado);
 							if(data.estado=="disponible"){
 								json={
 									'accion':'nuevoDia',
@@ -1440,7 +1686,9 @@ function empezarDia(){
 											$('.vista_encargados').attr('hidden','true');
 											$('.mensaje_encargados').attr('hidden','true');
 											$('.tabla_terrenos').attr('hidden','true');
-											$('.tabla_trabajadores').attr('hidden','true');
+											$('.tabla').attr('hidden','true');
+											$('.SearchByNamet').attr('hidden','true');
+
 
 											consultarPagosTrabajadores();
 											consultarAsistenciasTrabajadores();
@@ -1452,7 +1700,7 @@ function empezarDia(){
 									}
 								})
 							}else{
-								alert(data.resultado);
+								swal("Ya has trabajo este dia.");
 							}
 						}
 
@@ -1460,9 +1708,7 @@ function empezarDia(){
 				}
 			}
 		});
-
-
-	
+	}
 	
 }
 

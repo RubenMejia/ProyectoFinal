@@ -159,7 +159,7 @@ class Trabajador{
 	public function getTrabajadores($user){
 		$array=array();
 		$conexion=new Conexion();
-		$sql=$conexion->prepare('SELECT * FROM '.self::TABLA." WHERE nombre_usuario=:nom");
+		$sql=$conexion->prepare('SELECT '.self::TABLA.'.*,cargo.tipo FROM trabajador INNER JOIN cargo on id_cargo=cargo.id WHERE nombre_usuario=:nom');
 		$sql->bindParam(':nom',$user);
 		$sql->execute();
 		$num=$sql->rowCount();
