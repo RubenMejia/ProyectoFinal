@@ -26,6 +26,12 @@
  				$obj = new Encargado($username, $pass, $foto_perfil, $tipo, $id_persona);
  				$obj->Update();
  			}
+
+
+ 			public function getAll(){
+ 				$obj = new Encargado(null,null,null,null,null);
+ 				Encargado::getAll();
+ 			}
  		}
 
  		$accion=$_POST['accion'];
@@ -56,6 +62,10 @@
  				$nombre_usuario=$_POST['nombre_usuario'];
  				$obj = new controller_encargado;
  				$obj->DeleteE($nombre_usuario);
+ 			break;
+
+ 			case 'buscarEncargados':
+ 				controller_encargado::getAll();
  			break;
  	 	}
 ?>

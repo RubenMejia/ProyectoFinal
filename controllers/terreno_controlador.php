@@ -31,6 +31,11 @@
 				$objeto->getCantidadTerrenos();
 			}
 
+		public function BuscarTodosTerrenos_2($usuario,$encargado){
+			$terreno = new Terreno(null, null, $usuario);
+			$terreno->BuscarTodosTerrenos_2($encargado);
+		}	
+
 		
 	}
 
@@ -45,6 +50,12 @@
 			$usuario=$_POST['nombre_usuario'];
 			$terreno = new terreno_controlador;
 			$terreno->BuscarTodosTerrenos($usuario);
+		break;
+		case 'buscar_todos_terrenos_2':
+			$usuario=$_POST['nombre_usuario'];
+			$encargado=$_POST['encargado'];
+			$terreno = new terreno_controlador;
+			$terreno->BuscarTodosTerrenos_2($usuario,$encargado);
 		break;
 		case 'eliminar_terreno':
 			$id = $_POST['id_terreno'];

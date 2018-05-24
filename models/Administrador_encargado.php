@@ -23,8 +23,8 @@
 
 			if($stmt->execute()){
 				$data['estado']="ok";
-				$data['resultado']="Dato Insertado";
-				//$data['nombre_usuario']=$this->username;
+				$data['resultado']="Usando Encargado!";
+				$data['encargado']=$this->id_encargado;
 
 			}else{
 				$data['estado']="err";
@@ -33,6 +33,32 @@
 			}
 			$conectar=null;
 
+			echo json_encode($data);
+		}
+
+
+		public function cantidad(){
+			$data="0";
+			$conexion=new Conexion();
+			try {
+				$sentencia=$conexion->prepare("SELECT COUNT(id) AS cantidad FROM ".self::TABLA."
+											 WHERE id_usuario = :user");
+
+				$sentencia->bindParam(":user", $this->id_usuario);
+				$sentencia->execute();
+				$num=$sentencia->rowCount();
+				if($num>0){
+					while($row=$sentencia->fetch($conexion::FETCH_ASSOC)){
+						$data=$row['cantidad'];
+					}
+				}else{
+					$data="0";
+				}
+			} catch (Exception $e) {
+				$data="Por favor verifique que no hallan problemas de conectividad".$e->getMessage(); 
+			}
+
+			$conexion=null;
 			echo json_encode($data);
 		}
 	}

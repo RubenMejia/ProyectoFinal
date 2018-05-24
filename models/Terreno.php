@@ -54,11 +54,75 @@
 
 					$registros = $stmt->fetchAll();
 					$data['status'] = 'ok';
-	        		$data['result'] = $registros;      			
+	        		$data['result'] = $registros;  
+
+
+
+	        		$data['listaTerrenosAsignados']=array();
+	        		$sql=$conection->prepare("SELECT * FROM asignar_usuario_a_terreno WHERE nombre_usuario=:nombre_usuario");
+	        		$sql->bindParam(':nombre_usuario',$this->username);
+	        		$sql->execute();
+	        		$numLista=$sql->rowCount();
+
+	        		if($numLista>0){
+	        			$listaTemporal=$sql->fetchAll();
+
+	        			foreach ($listaTemporal as $key => $value) {
+	        				array_push($data['listaTerrenosAsignados'], $value['id_terreno']);
+	        			}
+	        		}    			
 				
 				} else {
 				
-					$registros = 'No se encontro el nombre del personaje que buscas';;
+					$registros = 'No se encontraron terrenos';
+					$data['status'] = 'err';
+	        		$data['result'] = $registros;
+				}
+
+				$conection = null;
+				
+				echo json_encode($data);
+	
+			}
+		}
+
+		public function BuscarTodosTerrenos_2($encargado){
+			$data=array();
+
+			$conection = new Conexion();
+
+			$stmt = $conection->prepare("SELECT * FROM ".self::TABLA." WHERE nombre_usuario=:nom");
+			$stmt->bindParam(':nom',$this->username);
+
+			if ($stmt->execute()){
+
+				$num = $stmt->rowCount();
+
+				if ($num > 0) {
+
+					$registros = $stmt->fetchAll();
+					$data['status'] = 'ok';
+	        		$data['result'] = $registros;  
+
+
+
+	        		$data['listaTerrenosAsignados']=array();
+	        		$sql=$conection->prepare("SELECT * FROM asignar_usuario_a_terreno WHERE nombre_usuario=:nombre_usuario");
+	        		$sql->bindParam(':nombre_usuario',$encargado);
+	        		$sql->execute();
+	        		$numLista=$sql->rowCount();
+
+	        		if($numLista>0){
+	        			$listaTemporal=$sql->fetchAll();
+
+	        			foreach ($listaTemporal as $key => $value) {
+	        				array_push($data['listaTerrenosAsignados'], $value['id_terreno']);
+	        			}
+	        		}    			
+				
+				} else {
+				
+					$registros = 'No se encontraron terrenos';
 					$data['status'] = 'err';
 	        		$data['result'] = $registros;
 				}

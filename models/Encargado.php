@@ -162,6 +162,31 @@
 			$conectar=null;
 			echo json_encode($data);
 		}
+
+		public function getAll(){
+			$Conexion=new Conexion;
+
+			$sql=$Conexion->prepare("SELECT ".self::TABLA.".*,persona.* FROM ".self::TABLA." INNER JOIN persona on persona.id=usuario.id_persona WHERE tipo_usuario='encargado'");
+			if($sql->execute()){
+				$num_row=$sql->rowCount();
+
+				if($num_row>0){
+					$resultado=$sql->fetchAll();
+					$data['resultado']=$resultado;
+					$data['estado']="ok";
+				}else{
+					$data['resultado']="No hay";
+					$data['estado']="No";
+				}
+			}else{
+				$data['resultado']="No se puedo ejecutar la consulta SQL";
+				$data['estado']="err";
+			}
+
+			echo json_encode($data);
+			$Conexion=null;
+
+		}
 	}
 
 ?>

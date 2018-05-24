@@ -28,7 +28,7 @@
 
 		public function Eliminar($id_terreno,$id_trabajador){
 			$asignacion = new AsignarTrabajadorATerreno($id_terreno, $id_trabajador,null);
-			$asignacion->Eliminar();
+			$asignacion->eliminar();
 		}
 
 		public function getCantidadTrabajadoresByTerreno($id_terreno){

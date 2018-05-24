@@ -11,7 +11,7 @@
 		private $nombre_empresa;
 		const TABLA="persona";
 
-		function __construct($nombres,$apellidos,$telefono,$nombre_empresa=null,$id=null)
+		function __construct($nombres,$apellidos,$telefono,$nombre_empresa=null,$id)
 		{
 			$this->id=$id;
 			$this->nombres=$nombres;
@@ -91,6 +91,32 @@
 			$conectar=null;
 
 			
+
+		}
+
+		public function guardarPersonaEncargado(){
+			$data=array();
+			$conectar=new Conexion();
+			
+			$sql=$conectar->prepare("INSERT INTO ".self::TABLA." (nombres,apellidos,telefono,id) VALUES (:nom,:ape,:tel,:id)");
+
+			$sql->bindParam(':nom',$this->nombres);
+			$sql->bindParam(":ape",$this->apellidos);
+			$sql->bindParam(":tel",$this->telefono);
+			$sql->bindParam(":id",$this->id);
+
+			if($sql->execute()){
+				$this->id=$conectar->lastInsertId();
+				$data['estado']="ok";
+				$data['resultado']="Persona Registrada";
+				$data['id']=$this->id;
+			}else{
+				$data['estado']="err";
+				$data['resultado']="No se puedo registrar Persona ";
+			}
+
+			echo json_encode($data);
+			$conectar=null;
 
 		}
 

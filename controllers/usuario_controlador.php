@@ -20,6 +20,11 @@
  				$comprobar=Usuario::ComprobarDisponibilidad($username);
  			}
 
+ 			public function setEncargado($usuario,$pass,$tipo,$id_persona,$foto){
+ 				$registrar=new Usuario($usuario,$pass,$tipo,$id_persona,$foto);
+ 				$registrar->guardar();
+ 			}
+
 
  		}
 
@@ -49,6 +54,20 @@
  			$nombre_usuario=$_POST['nombre_usuario'];
  			$obj=new UsuarioControlador;
  			$obj->comprobarNombreUsuario($nombre_usuario);
+ 		}
+
+
+ 		if($accion=='registrar_usuario_encargado'){
+
+ 			$usuario=$_POST['usuario'];
+ 			$pass=$_POST['pass'];
+ 			$tipo="encargado";
+ 			$foto="../views/dist/img/images_users/manager.png";
+ 			$id_persona=$_POST['id_persona'];
+
+ 			$nuevo_admin=new UsuarioControlador;
+ 			$nuevo_admin->setEncargado($usuario,$pass,$tipo,$id_persona,$foto);
+
  		}
 
 ?>

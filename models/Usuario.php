@@ -83,6 +83,7 @@
 			if($sql->execute()){
 				$data['estado']="ok";
 				$data['resultado']="Usuario agregado";
+				$data['encargado']=$this->username;
 				//$data['nombre_usuario']=$this->username;
 			}else{
 				$data['estado']="err";

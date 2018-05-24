@@ -982,8 +982,40 @@
     <!-- ****************Fin vista Empezar Dia ********************-->
 
     <!-- **************** Inicio vista Encargados *****************-->
+
+      
+              <div class="modal fade" id="modalAsignarEncargado" tabindex="-1" role="dialog" aria-labelledby="myModalLabelAsignarEncargado">
+               <div class="modal-dialog" role="document">
+                 <div class="modal-content">
+                   <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <h4 class="modal-title" id="myModalLabelAsignarEncargado">Asignar Encargado a Terreno</h4>
+                   </div>
+                   <div class="modal-body">
+                     <table class="table table-hover">
+                       <tr>
+                         <th>ID</th>
+                         <th>Nombre</th>
+                         <th>Escoger</th>
+                       </tr>
+                       <tbody class ="terrenos">
+                         
+                       </tbody>
+                       
+                     </table>
+                   </div>
+                   <div class="modal-footer">
+                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                   </div>
+                 </div>
+              </div>
+            </div>
+
+
       <section class="container vista_encargados" hidden="true">
          <div class="col-md-3 col-md-offset-9">
+
+
            <form method="get" class="SearchByNameEncargados" hidden="true">
              <div class="input-group">
                <input type="text" class="form-control SearchByNameEncargados" placeholder="Que Deseas Buscar...">
@@ -1001,11 +1033,13 @@
                  <p>No hay Encargados, que tal si empezamos a registrar algunos</p>
                </div>
                <button class="btn-lg btn-success agregar_nuevo_encargado" data-toggle="modal" data-target="#myModalAgregarEncargados">Continuar</button>
+
            </section>
          <!-- *********** Muestra si no hay encargados registrados aun **************-->
          <section class="mostrar"></section>
          
          <!-- Muestra La tabla con la lista de Trabajadores que hay -->
+         <!--
          <div class="col-md-12 ">
            <div class="col-md-11 ">
              <table class="table table-condensed table-hover responsive tablaEncargados" hidden="true">
@@ -1027,11 +1061,55 @@
                    <button class="btn btn-primary agregar_nuevo_encargado" type="submit" data-toggle="modal" data-target="#myModalAgregarEncargados"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button>
              </div>
            </div>
+         </div> -->
+
+
+         <div class="content" id="tabla_encargados" hidden="true">
+           <div class="col-xs-12">
+             <div class="box box-success">
+               <div class="box-header">
+                 <h3 class="box-title">
+                  Encargados</h3>
+               </div>
+               <!-- /.box-header -->
+               <div class="box-body">
+                 <table id="example4" class="table table-bordered table-striped">
+                   <thead>
+                   <tr>
+                     <th>Cedula</th>
+                     <th>Nombre</th>
+                     <th>Apellido</th>
+                     <th>Telefono</th>
+                     <th>Nombre de Usuario</th>
+                     <th>Asignar como Encragado</th>
+                   </tr>
+                   </thead>
+                   <tbody id= "ver_encargados">
+                     
+                   </tbody>
+                   <tfoot>
+                   <tr>
+                     <th>Cedula</th>
+                     <th>Nombre</th>
+                     <th>Apellido</th>
+                     <th>Telefono</th>
+                     <th>Nombre de Usuario</th>
+                     <th>Asignar como Encragado</th>
+                   </tr>
+                   </tfoot>
+                 </table>
+               </div>
+               <!-- /.box-body -->
+             </div>
+             <div>
+               <button class="btn btn-primary mas agregar_nuevo_encargado" data-toggle="modal" data-target="#myModalAgregarEncargados" type="submit"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button>
+             </div>
+           </div>
          </div>
 
          <!-- ******************** Modal Para Registrar Encargado **********************-->
 
-            <div class="modal fade" id="myModalAgregarEncargados" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal fade" id="myModalAgregarEncargados" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
            <div class="modal-dialog" role="document">
              <div class="modal-content">
                <div class="modal-header">
@@ -1054,6 +1132,13 @@
                        <input type="text" class="form-control" name="apellido" id="apellido_encargado" placeholder="Ingrese su apellido">
                      </div>
                    </div>
+
+                   <div class="form-group">
+                     <label for="cedula_encargado" class="col-sm-2 control-label">Cedula</label>
+                     <div class="col-sm-10">
+                       <input type="text" class="form-control" name="cedula_encargado" id="cedula_encargado" placeholder="Ingrese la cedula del encargado">
+                     </div>
+                   </div>
                    
                    <div class="form-group">
                      <label for="telefono_encargado" class="col-sm-2 control-label">Telefono o Celular</label>
@@ -1061,6 +1146,7 @@
                        <input type="number" class="form-control" name="telefono" id="telefono_encargado" placeholder="Ingrese su telefono o celular">
                      </div>
                    </div>
+                    
                                 
                      <div class="form-group">
                        <label for="terrenos_para_encargado" class="col-sm-2 control-label">Asignar un terreno</label>
@@ -1089,15 +1175,14 @@
                </div>
                <div class="modal-footer">
                  <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                 <button id="guardar_encargado" type="button" class="btn btn-success">Enviar</button>
+                 <button id="guardar_encargado" type="button" class="btn btn-success">Guardar</button>
                </div>
              </div>
-           </div>
+          </div>
          <!-- ********************* fin Modal para Registrar Encargado ****************-->  
         </div>
       </section>
     <!-- **************** Fin vista Encargados *********************-->
-
     <!-- **************** Inicio vista  Asistencia ******************-->
     <!-- **************** Fin vista Asistencia **********************-->
 
@@ -1198,77 +1283,43 @@
     <!-- **************** Fin vista Cargos ************************** -->
 
     <!-- ************** Inicio Vista editarPerfil ****************** -->
-      <div class="content">
-        <div class="row">
+      <div class="content center" id="EditarPerfil" hidden="true">
+      <!--   <div class="row">
           <div class="col-xs-12">
             <div class="box box-primary">
               <div class="box-header with-border">
                 <h3 class="box-title">Editar Perfil</h3>
               </div>
-              <!-- /.box-header -->
-              <!-- form start -->
-
-
-              <ul class="nav nav-tabs">
-                <li class="active"><a href="#tab_a" data-toggle="tab">Datos Personales</a></li>
-                <li><a href="#tab_b" data-toggle="tab">Datos de la Empresa</a></li>
-                <li><a href="#tab_c" data-toggle="tab">Datos de la Cuenta</a></li>
-                <li><a href="#tab_d" data-toggle="tab">Eliminar Cuenta</a></li>
+             /.box-header -->
+              <!-- form start>
+             <! <ul class="nav nav-tabs">
+                <li id="datospersona" class="active"><a href="#tab_a" data-toggle="tab">Datos Personales</a></li>
+                <li id="datoscuenta"><a href="#tab_c" data-toggle="tab">Datos de la Cuenta</a></li>
+                <li id="eliminarCuenta"><a href="#tab_d" data-toggle="tab">Eliminar Cuenta</a></li>
               </ul>
-              <div class="tab-content">
-                      <div class="tab-pane active" id="tab_a">
-                          <form role="form">
-                            <div class="box-body">
-                              <div class="form-group">
-                                <label for="exampleInputEmail1">Email address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                              </div>
-                              <div class="form-group">
-                                <label for="exampleInputPassword1">Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                              </div>
-                              <div class="form-group">
-                                <label for="exampleInputFile">File input</label>
-                                <input type="file" id="exampleInputFile">
+               
 
-                                <p class="help-block">Example block-level help text here.</p>
-                              </div>
-                              <div class="checkbox">
-                                <label>
-                                  <input type="checkbox"> Check me out
-                                </label>
-                              </div>
-                            </div>
-                            <!-- /.box-body -->
-
-                            <div class="box-footer">
-                              <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                          </form>
-                          
-                      </div>
-                      <div class="tab-pane" id="tab_b">
-                          <h4>Pane B</h4>
-                          <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames
-                              ac turpis egestas.</p>
-                      </div>
-                      <div class="tab-pane" id="tab_c">
-                          <h4>Pane C</h4>
-                          <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames
-                              ac turpis egestas.</p>
-                      </div>
-                      <div class="tab-pane" id="tab_d">
-                          <h4>Pane D</h4>
-                          <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames
-                              ac turpis egestas.</p>
-                      </div>
-              </div><!-- tab content -->
-
-              
             </div>
           </div>
+        </div> --> 
+        <div class="row" style="text-align: center;">
+          <button id="datosempresa" type="button" class="btn btn-dark" style="font-size:1.5em; margin-right: 2em;">Editar informacion personal</button>
+          <button type="button" class="btn btn-dark" style="font-size:1.5em; margin-right: 2em;">Editar cuenta</button>
+          <button type="button" class="btn btn-dark" style="font-size:1.5em;">Eliminar cuenta</button>
         </div>
+
+        <div id="ConfiguracionDatos" class="row">
+        <div class="col-xs-12">
+          <div class="col-xs-4">
+            <img src="dist/img/logo_1.png" class="user-image" alt="User Image" style="width: 100%; margin: 3em;">              
+          </div> 
+          <div id="contendorinformacion" class="col-xs-6" style="margin-left: 5em; margin-top: 4em;">
+              
+          </div>
+        </div>          
+        </div>      
       </div>
+      
     <!-- ************** Fin vista editarPerfil ********************* -->
   </div>
   <!-- Footer -->
