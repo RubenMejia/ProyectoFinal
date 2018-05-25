@@ -143,6 +143,53 @@
 			}
 		}
 
+		public function update_usuario(){
+			$data = array();
+			$conectar = new Conexion();
+
+			$sentencia=$conectar->prepare("SELECT * FROM ".self::TABLA." WHERE nombre_usuario = :usuario");
+			$sentencia->bindParam(":usuario", $this->username);
+
+			if($sentencia->execute()){
+				$num=$sentencia->rowCount();
+
+				if($num > 0){					
+					$registros=$sentencia->fetchAll();
+
+					foreach ($registros as $key => $value) {
+						$registros[$key]= array_map('utf8_decode', $registros[$key]);
+					}
+
+					$data['status']='ok';
+					$data['result']=$registros;	
+				}else{
+					$data['status']='err';
+					$data['result']='no se encontraron registros';	
+				}
+
+				$conectar=null;
+				echo json_encode($data);
+
+			}else{
+				echo json_encode("Error al conectar con la base de datos");
+			}			
+		}
+
+		function GuardarDatosFotoPerfil($username, $password, $nombre_archivo){
+			$conectar = new Conexion();
+
+			$sentencia=$conectar->prepare("UPDATE ".self::TABLA." SET password = :pass, foto_perfil = :foto  WHERE nombre_usuario = :usuario");
+			$sentencia->bindParam(":usuario", $username);
+			$sentencia->bindParam(":pass", $password);
+			$sentencia->bindParam(":foto", $nombre_archivo);
+
+			if($sentencia->execute()){
+				echo "Ok#&#DatosActualizados#&#".$nombre_archivo;
+			}else{
+				echo "Error#&#Consulta#&#ActualizacionPerfil";
+			}	
+		}
+
 	}
 
 ?>

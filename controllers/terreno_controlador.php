@@ -31,10 +31,20 @@
 				$objeto->getCantidadTerrenos();
 			}
 
+			public function getCantidadParaEncargados($user){
+				$objeto = new Terreno(null,null,$user);
+				$objeto->getCantidadTerrenosParaEncargados();
+			}
+
 		public function BuscarTodosTerrenos_2($usuario,$encargado){
 			$terreno = new Terreno(null, null, $usuario);
 			$terreno->BuscarTodosTerrenos_2($encargado);
 		}	
+
+		public function BuscarTodosTerrenosAsignados($usuario){
+			$terreno = new Terreno(null, null, $usuario);
+			$terreno->BuscarTodosTerrenosAsignados($usuario);
+		}
 
 		
 	}
@@ -57,6 +67,13 @@
 			$terreno = new terreno_controlador;
 			$terreno->BuscarTodosTerrenos_2($usuario,$encargado);
 		break;
+
+		case 'buscar_todos_terrenos_asignados':
+			$usuario=$_POST['nombre_encargado'];
+			$terreno = new terreno_controlador;
+			$terreno->BuscarTodosTerrenosAsignados($usuario);
+		break;
+
 		case 'eliminar_terreno':
 			$id = $_POST['id_terreno'];
 			$terreno = new terreno_controlador;
@@ -72,6 +89,11 @@
 		case 'cantidad':
 			$user = $_POST['user'];
 			terreno_controlador::getCantidad($user);
+		break;
+
+		case 'cantidad_para_encargados':
+			$user = $_POST['user'];
+			terreno_controlador::getCantidadParaEncargados($user);
 		break;
 	}
 ?>

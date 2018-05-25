@@ -611,7 +611,7 @@
           <!-- Muestra La cantidad De Encargados que hay -->
           <div class="col-md-5 col-md-offset-1" >
             <div class="col-md-12"> 
-                  <div class="info-box "> 
+                  <div class="info-box encargados"> 
                     <!-- Apply any bg-* class to to the icon to color it -->
                     <span class="info-box-icon bg-blue"><i class="fa fa-users" aria-hidden="true"></i></span>
                     <div class="info-box-content">
@@ -625,11 +625,11 @@
           <!-- Muestra La cantidad De Terrenos que hay -->
           <div class="col-md-5 col-md-offset-1">
             <div class="col-md-12">  
-              <div  class="info-box">
+              <div  class="info-box mostrar_terrenos">
                 <!-- Apply any bg-* class to to the icon to color it -->
                 <span style="background: #4a2111;color:white;" class="info-box-icon "><i class="fa fa-map-marker" aria-hidden="true"></i></span>
                 <div  class="info-box-content">
-                  <span class="info-box-text text-center" >Terrenos</span>
+                  <span class="info-box-text text-center " >Terrenos</span>
                   <span class="info-box-number cantidad_terrenos"></span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
@@ -639,9 +639,9 @@
           <!-- Muestra La cantidad De Trabajadores que hay -->
           <div class="col-md-5 col-md-offset-1">
             <div class="col-md-12">  
-              <div class="info-box">
+              <div class="info-box opcion_trabajadores">
                 <!-- Apply any bg-* class to to the icon to color it -->
-                <span class="info-box-icon bg-yellow"><i class="fa fa-wrench" aria-hidden="true"></i></span>
+                <span class="info-box-icon bg-yellow opcion_trabajadores"><i class="fa fa-wrench" aria-hidden="true"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text text-center ">Trabajadores</span>
                   <span class="info-box-number cantidad_trabajadores"></span>
@@ -653,9 +653,9 @@
           <!-- Muestra La cantidad De Dias De Trabajo que hay -->
           <div class="col-md-5 col-md-offset-1" >
             <div class="col-md-12">    
-                <div class="info-box">
+                <div class="info-box empezarDia">
                   <!-- Apply any bg-* class to to the icocolorn to  it -->
-                  <span class="info-box-icon bg-green"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i> </span>
+                  <span class="info-box-icon bg-green "><i class="fa fa-calendar-plus-o" aria-hidden="true"></i> </span>
                   <div class="info-box-content">
                     <span class="info-box-text text-center"> Dias De Trabajo</span>
                     <span class="info-box-number cantidad_dias"></span>
@@ -1187,7 +1187,24 @@
     <!-- **************** Fin vista Asistencia **********************-->
 
     <!-- **************** Inicio Vista Cargos *********************** -->
+        <!-- *********** Vista si no hay Cargos ********************* -->
+           <section class="content mensaje" id="vista_sin_Cargos" hidden="true">
+             <div class="row">
+               <div class="col-xs-12">
+                 <section>
+                     <div>
+                       <p>No hay Cargos, que tal si empezamos a registrar algunos</p>
+                     </div>
+                     <button class="btn-lg btn-success " data-toggle="modal" data-target="#myModal3">Continuar</button>
+                 </section>
+
+               </div>
+             </div>
+           </section>   
+
+        <!-- *********** Fin vista si no hay cargos ****************** -->
       <section class="content " id="tabla_cargos" hidden="true">
+
         <div class="row">
           <div class="col-xs-12">
             <div class="box">
@@ -1228,6 +1245,7 @@
         <!-- /.row -->
       </section>
 
+
       <!-- *******modal para ingreso nuevos de CARGOS****** -->
         <!-- Modal -->
         <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -1248,7 +1266,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              <button type="button" class="btn btn-primary " id="registrar_cargo">Registrar</button>
+              <button type="button" class="btn btn-primary registrar_cargo">Registrar</button>
             </div>
           </div>
           </div>
@@ -1304,7 +1322,7 @@
         </div> --> 
         <div class="row" style="text-align: center;">
           <button id="datosempresa" type="button" class="btn btn-dark" style="font-size:1.5em; margin-right: 2em;">Editar informacion personal</button>
-          <button type="button" class="btn btn-dark" style="font-size:1.5em; margin-right: 2em;">Editar cuenta</button>
+          <button id="datoscuenta" type="button" class="btn btn-dark" style="font-size:1.5em; margin-right: 2em;">Editar cuenta</button>
           <button type="button" class="btn btn-dark" style="font-size:1.5em;">Eliminar cuenta</button>
         </div>
 
@@ -1525,7 +1543,7 @@
   <!-- Bootstrap 3.3.7 -->
   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   <!-- DataTables -->
-  <script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+  <script src="bower_components/datatables.net/js/jquery.dataTables.js"></script>
   <script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
  
   <!-- AdminLTE App -->

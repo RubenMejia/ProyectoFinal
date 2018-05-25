@@ -120,8 +120,66 @@
 
 		}
 
+		public function getPersona($usuario)
+		{
+			$data = array();
 
+			$conectar=new Conexion();
 
+			$sentencia=$conectar->prepare("SELECT * FROM ".self::TABLA." WHERE id = :id");
+			$sentencia->bindParam(":id", $usuario);
+
+			if($sentencia->execute()){				
+				$num=$sentencia->rowCount();
+
+				if($num > 0){
+					$registros=$sentencia->fetchAll();
+
+					foreach ($registros as $key => $value) {
+						$registros[$key]=array_map('utf8_encode', $registros[$key]);
+					}
+
+					$data['status']='ok';
+					$data['result']=$registros;
+				}else{
+					$data['status']='err';
+					$data['result']='No se encontraron datos';
+				}	
+
+				$conectar=null;
+				echo json_encode($data);			
+			}else{
+				$conectar=null;
+				echo json_encode("Error al conectar con la BD");
+			}
+		}
+
+		public function actualizarPersona($user)
+		{
+			$data = array();
+
+			$conectar = new Conexion();
+
+			$sentencia=$conectar->prepare("UPDATE ".self::TABLA." SET nombres = :nom, apellidos = :apel, telefono = :tel, nombre_empresa = :nom_empre
+											 WHERE id = :id_persona");
+
+			$sentencia->bindParam(":nom", $this->nombres);
+			$sentencia->bindParam(":apel", $this->apellidos);
+			$sentencia->bindParam(":tel", $this->telefono);
+			$sentencia->bindParam(":nom_empre", $this->nombre_empresa);
+			$sentencia->bindParam(":id_persona", $user);
+
+			if ($sentencia->execute()){
+					$data['status']='ok';
+					$data['result']='La persona se a actualizado correctamente';								
+			}else{
+				$data['status']='err';
+				$data['result']='no hemos podido actualizar la persona';
+			}	
+
+			$conectar=null;
+			echo json_encode($data);				
+		}
 
 
 	}

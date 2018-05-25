@@ -25,6 +25,35 @@
  				$registrar->guardar();
  			}
 
+ 			public function actualizar_usuario($usuario){
+ 				$objeto=new Usuario($usuario,null,null,null,null);	
+ 				$objeto->update_usuario();		
+ 			}
+
+ 			public function editar_usuario_foto($username, $password, $archivo_foto){
+
+ 				date_default_timezone_set('America/Bogota');
+
+				$nombre_archivo = basename(date("d-m-Y h_i_s_a")." ".$archivo_foto['foto_usuario']['name']); 	// Crear el nombre del archivo con la hora del sistema
+				$nombre_archivo = strtolower($nombre_archivo);											// Poner todos los carracteres en minuscula
+				$nombre_archivo = str_replace(" ", "_", $nombre_archivo);								// Reemplazar los espacios en blanco por _
+				$directorio = "../views/files/".$nombre_archivo;											// Crear la ruta con el nombre con el que se guardara el archivo
+
+				if (($archivo_foto['foto_usuario']['type']=="image/png") || ($archivo_foto['foto_usuario']['type']=="image/jpeg")) {
+					
+					if(move_uploaded_file($archivo_foto['foto_usuario']['tmp_name'], $directorio)) { 
+						// Instrucciones para guardar en la base de datos
+						Usuario::GuardarDatosFotoPerfil($username, $password, $nombre_archivo);
+					} else{
+						echo "Error#&#SubiendoFoto#&#IntentarNuevamente";
+					}
+
+				}else{
+					echo "Error#&#Formato#&#SubirOtroArchivo";
+				}
+
+ 			}
+
 
  		}
 
@@ -69,5 +98,22 @@
  			$nuevo_admin->setEncargado($usuario,$pass,$tipo,$id_persona,$foto);
 
  		}
+
+ 		if($accion=='actualizar_datos_cuenta'){
+ 			$usuario=$_POST['usuario'];
+ 			$objeto=new UsuarioControlador();
+ 			$objeto->actualizar_usuario($usuario);
+ 		}
+
+ 		if($accion=='editar_perfil_foto'){
+ 			$objeto=new UsuarioControlador();
+
+ 			if ($_POST["campo_password"] == $_POST["campo_confirm_password"]) {
+ 				$objeto->editar_usuario_foto($_POST["campo_username"], $_POST["campo_password"], $_FILES);	
+ 			}else{
+ 				echo "CONTRASEÑAS NO COINCIDEN";
+ 			}
+ 		}
+
 
 ?>

@@ -31,25 +31,45 @@
 	
 	$accion=$_POST['accion'];
 
-	if($accion=='buscar_cargo_id'){
-		$id_cargo=$_POST['id_cargo'];
-		$obj=new cargo_controlador;
-		$obj->buscarCargoId($id_cargo);
-	}else if($accion=="registrar_cargo"){
-		$nombre_cargo=$_POST['nombre_cargo'];
-		cargo_controlador::setCargo($nombre_cargo);
 
-	}else if($accion=="actualizar_cargo"){
-		$nombre_cargo=$_POST['nombre'];
-		$id_cargo=$_POST['id'];
-		cargo_controlador::updateCargo($id_cargo,$nombre_cargo);
-	}else if($accion=="eliminar_cargo"){
-		$id_cargo=$_POST['id_cargo'];
-		cargo_controlador::deleteCargo($id_cargo);
-	}else{
-		$obj=new cargo_controlador;
-		$obj->getCargos();
+	switch ($accion) {
+		case 'buscar_cargo_id':
+			$id_cargo=$_POST['id_cargo'];
+			$obj=new cargo_controlador;
+			$obj->buscarCargoId($id_cargo);
+		break;
+
+		case 'registrar_cargo':
+			$nombre_cargo=$_POST['nombre_cargo'];
+			cargo_controlador::setCargo($nombre_cargo);
+		break;
+
+		case 'actualizar_cargo':
+			$nombre_cargo=$_POST['nombre'];
+			$id_cargo=$_POST['id'];
+			cargo_controlador::updateCargo($id_cargo,$nombre_cargo);
+		break;
+
+		case 'eliminar_cargo':
+			$id_cargo=$_POST['id_cargo'];
+			cargo_controlador::deleteCargo($id_cargo);
+		break;
+		
+		default:
+			$obj=new cargo_controlador;
+			$obj->getCargos();
+		break;
 	}
+
+
+	
+		
+
+	
+		
+	
+		
+
 
 	
 	

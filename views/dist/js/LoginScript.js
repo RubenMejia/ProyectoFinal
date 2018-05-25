@@ -46,8 +46,10 @@ function comprobarLogin(){
 	
 	if(localStorage['usuario']=="nada"|| localStorage['usuario']==undefined){
 	
-	}else {
+	}else if(localStorage['tipo_usuario']=="administrador"){
 		location.href="http://localhost/Proyecto%20Final/views/template.php";
+	}else if(localStorage['tipo_usuario']=="encargado"){
+		location.href="http://localhost/Proyecto%20Final/views/encargado.php";
 	}
 }
 
@@ -95,7 +97,7 @@ function comprobarLogin(){
 
 						location.href ="views/template.php";
 					}else if(data.estado=="err"){
-						alert(data.resultado);
+						swal(data.resultado);
 					}
 				}
 			})
@@ -127,10 +129,15 @@ function comprobarLogin(){
 
 						//alert(data.resultado["0"].tipo_usuario);
 						//alert(localStorage['usuario']);
+						if(data.resultado["0"].tipo_usuario=="administrador"){
+							location.href ="views/template.php";
+						}else{
+							location.href ="views/encargado.php";
+						}
+						
 
-						location.href ="views/template.php";
 					}else if(data.estado=="err"){
-						alert(data.resultado);
+						swal(data.resultado);
 
 					}
 				}
@@ -175,7 +182,7 @@ function comprobarLogin(){
 				data:datos,
 				success:function(data){
 					if(data.estado=="ok"){
-						alert("persona registrada!");
+						//alert("persona registrada!");
 						var id_persona=data.id;
 						datos ={'accion':'registrar_usuario','usuario':nombre_usuario,'pass':pass,'id_persona':id_persona};
 
@@ -186,7 +193,7 @@ function comprobarLogin(){
 							data:datos,
 							success:function(data){
 								if(data.estado=="ok"){
-									alert("usuario Registrado");
+									swal("usuario Registrado");
 
 									var info={'accion':'registrar_terreno','usuario':nombre_usuario,'terreno':nombre_terreno};
 
@@ -197,21 +204,21 @@ function comprobarLogin(){
 										data:info,
 										success:function(data){
 											if(data.estado=="ok"){
-												alert("Terreno registrado");
+												//alert("Terreno registrado");
 												window.location.href = 'http://localhost/Proyecto%20Final/';
 											}else if(data.status=="err"){
-												alert(data.result);
+												swal(data.result);
 											}
 										}
 									})
 
 								}else if(data.status=="err"){
-									alert("Error a regitrar persona");
+									swal("Error a regitrar usuario");
 								}
 							}
 						})
 					}else if(data.status=="err"){
-						alert("Error al registrar persona ");
+						swal("Error al registrar persona ");
 					}
 				}
 			})
@@ -272,7 +279,7 @@ function comprobarLogin(){
 				data:datos,
 				success:function(data){
 					if(data.estado=="ok"){
-						alert("persona registrada!");
+						//swal("persona registrada!");
 						var id_persona=data.id;
 						datos ={'accion':'registrar_usuario','usuario':nombre_usuario,'pass':pass,'id_persona':id_persona};
 
@@ -283,7 +290,7 @@ function comprobarLogin(){
 							data:datos,
 							success:function(data){
 								if(data.estado=="ok"){
-									alert("usuario Registrado");
+									swal("usuario Registrado");
 
 									datos={'accion':'registrar_terreno','usuario':nombre_usuario,'terreno':nombre_terreno};
 
@@ -294,21 +301,21 @@ function comprobarLogin(){
 										data:datos,
 										success:function(data){
 											if(data.estado=="ok"){
-												alert("Terreno registrado");
+												//alert("Terreno registrado");
 												window.location.href = 'http://localhost/Proyecto%20Final/';
 											}else if(data.estado=="err"){
-												alert(data.resultado);
+												swal(data.resultado);
 											}
 										}
 									})
 
 								}else if(data.estado=="err"){
-									alert("Error a regitrar persona");
+									swal("Error a regitrar usuario");
 								}
 							}
 						})
 					}else if(data.estado=="err"){
-						alert("Error al registrar persona ");
+						swal("Error al registrar persona ");
 					}
 				}
 			})

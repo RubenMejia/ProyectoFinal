@@ -217,6 +217,46 @@ class Trabajador{
 		$conexion=null;
 		echo json_encode($array);
 	}
+	
+
+	public function getTrabajadoresAsignarEncargado($user, $id_terreno){
+		$array=array();
+		$conexion=new Conexion();
+		$sql=$conexion->prepare('SELECT * FROM '.self::TABLA." WHERE nombre_usuario=:nom");
+		$sql->bindParam(':nom',$user);
+		$sql->execute();
+		$num=$sql->rowCount();
+		if($num>0){
+			$registros=$sql->fetchAll();
+			$array['estado']="ok";
+			$array['resultado']=$registros;
+
+			$array['listaTrabajadoresAsignados'] = array();
+
+			$sql=$conexion->prepare('SELECT * FROM asignar_trabajador_a_terreno WHERE id_terreno = :id_terreno');
+			$sql->bindParam(':id_terreno',$id_terreno);
+			$sql->execute();
+			$numListaTrabajadores=$sql->rowCount();
+
+			if ($numListaTrabajadores > 0) {
+				$listaTemporal = $sql->fetchAll();
+
+				foreach ($listaTemporal as $key => $value) {
+					array_push( $array['listaTrabajadoresAsignados'] , $value['id_trabajador']);
+				}
+
+			}
+
+
+		}else{
+			$registros="No Hay trabajadores registrados aun";
+			$array['estado']="err";
+			$array['resultado']=$registros;
+		}
+
+		$conexion=null;
+		echo json_encode($array);
+	}
 
 	public function getCantidadTrabajadores($user){
 		$data="0";

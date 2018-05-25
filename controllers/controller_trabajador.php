@@ -49,6 +49,11 @@
 			Trabajador::getTrabajadoresAsignar($user, $id_terreno);
 		}
 
+		public function getTrabajadoresAsignarEncargado($user, $id_terreno)
+		{
+			Trabajador::getTrabajadoresAsignarEncargado($user, $id_terreno);
+		}
+
 		public function getCargoTrabajador($id_trabajador)
 		{
 			$consulta=new Trabajador($id_trabajador,null,null,null,null,null,null);
@@ -126,6 +131,12 @@
 		case 'consultar_cargo_trabajador':
 			$id_trabajador=$_POST['id_trabajador'];
 			controller_Trabajador::getCargoTrabajador($id_trabajador);
+		break;	
+
+		case 'mostrar_trabajadores_para_asignar_encargados':
+			$user=$_POST['user'];
+			$id_terreno=$_POST['id_terreno'];
+			controller_Trabajador::getTrabajadoresAsignarEncargado($user, $id_terreno);
 		break;
 
 		

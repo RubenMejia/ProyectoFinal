@@ -16,6 +16,19 @@
  			$registrar=new Persona($nombres,$apellidos,$telefono,null,$cedula);
  			$registrar->guardarPersonaEncargado();
  		}
+
+ 		public function getPersona($usuario)
+ 		{
+ 			$objeto=new Persona(null, null, null);
+ 			$objeto->getPersona($usuario);
+ 		}
+
+ 		public function actualizarDatosPersona($user,$nombre,$apellido,$telefono,$nombre_empresa)
+ 		{
+ 			$objeto = new Persona($nombre,$apellido,$telefono,$nombre_empresa);
+ 			$objeto->actualizarPersona($user);
+ 		}
+
  		
  	}
 
@@ -37,6 +50,21 @@
 
  		$nuevo=new PersonaControlador;
  		$nuevo->setPersonaEncargado($nombres,$apellidos,$telefono,$cedula);
+
+ 	}elseif ($accion=='datosempresa') {
+ 		$usuario=$_POST['id_persona'];
+ 		$objeto=new PersonaControlador;
+ 		$objeto->getPersona($usuario);
+
+ 	}elseif ($accion=='actualizarPersona') {
+ 		$user = $_POST['usuario'];
+ 		$nombre = $_POST['nombre'];
+ 		$apellido = $_POST['apellido'];
+ 		$telefono = $_POST['telefono'];
+ 		$nombre_empresa = $_POST['nombre_empresa'];
+
+ 		$objeto=new PersonaControlador();
+ 		$objeto->actualizarDatosPersona($user,$nombre,$apellido,$telefono,$nombre_empresa);
  	}
 
 
