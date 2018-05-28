@@ -1238,45 +1238,45 @@
       <!-- ****** fin Modal actualizar Cargos **** -->
     <!-- **************** Fin vista Cargos ************************** -->
 
-    <!-- ************** Inicio Vista editarPerfil ****************** -->
-      <div class="content center" id="EditarPerfil" hidden="true">
-      <!--   <div class="row">
-          <div class="col-xs-12">
-            <div class="box box-primary">
-              <div class="box-header with-border">
-                <h3 class="box-title">Editar Perfil</h3>
-              </div>
-             /.box-header -->
-              <!-- form start>
-             <! <ul class="nav nav-tabs">
-                <li id="datospersona" class="active"><a href="#tab_a" data-toggle="tab">Datos Personales</a></li>
-                <li id="datoscuenta"><a href="#tab_c" data-toggle="tab">Datos de la Cuenta</a></li>
-                <li id="eliminarCuenta"><a href="#tab_d" data-toggle="tab">Eliminar Cuenta</a></li>
-              </ul>
-               
-
-            </div>
-          </div>
-        </div> --> 
-        <div class="row" style="text-align: center;">
-          <button id="datosempresa" type="button" class="btn btn-dark" style="font-size:1.5em; margin-right: 2em;">Editar informacion personal</button>
-          <button type="button" class="btn btn-dark" style="font-size:1.5em; margin-right: 2em;">Editar cuenta</button>
-          <button type="button" class="btn btn-dark" style="font-size:1.5em;">Eliminar cuenta</button>
-        </div>
-
-        <div id="ConfiguracionDatos" class="row">
-        <div class="col-xs-12">
-          <div class="col-xs-4">
-            <img src="dist/img/logo_1.png" class="user-image" alt="User Image" style="width: 100%; margin: 3em;">              
-          </div> 
-          <div id="contendorinformacion" class="col-xs-6" style="margin-left: 5em; margin-top: 4em;">
+   <!-- ************** Inicio Vista editarPerfil ****************** -->
+     <div class="content center" id="EditarPerfil" hidden="true">
+     <!--   <div class="row">
+         <div class="col-xs-12">
+           <div class="box box-primary">
+             <div class="box-header with-border">
+               <h3 class="box-title">Editar Perfil</h3>
+             </div>
+            /.box-header -->
+             <!-- form start>
+            <! <ul class="nav nav-tabs">
+               <li id="datospersona" class="active"><a href="#tab_a" data-toggle="tab">Datos Personales</a></li>
+               <li id="datoscuenta"><a href="#tab_c" data-toggle="tab">Datos de la Cuenta</a></li>
+               <li id="eliminarCuenta"><a href="#tab_d" data-toggle="tab">Eliminar Cuenta</a></li>
+             </ul>
               
-          </div>
-        </div>          
-        </div>      
-      </div>
-      
-    <!-- ************** Fin vista editarPerfil ********************* -->
+
+           </div>
+         </div>
+       </div> --> 
+       <div class="row opciones_perfil"  style="text-align: center;">
+         <button id="datosempresa" type="button" class="btn btn-dark" style="font-size:1.5em; margin-right: 2em;">Editar informacion personal</button>
+         <button id="datoscuenta" type="button" class="btn btn-dark" style="font-size:1.5em; margin-right: 2em;">Editar cuenta</button>
+         <button type="button" class="btn btn-dark eliminarCuenta" style="font-size:1.5em;">Eliminar cuenta</button>
+       </div>
+
+       <div id="ConfiguracionDatos" class="row" style="margin-top: 2em;">
+       <div class="col-xs-12">
+         <div class="col-xs-4">
+           <img src="dist/img/logo_1.png" class="user-image" alt="User Image" style="width: 100%; margin: 3em;">              
+         </div> 
+         <div id="contendorinformacion" class="col-xs-6" style="margin-left: 5em; margin-top: 4em;">
+             
+         </div>
+       </div>          
+       </div>      
+     </div>
+     
+   <!-- ************** Fin vista editarPerfil ********************* -->
   </div>
   <!-- Footer -->
   <footer class="main-footer">

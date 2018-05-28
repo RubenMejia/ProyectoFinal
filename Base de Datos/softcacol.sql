@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-05-2018 a las 06:21:23
+-- Tiempo de generación: 28-05-2018 a las 19:43:23
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.4
 
@@ -29,9 +29,10 @@ USE `softcacol`;
 --
 -- Estructura de tabla para la tabla `administrador_encargados`
 --
--- Creación: 19-05-2018 a las 04:16:29
+-- Creación: 28-05-2018 a las 17:39:03
 --
 
+DROP TABLE IF EXISTS `administrador_encargados`;
 CREATE TABLE `administrador_encargados` (
   `id` int(11) NOT NULL,
   `id_usuario` varchar(40) COLLATE utf8mb4_spanish2_ci DEFAULT NULL,
@@ -47,20 +48,19 @@ CREATE TABLE `administrador_encargados` (
 --
 
 --
--- Volcado de datos para la tabla `administrador_encargados`
+-- Truncar tablas antes de insertar `administrador_encargados`
 --
 
-INSERT INTO `administrador_encargados` (`id`, `id_usuario`, `id_encargado`) VALUES
-(1, 'deividasccc1', 'danka');
-
+TRUNCATE TABLE `administrador_encargados`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `asignar_trabajador_a_terreno`
 --
--- Creación: 19-05-2018 a las 04:16:29
+-- Creación: 28-05-2018 a las 17:39:03
 --
 
+DROP TABLE IF EXISTS `asignar_trabajador_a_terreno`;
 CREATE TABLE `asignar_trabajador_a_terreno` (
   `id` int(11) NOT NULL,
   `id_terreno` int(11) NOT NULL,
@@ -76,23 +76,19 @@ CREATE TABLE `asignar_trabajador_a_terreno` (
 --
 
 --
--- Volcado de datos para la tabla `asignar_trabajador_a_terreno`
+-- Truncar tablas antes de insertar `asignar_trabajador_a_terreno`
 --
 
-INSERT INTO `asignar_trabajador_a_terreno` (`id`, `id_terreno`, `id_trabajador`) VALUES
-(1, 6, 23),
-(2, 6, 25),
-(11, 6, 24),
-(12, 6, 28);
-
+TRUNCATE TABLE `asignar_trabajador_a_terreno`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `asignar_usuario_a_terreno`
 --
--- Creación: 19-05-2018 a las 04:16:29
+-- Creación: 28-05-2018 a las 17:39:03
 --
 
+DROP TABLE IF EXISTS `asignar_usuario_a_terreno`;
 CREATE TABLE `asignar_usuario_a_terreno` (
   `id` int(11) NOT NULL,
   `id_terreno` int(11) NOT NULL,
@@ -107,14 +103,20 @@ CREATE TABLE `asignar_usuario_a_terreno` (
 --       `terrenos` -> `id`
 --
 
+--
+-- Truncar tablas antes de insertar `asignar_usuario_a_terreno`
+--
+
+TRUNCATE TABLE `asignar_usuario_a_terreno`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `asistencia`
 --
--- Creación: 19-05-2018 a las 04:16:29
+-- Creación: 28-05-2018 a las 17:39:03
 --
 
+DROP TABLE IF EXISTS `asistencia`;
 CREATE TABLE `asistencia` (
   `id` int(11) NOT NULL,
   `nombre_usuario` varchar(40) COLLATE utf8mb4_spanish2_ci DEFAULT NULL,
@@ -128,22 +130,19 @@ CREATE TABLE `asistencia` (
 --
 
 --
--- Volcado de datos para la tabla `asistencia`
+-- Truncar tablas antes de insertar `asistencia`
 --
 
-INSERT INTO `asistencia` (`id`, `nombre_usuario`, `fecha`) VALUES
-(2, 'rdaj', '2018-05-18'),
-(3, 'userAdmin', '2018-05-19'),
-(4, 'userAdmin', '2018-05-20');
-
+TRUNCATE TABLE `asistencia`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `cargo`
 --
--- Creación: 19-05-2018 a las 04:16:29
+-- Creación: 28-05-2018 a las 17:39:03
 --
 
+DROP TABLE IF EXISTS `cargo`;
 CREATE TABLE `cargo` (
   `id` int(11) NOT NULL,
   `tipo` varchar(40) COLLATE utf8mb4_spanish2_ci DEFAULT NULL
@@ -154,20 +153,19 @@ CREATE TABLE `cargo` (
 --
 
 --
--- Volcado de datos para la tabla `cargo`
+-- Truncar tablas antes de insertar `cargo`
 --
 
-INSERT INTO `cargo` (`id`, `tipo`) VALUES
-(1, 'Recolector');
-
+TRUNCATE TABLE `cargo`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `pago_a_trabajadores`
 --
--- Creación: 19-05-2018 a las 04:16:29
+-- Creación: 28-05-2018 a las 17:39:03
 --
 
+DROP TABLE IF EXISTS `pago_a_trabajadores`;
 CREATE TABLE `pago_a_trabajadores` (
   `id` int(11) NOT NULL,
   `comprobante` varchar(40) COLLATE utf8mb4_spanish2_ci DEFAULT NULL,
@@ -186,23 +184,19 @@ CREATE TABLE `pago_a_trabajadores` (
 --
 
 --
--- Volcado de datos para la tabla `pago_a_trabajadores`
+-- Truncar tablas antes de insertar `pago_a_trabajadores`
 --
 
-INSERT INTO `pago_a_trabajadores` (`id`, `comprobante`, `cantidad_pago`, `fecha`, `id_trabajador`, `nombre_usuario`) VALUES
-(1, NULL, 70000, '2018-05-19', 28, 'userAdmin'),
-(2, NULL, 70000, '2018-05-19', 23, 'userAdmin'),
-(3, NULL, 50000, '2018-05-19', 25, 'userAdmin'),
-(4, NULL, 50000, '2018-05-19', 24, 'userAdmin');
-
+TRUNCATE TABLE `pago_a_trabajadores`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `persona`
 --
--- Creación: 19-05-2018 a las 04:16:29
+-- Creación: 28-05-2018 a las 17:39:03
 --
 
+DROP TABLE IF EXISTS `persona`;
 CREATE TABLE `persona` (
   `id` int(11) NOT NULL,
   `nombres` varchar(40) COLLATE utf8mb4_spanish2_ci DEFAULT NULL,
@@ -216,29 +210,19 @@ CREATE TABLE `persona` (
 --
 
 --
--- Volcado de datos para la tabla `persona`
+-- Truncar tablas antes de insertar `persona`
 --
 
-INSERT INTO `persona` (`id`, `nombres`, `apellidos`, `telefono`, `nombre_empresa`) VALUES
-(1, 'ddavid', 'sadasdasd', 0, NULL),
-(2, 'AVID', 'ASASD', 1234, NULL),
-(3, 'dasd', 'asdasda', 2321321, NULL),
-(4, 'David', 'david', 2345, NULL),
-(5, 'David', 'david', 2345, NULL),
-(6, 'rdaj', 'rdaj', 31232, NULL),
-(7, 'rdaj', 'rdaj', 3123, NULL),
-(8, 'jhan', 'jhan', 322, NULL),
-(9, 'mario', 'caballero', 3122233, NULL),
-(10, 'user', 'admin', 123, NULL);
-
+TRUNCATE TABLE `persona`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `registo_asistencia`
 --
--- Creación: 19-05-2018 a las 04:16:29
+-- Creación: 28-05-2018 a las 17:39:03
 --
 
+DROP TABLE IF EXISTS `registo_asistencia`;
 CREATE TABLE `registo_asistencia` (
   `id` int(11) NOT NULL,
   `fecha` date DEFAULT NULL,
@@ -255,26 +239,19 @@ CREATE TABLE `registo_asistencia` (
 --
 
 --
--- Volcado de datos para la tabla `registo_asistencia`
+-- Truncar tablas antes de insertar `registo_asistencia`
 --
 
-INSERT INTO `registo_asistencia` (`id`, `fecha`, `id_trabajador`, `id_asistencia`) VALUES
-(24, '2018-05-18', 20, 2),
-(25, '2018-05-18', 21, 2),
-(26, '2018-05-18', 22, 2),
-(35, '2018-05-19', 23, 3),
-(39, '2018-05-19', 24, 3),
-(40, '2018-05-19', 25, 3),
-(41, '2018-05-19', 28, 3);
-
+TRUNCATE TABLE `registo_asistencia`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `registro_trabajo_realizado`
 --
--- Creación: 20-05-2018 a las 04:05:55
+-- Creación: 28-05-2018 a las 17:39:03
 --
 
+DROP TABLE IF EXISTS `registro_trabajo_realizado`;
 CREATE TABLE `registro_trabajo_realizado` (
   `id` int(11) NOT NULL,
   `kilos_de_cafe` bigint(20) DEFAULT NULL,
@@ -297,25 +274,19 @@ CREATE TABLE `registro_trabajo_realizado` (
 --
 
 --
--- Volcado de datos para la tabla `registro_trabajo_realizado`
+-- Truncar tablas antes de insertar `registro_trabajo_realizado`
 --
 
-INSERT INTO `registro_trabajo_realizado` (`id`, `kilos_de_cafe`, `descripcion`, `fecha`, `nombre_usuario`, `id_trabajador`, `id_terreno`, `estado`) VALUES
-(2, NULL, NULL, '2018-05-18', 'rdaj', NULL, 2, ''),
-(3, NULL, NULL, '2018-05-18', 'rdaj1', NULL, 3, ''),
-(4, NULL, NULL, '2018-05-18', 'jhan', NULL, 4, ''),
-(5, NULL, NULL, '2018-05-18', 'mario', NULL, 5, ''),
-(6, NULL, NULL, '2018-05-19', 'userAdmin', NULL, 6, 'activo'),
-(7, NULL, NULL, '2018-05-20', 'userAdmin', NULL, 6, 'activo');
-
+TRUNCATE TABLE `registro_trabajo_realizado`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `terrenos`
 --
--- Creación: 19-05-2018 a las 04:16:29
+-- Creación: 28-05-2018 a las 17:39:03
 --
 
+DROP TABLE IF EXISTS `terrenos`;
 CREATE TABLE `terrenos` (
   `id` int(11) NOT NULL,
   `nombre` varchar(40) COLLATE utf8mb4_spanish2_ci NOT NULL,
@@ -329,27 +300,19 @@ CREATE TABLE `terrenos` (
 --
 
 --
--- Volcado de datos para la tabla `terrenos`
+-- Truncar tablas antes de insertar `terrenos`
 --
 
-INSERT INTO `terrenos` (`id`, `nombre`, `nombre_usuario`) VALUES
-(2, 'rdaj', 'rdaj'),
-(3, 'rdaj1', 'rdaj1'),
-(4, 'jhan', 'jhan'),
-(5, 'Terrenomario', 'mario'),
-(6, 'MiTerreno', 'userAdmin'),
-(7, 'OtroTerreno', 'userAdmin'),
-(8, 'OtroTerreno:V', 'userAdmin'),
-(9, 'La comparsa', 'userAdmin');
-
+TRUNCATE TABLE `terrenos`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `trabajador`
 --
--- Creación: 19-05-2018 a las 04:16:29
+-- Creación: 28-05-2018 a las 17:39:03
 --
 
+DROP TABLE IF EXISTS `trabajador`;
 CREATE TABLE `trabajador` (
   `id` int(11) NOT NULL,
   `nombres` varchar(40) COLLATE utf8mb4_spanish2_ci NOT NULL,
@@ -369,30 +332,19 @@ CREATE TABLE `trabajador` (
 --
 
 --
--- Volcado de datos para la tabla `trabajador`
+-- Truncar tablas antes de insertar `trabajador`
 --
 
-INSERT INTO `trabajador` (`id`, `nombres`, `apellidos`, `telefono`, `nombre_usuario`, `id_cargo`, `tipo_trabajador`) VALUES
-(18, 'David', 'Gonzalez Manrique', 3142258, 'rdaj1', 1, 'trabajador'),
-(19, 'Jhan', 'Jhandsd', 3222, 'jhan', 1, 'trabajador'),
-(20, 'ruben', 'mejia romero', 3145567, 'mario', 1, 'trabajador'),
-(21, 'Land', 'Robert', 32347828, 'mario', 1, 'trabajador'),
-(22, 'David', 'Gomez', 213710, 'mario', 1, 'trabajador'),
-(23, 'Trabajador1', 'Apellido Trabajador', 3454357, 'userAdmin', 1, 'trabajador'),
-(24, 'Trabajador2', 'Apellido Trabajador2', 3454357, 'userAdmin', 1, 'trabajador'),
-(25, 'Trabajador3', 'Apellido Trabajador3', 3454357, 'userAdmin', 1, 'trabajador'),
-(26, 'Trabajador4', 'Apellido Trabajador4', 3454357, 'userAdmin', 1, 'trabajador'),
-(27, 'Trabajador5', 'Apellido Trabajador5', 3454357, 'userAdmin', 1, 'trabajador'),
-(28, 'Jose Andres', 'Mejia Romero', 3015896574, 'userAdmin', 1, 'trabajador');
-
+TRUNCATE TABLE `trabajador`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `usuario`
 --
--- Creación: 19-05-2018 a las 04:16:29
+-- Creación: 28-05-2018 a las 17:39:03
 --
 
+DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE `usuario` (
   `nombre_usuario` varchar(40) COLLATE utf8mb4_spanish2_ci NOT NULL,
   `password` varchar(40) COLLATE utf8mb4_spanish2_ci NOT NULL,
@@ -408,18 +360,10 @@ CREATE TABLE `usuario` (
 --
 
 --
--- Volcado de datos para la tabla `usuario`
+-- Truncar tablas antes de insertar `usuario`
 --
 
-INSERT INTO `usuario` (`nombre_usuario`, `password`, `foto_perfil`, `tipo_usuario`, `id_persona`) VALUES
-('danka', 'danka', 'null', 'encargado', 3),
-('deividasccc1', 'david123', 'null', 'administrador', 1),
-('jhan', 'jhan', '../views/dist/img/images_users/user.png', 'administrador', 8),
-('mario', 'mario', '../views/dist/img/images_users/user.png', 'administrador', 9),
-('rdaj', 'rdaj', '../views/dist/img/images_users/user.png', 'administrador', 6),
-('rdaj1', 'rdaj', '../views/dist/img/images_users/user.png', 'administrador', 7),
-('userAdmin', '123', '../views/dist/img/images_users/user.png', 'administrador', 10);
-
+TRUNCATE TABLE `usuario`;
 --
 -- Índices para tablas volcadas
 --
@@ -522,13 +466,13 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `administrador_encargados`
 --
 ALTER TABLE `administrador_encargados`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `asignar_trabajador_a_terreno`
 --
 ALTER TABLE `asignar_trabajador_a_terreno`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `asignar_usuario_a_terreno`
@@ -540,49 +484,49 @@ ALTER TABLE `asignar_usuario_a_terreno`
 -- AUTO_INCREMENT de la tabla `asistencia`
 --
 ALTER TABLE `asistencia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `cargo`
 --
 ALTER TABLE `cargo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `pago_a_trabajadores`
 --
 ALTER TABLE `pago_a_trabajadores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `persona`
 --
 ALTER TABLE `persona`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `registo_asistencia`
 --
 ALTER TABLE `registo_asistencia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_trabajo_realizado`
 --
 ALTER TABLE `registro_trabajo_realizado`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `terrenos`
 --
 ALTER TABLE `terrenos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `trabajador`
 --
 ALTER TABLE `trabajador`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas

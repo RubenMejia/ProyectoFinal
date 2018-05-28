@@ -160,8 +160,7 @@
 
 			$conectar = new Conexion();
 
-			$sentencia=$conectar->prepare("UPDATE ".self::TABLA." SET nombres = :nom, apellidos = :apel, telefono = :tel, nombre_empresa = :nom_empre
-											 WHERE id = :id_persona");
+			$sentencia=$conectar->prepare("UPDATE ".self::TABLA." SET nombres = :nom, apellidos = :apel, telefono = :tel, nombre_empresa = :nom_empre WHERE id = :id_persona");
 
 			$sentencia->bindParam(":nom", $this->nombres);
 			$sentencia->bindParam(":apel", $this->apellidos);

@@ -118,11 +118,6 @@
 			$id=$_POST['id'];
 			controllerRegistroDia::finalizarDia2($id);
 		break;
-
-		
-		default:
-			# code...
-		break;
 	}
 
 ?>

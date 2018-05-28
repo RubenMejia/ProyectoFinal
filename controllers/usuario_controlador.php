@@ -53,8 +53,10 @@
 				}
 
  			}
-
-
+ 			public function eliminar_cuenta($usuario, $contra, $id_persona){
+ 				$objeto= new Usuario($usuario, $contra,null,$id_persona,null);
+ 				$objeto->delete_user();
+ 			}
  		}
 
  		$accion=$_POST['accion'];
@@ -64,7 +66,7 @@
  			$usuario=$_POST['usuario'];
  			$pass=$_POST['pass'];
  			$tipo="administrador";
- 			$foto="../views/dist/img/images_users/user.png";
+ 			$foto="user.png";
  			$id_persona=$_POST['id_persona'];
 
  			$nuevo_admin=new UsuarioControlador;
@@ -91,7 +93,7 @@
  			$usuario=$_POST['usuario'];
  			$pass=$_POST['pass'];
  			$tipo="encargado";
- 			$foto="../views/dist/img/images_users/manager.png";
+ 			$foto="manager.png";
  			$id_persona=$_POST['id_persona'];
 
  			$nuevo_admin=new UsuarioControlador;
@@ -113,6 +115,14 @@
  			}else{
  				echo "CONTRASEÑAS NO COINCIDEN";
  			}
+ 		}
+
+ 		if($accion=='eliminar_cuenta'){
+ 			$usuario=$_POST['usuario'];
+ 			$contra=$_POST['contrasena'];
+ 			$id_persona=$_POST['id_usuario'];
+ 			$objeto= new UsuarioControlador();
+ 			$objeto->eliminar_cuenta($usuario, $contra, $id_persona);
  		}
 
 

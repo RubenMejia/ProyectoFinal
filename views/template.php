@@ -1320,13 +1320,13 @@
             </div>
           </div>
         </div> --> 
-        <div class="row" style="text-align: center;">
+        <div class="row opciones_perfil"  style="text-align: center;">
           <button id="datosempresa" type="button" class="btn btn-dark" style="font-size:1.5em; margin-right: 2em;">Editar informacion personal</button>
           <button id="datoscuenta" type="button" class="btn btn-dark" style="font-size:1.5em; margin-right: 2em;">Editar cuenta</button>
-          <button type="button" class="btn btn-dark" style="font-size:1.5em;">Eliminar cuenta</button>
+          <button type="button" class="btn btn-dark eliminarCuenta" style="font-size:1.5em;">Eliminar cuenta</button>
         </div>
 
-        <div id="ConfiguracionDatos" class="row">
+        <div id="ConfiguracionDatos" class="row" style="margin-top: 2em;">
         <div class="col-xs-12">
           <div class="col-xs-4">
             <img src="dist/img/logo_1.png" class="user-image" alt="User Image" style="width: 100%; margin: 3em;">              

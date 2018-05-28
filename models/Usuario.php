@@ -175,6 +175,36 @@
 			}			
 		}
 
+		public function delete_user(){
+
+			$array = array();	
+
+			try {
+				$Conexion = new Conexion();
+
+				$sentencia=$Conexion->prepare('DELETE FROM '.self::TABLA.' WHERE nombre_usuario = :user && password = :contra && id_persona = :id_persona');
+				$sentencia->bindParam(":user", $this->username);
+				$sentencia->bindParam(":contra", $this->pass);
+				$sentencia->bindParam(":id_persona", $this->id_persona);
+
+				if ($sentencia->execute()){
+					$array['status'] = 'ok';
+			   		$array['result'] = "Eliminado Correctamente";      			
+				}else{
+					$array['status'] = 'ok';
+			        $array['result'] ="No se Elimino.";
+				}
+
+				$Conexion=null;
+
+				echo json_encode($array);
+			
+			} catch (Exception $e) {
+				echo "Ha ocurrido un error: ".$e->getmessage();				
+				
+			}
+		}
+
 		function GuardarDatosFotoPerfil($username, $password, $nombre_archivo){
 			$conectar = new Conexion();
 

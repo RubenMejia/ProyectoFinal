@@ -19,13 +19,13 @@
 
  		public function getPersona($usuario)
  		{
- 			$objeto=new Persona(null, null, null);
+ 			$objeto=new Persona(null, null, null, null, null);
  			$objeto->getPersona($usuario);
  		}
 
  		public function actualizarDatosPersona($user,$nombre,$apellido,$telefono,$nombre_empresa)
  		{
- 			$objeto = new Persona($nombre,$apellido,$telefono,$nombre_empresa);
+ 			$objeto = new Persona($nombre,$apellido,$telefono,$nombre_empresa, null);
  			$objeto->actualizarPersona($user);
  		}
 

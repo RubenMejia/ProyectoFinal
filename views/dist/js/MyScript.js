@@ -34,37 +34,38 @@ $.ajax({
 	success:function(data){
 		var i=0;
 		//console.log(data);
-		while(i<data.resultado.length){
-			if(data.resultado[i][7].includes("activo")){
-				
-				
-				localStorage['dia']="no";
-				$('.menu_dia').removeClass("treeview");
-				$('.menu_dia_hover').removeClass("treeview-menu");
-				$('.menu_dia_hover').hide();
+		if( (typeof data.resultado === "object") && (data.resultado !== null) ){
+			while(i<data.resultado.length){
+				if(data.resultado[i][7].includes("activo")){
+					
+					
+					localStorage['dia']="no";
+					$('.menu_dia').removeClass("treeview");
+					$('.menu_dia_hover').removeClass("treeview-menu");
+					$('.menu_dia_hover').hide();
 
 
-				var json={
-					'accion':'finalizarDia2',
-					'id':data.resultado[i][0]
-				};
+					var json={
+						'accion':'finalizarDia2',
+						'id':data.resultado[i][0]
+					};
 
-				$.ajax({
-					type:'POST',
-					dataType:'json',
-					data:json,
-					url:'../controllers/controlador_registro_dia.php',
-					success:function(data){
-						//alert(data);
-					}
-				});
+					$.ajax({
+						type:'POST',
+						dataType:'json',
+						data:json,
+						url:'../controllers/controlador_registro_dia.php',
+						success:function(data){
+							//alert(data);
+						}
+					});
 
-			}else{
-				//alert("finalizado");
+				}else{
+					//alert("finalizado");
+				}
+				i++;
 			}
-			i++;
 		}
-		
 	},
 	error:function(data){
 		console.log(data);
@@ -79,7 +80,7 @@ $.ajax({
 function iniciar(){
 	
 	
-	localStorage['dia']="no";
+	//localStorage['dia']="no";
 
 	$('.treeview-menu').removeClass('treeview-menu ');
 	$('.menu_dia_hover').hide();
@@ -115,8 +116,6 @@ function iniciar(){
 }
 
 function registrar_cargo(){
-
-
 	var json={
 		'accion':'registrar_cargo',
 		'nombre_cargo':$('#cargo').val()
@@ -221,6 +220,13 @@ function guardar_encargado(){
 
 							show_view_managers();
 
+							$('#nombre_encargado').val('');
+							$('#apellido_encargado').val('');
+							$('#cedula_encargado').val('');
+							$('#telefono_encargado').val('');
+							$('#nombre_usuario_encargado').val('');
+							$('#pass_encargado').val('');
+
 						
 					}
 				})
@@ -230,9 +236,12 @@ function guardar_encargado(){
 		}
 	})
 }
-
+ 
 
 function editarPerfil(){
+	$('.opciones_perfil').removeAttr('hidden');
+	$("#ConfiguracionDatos").removeAttr('hidden');
+	
 	$('#tabla_cargos').attr('hidden', 'true');
 	$('.menu_dia').addClass("treeview");
 	$('.mensaje_trabajador').attr('hidden','true');
@@ -245,7 +254,7 @@ function editarPerfil(){
 	$('.dia').attr('hidden','true');
 
 	$("#datoscuenta").on("click", datoscuenta);
-	$("#eliminarCuenta").on("click", eliminarCuenta);
+	$(".eliminarCuenta").on("click", eliminarCuenta);
 
 		
 		var json = {'accion':'datosempresa', 'id_persona':localStorage['id_persona']};
@@ -303,7 +312,7 @@ function DatosPersonales(){
 
 		var html = "";
 
-		html += 	'<form style="margin: 4em;">';
+		html += 	'<form action="#" class="col-xs-4 col-xs-offset-3">';
 		html += 	  '<div class="form-group">';
 		html += 	    '<label for="nombreusuario">Tu Nombre</label>';
 		html += 	    '<input type="text" class="form-control" id="nombreusuario" value="'+data.result[0][1]+'">';
@@ -368,8 +377,8 @@ function datoscuenta(){
 		url: "../controllers/usuario_controlador.php",
 		success:function(data){
 			var html="";
-
-			html += 	'<form id="formulario_editar_foto" style="margin-left: 12em; margin-right: 35em; margin-top: 4em;" enctype="multipart/form-data"  method="POST"  >';
+			html += 	'<div class="col-xs-4"><img src="files/'+data.result[0]["foto_perfil"]+'" class="user-image" alt="User Image" style="width: 100%; margin: 3em;"></div>'
+			html += 	'<form class="col-xs-4 col-xs-offset-2" id="formulario_editar_foto"  enctype="multipart/form-data"  method="POST"  >';
 			html += 	  '<h4>Cambia los dato de tu cuenta, tu contraseña y tu imagen de usuario..!</h4>';
 			html += 	  '<div class="form-group">';
 			html += 	    '<label for="contra1">Contraseña</label>';
@@ -381,9 +390,8 @@ function datoscuenta(){
 			html += 	  '</div>';				
 			html += 	  '<div class="form-group">';
 			html += 	    '<label for="nombreEmpresa">Imagen de usuario</label>';
-			html += 	    '<img src="" class="user-image" alt="User Image" style="width: 100%; margin: 3em;">';
-			html += 	    '<input type="text" class="form-control" name="campo_username" value="'+data.result[0]["nombre_usuario"]+'">';
-			html += 	    '<input type="text" class="form-control" name="accion" value="editar_perfil_foto">';
+			html += 	    '<input type="hidden" class="form-control" name="campo_username" value="'+data.result[0]["nombre_usuario"]+'">';
+			html += 	    '<input type="hidden" class="form-control" name="accion" value="editar_perfil_foto">';
 			html += 	    '<input type="file" name="foto_usuario" class="form-control" >';
 			html += 	  '</div>';
 			html += 	  '<input type="submit" class="btn btn-primary" value="Actualizar cuenta">';
@@ -391,14 +399,10 @@ function datoscuenta(){
 
 			$("#ConfiguracionDatos").html(html);
 			$("#actualizar_cuenta").off("click").on("click", actualizar_cuenta);
-
 			$("#formulario_editar_foto").submit(editar_perfil_foto);
 
 		}
 	});
-
-	
-
 	
 }
 
@@ -424,7 +428,7 @@ function editar_perfil_foto(event){
 			$('.user-image').attr("src","files/"+localStorage['foto_perfil']);
 			
 			if(datosRespuesta[0].match("Ok")){
-				alert("exacto");
+				swal("Actualizado correctamente");
 				localStorage['foto_perfil'] = datosRespuesta[2];
 				$('.user-image').attr("src","files/"+localStorage['foto_perfil']);
 			}else{
@@ -439,10 +443,50 @@ function editar_perfil_foto(event){
 
 }
 
-function eliminarCuenta(){
-	alert("hola");
-}
+function eliminarCuenta(){	
+		
+		var html="";
 
+		html += 	'<form class="col-xs-4 col-xs-offset-4">';
+		html += 	  '<h4>Una vez elimines la cuneta te olvidaras de todo y te tocara crear una nueva..!</h4>';
+		html += 	  '<div class="form-group">';
+		html += 	    '<label for="usuario">usuario</label>';
+		html += 	    '<input type="text" class="form-control" id="usuario">';
+		html += 	  '</div>';	
+		html += 	  '<div class="form-group">';
+		html += 	    '<label for="contrasena">Contraseña</label>';
+		html += 	    '<input type="password" class="form-control" id="contrasena">';
+		html += 	  '</div>';					
+		html += 	  '<button type="submit" class="btn btn-danger" id="eliminar_cuenta">Eliminar cuenta</button>';
+		html += 	'</form>';
+
+		$("#ConfiguracionDatos").html(html);
+
+		$("#eliminar_cuenta").off("click").on("click", eliminar_cuenta);
+	}
+
+	function eliminar_cuenta(e){
+		e.preventDefault();
+		var usuario = $("#usuario").val();
+		var contrasena = $("#contrasena").val();
+
+		var json = {'accion':'eliminar_cuenta', 'usuario':usuario, 'contrasena':contrasena, 'id_usuario':localStorage['id_persona']};
+
+		$.ajax({
+			type: "POST",
+			dataType: "Json",
+			data: json,
+			url: "../controllers/usuario_controlador.php",
+			success:function(data){
+
+				if (data.status == 'ok'){					
+					swal('Vuelve pronto');
+					cerrar();
+				}
+
+			}
+		});
+	}
 
 function actualizar_cargo(){
 	
@@ -493,6 +537,9 @@ function show_view_cargos(){
 				$('.mensaje_encargados').attr('hidden','true');
 				$('.tabla_terrenos').attr('hidden','true');
 				$('.tabla').attr('hidden','true');
+
+				$('.opciones_perfil').attr('hidden','true');
+				$("#ConfiguracionDatos").attr('hidden','true');
 				var i=0;
 				var html="";
 				
@@ -545,12 +592,33 @@ function show_view_cargos(){
 				$('#example3').DataTable().ajax.reload();
 				$(function(){
 
-				  $('#example3').DataTable({
-				    "language": {
-				          "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-				        },
-				    "bDestroy": true
-				  });
+				  $('#example3').DataTable(
+				  	{
+				  				    "language" :{
+				  						    "sProcessing":     "Procesando...",
+				  						    "sLengthMenu":     "Mostrar _MENU_ registros",
+				  						    "sZeroRecords":    "No se encontraron resultados",
+				  						    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+				  						    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+				  						    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+				  						    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+				  						    "sInfoPostFix":    "",
+				  						    "sSearch":         "Buscar:",
+				  						    "sUrl":            "",
+				  						    "sInfoThousands":  ",",
+				  						    "sLoadingRecords": "Cargando...",
+				  						    "oPaginate": {
+				  						        "sFirst":    "Primero",
+				  						        "sLast":     "Último",
+				  						        "sNext":     "Siguiente",
+				  						        "sPrevious": "Anterior"
+				  						    },
+				  						    "oAria": {
+				  						        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+				  						        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+				  						    }
+				  					}	    		    
+				  				});
 				});
 			}else if(data.estado=="err"){
 				//Mostrar si no hay Cargos!
@@ -850,6 +918,8 @@ function show_view_managers(){
 				$('.vista_encargados').removeAttr('hidden');
 
 				$('#tabla_encargados').removeAttr("hidden");
+				$('.opciones_perfil').attr('hidden','true');
+				$("#ConfiguracionDatos").attr('hidden','true');
 
 				var i=0;
 				var html="";
@@ -966,12 +1036,31 @@ function show_view_managers(){
 				$('#example4').DataTable().ajax.reload();
 				$(function () {
 				  $('#example4').DataTable({
-				    "language": {
-				          "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-				        },
-				    "bDestroy": true,
-				    "fnDestroy": true
-				  });
+			    "language" :{
+					    "sProcessing":     "Procesando...",
+					    "sLengthMenu":     "Mostrar _MENU_ registros",
+					    "sZeroRecords":    "No se encontraron resultados",
+					    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+					    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+					    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+					    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+					    "sInfoPostFix":    "",
+					    "sSearch":         "Buscar:",
+					    "sUrl":            "",
+					    "sInfoThousands":  ",",
+					    "sLoadingRecords": "Cargando...",
+					    "oPaginate": {
+					        "sFirst":    "Primero",
+					        "sLast":     "Último",
+					        "sNext":     "Siguiente",
+					        "sPrevious": "Anterior"
+					    },
+					    "oAria": {
+					        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+					        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+					    }
+				}	    		    
+			});
 				  
 				});
 
@@ -1062,6 +1151,9 @@ function show_view_day(){
 				$('.mas').attr('hidden','true');
 				$('#tabla_cargos').attr('hidden','true');
 
+				$('.opciones_perfil').attr('hidden','true');
+				$("#ConfiguracionDatos").attr('hidden','true');
+
 
 				
 				consultarPagosTrabajadores();
@@ -1079,6 +1171,8 @@ function show_view_day(){
 			$('.vista_encargados').attr('hidden','true');
 			$('.mensaje_encargados').attr('hidden','true');
 			$('#nivel').html("Empezar Dia");
+		$('.opciones_perfil').attr('hidden','true');
+		$("#ConfiguracionDatos").attr('hidden','true');
 		}
 	}
 }
@@ -1182,7 +1276,7 @@ function comprobarLogin(){
 		localStorage['usuario']="nada";
 		location.href="http://localhost/Proyecto%20Final/";
 	}else{
-		$('.user-image').attr("src",localStorage['foto_perfil']);
+		$('.user-image').attr("src","files/"+localStorage['foto_perfil']);
 		$('.nombre_usuario').html(localStorage['usuario']);
 		$('.tipo_usuario').html(localStorage['tipo_usuario']);
 		
@@ -1200,6 +1294,9 @@ function show_view_workers() {
 	$(".tabla_terrenos").attr("hidden","true");
 	$('.ver_informacion_trabajador').off('click').on('click',ver_informacion_trabajador);
 	$('#tabla_cargos').attr('hidden','true');
+
+	$('.opciones_perfil').attr('hidden','true');
+	$("#ConfiguracionDatos").attr('hidden','true');
 	//listaEmpleados();
 	var Json={
 		'accion':'mostrar_trabajadores',
@@ -1274,11 +1371,32 @@ function show_view_workers() {
 					$('#example2').DataTable().ajax.reload();
 					$(function(){
 					  $('#example2').DataTable({
-					    "language": {
-					          "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-					        },
-					    "bDestroy": true
-					  });
+			    		
+			    			"language" :{
+					    "sProcessing":     "Procesando...",
+					    "sLengthMenu":     "Mostrar _MENU_ registros",
+					    "sZeroRecords":    "No se encontraron resultados",
+					    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+					    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+					    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+					    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+					    "sInfoPostFix":    "",
+					    "sSearch":         "Buscar:",
+					    "sUrl":            "",
+					    "sInfoThousands":  ",",
+					    "sLoadingRecords": "Cargando...",
+					    "oPaginate": {
+					        "sFirst":    "Primero",
+					        "sLast":     "Último",
+					        "sNext":     "Siguiente",
+					        "sPrevious": "Anterior"
+					    },
+					    "oAria": {
+					        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+					        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+					    	}
+						}	    		    
+					});
 					  
 					});
 					
@@ -1494,6 +1612,9 @@ function show_view_dashboard(){
 	$(".tabla_terrenos").attr("hidden","true");
 	$('#tabla_cargos').attr('hidden',"true");
 
+	$('.opciones_perfil').attr('hidden','true');
+	$("#ConfiguracionDatos").attr('hidden','true');
+
 	var json_0={
 		'accion':'cantidad',
 		'tipo':'encargado',
@@ -1559,6 +1680,9 @@ function show_view_ground(){
 	$(".tabla_terrenos").removeAttr("hidden");
 	$('#tabla_cargos').attr('hidden','true');
 
+	$('.opciones_perfil').attr('hidden','true');
+	$("#ConfiguracionDatos").attr('hidden','true');
+
 	var Json={
 		'accion':'buscar_todos_terrenos',
 		'nombre_usuario':localStorage['usuario'],
@@ -1602,13 +1726,31 @@ function show_view_ground(){
 			$('#example1').DataTable().ajax.reload();
 			$(function () {
 			  $('#example1').DataTable({
-			    "language": {
-			          "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-			        },
-			    "bDestroy": true,
-			    "fnDestroy": true
-			  });
-			  
+			    "language" :{
+					    "sProcessing":     "Procesando...",
+					    "sLengthMenu":     "Mostrar _MENU_ registros",
+					    "sZeroRecords":    "No se encontraron resultados",
+					    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+					    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+					    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+					    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+					    "sInfoPostFix":    "",
+					    "sSearch":         "Buscar:",
+					    "sUrl":            "",
+					    "sInfoThousands":  ",",
+					    "sLoadingRecords": "Cargando...",
+					    "oPaginate": {
+					        "sFirst":    "Primero",
+					        "sLast":     "Último",
+					        "sNext":     "Siguiente",
+					        "sPrevious": "Anterior"
+					    },
+					    "oAria": {
+					        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+					        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+					    }
+				}	    		    
+			});
 			});
 
 
@@ -2183,15 +2325,13 @@ function empezarDia(){
 											$('.tabla_terrenos').attr('hidden','true');
 											$('.tabla').attr('hidden','true');
 											$('.SearchByNamet').attr('hidden','true');
-
+											$('.opciones_perfil').attr('hidden','true');
+											$("#ConfiguracionDatos").attr('hidden','true');
 
 											consultarPagosTrabajadores();
 											consultarAsistenciasTrabajadores();
-
 										}else
 										swal(data.estado);
-										
-
 									}
 								})
 							}else{
