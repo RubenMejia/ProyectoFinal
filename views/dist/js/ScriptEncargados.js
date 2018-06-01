@@ -16,8 +16,6 @@ var fecha=(f.getFullYear()+"-"+(f.getMonth() + 1 )+"-"+f.getDate());
 localStorage['fecha']=fecha;
 //alert(localStorage['fecha']);
 
-
-
 var consultaDia={
 	'accion':'consultarDia',
 	'fecha':fecha,
@@ -33,39 +31,40 @@ $.ajax({
 	url:'../controllers/controlador_registro_dia.php',
 	success:function(data){
 		var i=0;
-		//console.log(data);
-		if( (typeof data.resultado === "object") && (data.resultado !== null) ){
-			while(i<data.resultado.length){
-				if(data.resultado[i][7].includes("activo")){
-					
-					
-					localStorage['dia']="no";
-					$('.menu_dia').removeClass("treeview");
-					$('.menu_dia_hover').removeClass("treeview-menu");
-					$('.menu_dia_hover').hide();
+		if( (typeof data.resultado === "object") && (data.resultado !== null) )
+		{
+		   while(i<data.resultado.length ){
+		   	if(data.resultado[i][7].includes("activo")){
+		   		
+		   		
+		   		localStorage['dia']="no";
+		   		$('.menu_dia').removeClass("treeview");
+		   		$('.menu_dia_hover').removeClass("treeview-menu");
+		   		$('.menu_dia_hover').hide();
 
 
-					var json={
-						'accion':'finalizarDia2',
-						'id':data.resultado[i][0]
-					};
+		   		var json={
+		   			'accion':'finalizarDia2',
+		   			'id':data.resultado[i][0]
+		   		};
 
-					$.ajax({
-						type:'POST',
-						dataType:'json',
-						data:json,
-						url:'../controllers/controlador_registro_dia.php',
-						success:function(data){
-							//alert(data);
-						}
-					});
+		   		$.ajax({
+		   			type:'POST',
+		   			dataType:'json',
+		   			data:json,
+		   			url:'../controllers/controlador_registro_dia.php',
+		   			success:function(data){
+		   				//alert(data);
+		   			}
+		   		});
 
-				}else{
-					//alert("finalizado");
-				}
-				i++;
-			}
+		   	}else{
+		   		//alert("finalizado");
+		   	}
+		   	i++;
+		   }
 		}
+			
 	},
 	error:function(data){
 		console.log(data);
@@ -73,33 +72,20 @@ $.ajax({
 
 })
 
-
-
 //localStorage['consultarTrabajadoresAsistencia']=true;
 
 function iniciar(){
-	
-	
-	//localStorage['dia']="no";
-
 	$('.treeview-menu').removeClass('treeview-menu ');
 	$('.menu_dia_hover').hide();
-	//alert(localStorage['dia']+" dia");
-	//alert((f.getMonth() + 1 )+" / "+f.getDate()+" / "+f.getFullYear());
 	comprobarLogin();
 	show_view_dashboard();
 	$(".opcion_trabajadores").off("click").on("click",show_view_workers);
 	$("#guardar_registro").off("click").on("click",save_worker);
 	$("#search-btn").off("click").on("click",SearchByName);
 	$('.cerrar_sesion').on('click',cerrar);
-	//$('.mas').on('click',buscar_cargos);
-	$('.agregar_nuevo').on('click',buscar_cargos);
 	$('.inicio').on('click',show_view_dashboard);
 	$('.mostrar_terrenos').on('click',show_view_ground);
 	$('.empezarDia').on('click',show_view_day);
-	$('.registrar_terreno').on('click',registrar_terreno);
-	$('.encargados').on('click',show_view_managers);
-	$('.agregar_nuevo_encargado').on('click',buscar_todos_terrenos_lista_option);
 	$('#actualizar_trabajador').on('click',actualizar_trabajador);
 	$('.mostrar_trabajadores_asistencia').off('click').on('click',buscarTrabajadoresAsistencia);
 	$('.mostrar_trabajadores_pagos').off('click').on('click',realizarPagosTrabajadores);
@@ -107,136 +93,9 @@ function iniciar(){
 	$('#hacerPago').off('click').on('click',hacerPago);
 	$('.finalizarDia').on('click',finalizarDia);
 	$('.cancelarDia').on('click',cancelarDia);
-	$('.opcion_cargos').on('click',show_view_cargos);
-	$('#actualizar_cargo').off('click').on('click',actualizar_cargo);
 	$('.editarPerfil').on('click',editarPerfil);
-	$('#guardar_encargado').on('click',guardar_encargado);
-	$('.registrar_cargo').off('click').on('click',registrar_cargo);
-
+	
 }
-
-function registrar_cargo(){
-	var json={
-		'accion':'registrar_cargo',
-		'nombre_cargo':$('#cargo').val()
-	};
-
-	$.ajax({
-		type:'POST',
-		dataType:'Json',
-		data:json,
-		url:'../controllers/cargo_controlador.php',
-		success:function(data){
-			//swal(data);
-			$('#cargo').val('');
-			show_view_cargos();
-		}
-	})
-}
-
-function guardar_encargado(){
-	var json={
-		'nombres':$('#nombre_encargado').val(),
-		'apellidos':$('#apellido_encargado').val(),
-		'cedula':$('#cedula_encargado').val(),
-		'telefono':$('#telefono_encargado').val(),
-		'terreno_asignado':$('#terrenos_para_encargado').val(),
-		'accion':'registrar_usuario_encargado'
-
-	};
-
-	$.ajax({
-		type:'POST',
-		dataType:'Json',
-		data:json,
-		url:'../controllers/persona_controlador.php',
-		success:function(data){
-			if(data.estado=="ok"){
-				//alert(data.id);
-
-				json={
-					'usuario':$('#nombre_usuario_encargado').val(),
-					'pass':$('#pass_encargado').val(),
-					'accion':'registrar_usuario_encargado',
-					'id_persona':data.id
-				};
-
-				$.ajax({
-					type:'POST',
-					dataType:'Json',
-					data:json,
-					url:'../controllers/usuario_controlador.php',
-					success:function(data){
-						
-							//alert(data.resultado);
-
-							json={
-								
-								'accion':'insertar',
-								'usuario':localStorage['usuario'],
-								'encargado':data.encargado
-							};
-							
-
-							$.ajax({
-								type:'POST',
-								dataType:'Json',
-								data:json,
-								url:'../controllers/controller_administrador_encargado.php',
-								success:function(data){
-									if(data.estado=="ok"){
-										//alert(data.resultado);
-
-										
-
-										
-									}else{
-										//alert(data.resultado);
-									}
-								}
-							})
-
-
-
-							json={
-								'accion':'Insertar',
-								'id_terreno':$('#terrenos_para_encargado').val(),
-								'encargado':data.encargado
-							};
-							//console.log(json);
-							$.ajax({
-								type:'POST',
-								dataType:'Json',
-								data:json,
-								url:'../controllers/controlador_asignar_encargado_a_terreno.php',
-								success:function(data){
-									if(data.status=="ok"){
-										//alert(data.result);
-									}else{
-										swal(data.result);
-									}
-								}
-							});
-
-							show_view_managers();
-
-							$('#nombre_encargado').val('');
-							$('#apellido_encargado').val('');
-							$('#cedula_encargado').val('');
-							$('#telefono_encargado').val('');
-							$('#nombre_usuario_encargado').val('');
-							$('#pass_encargado').val('');
-
-						
-					}
-				})
-			}else{
-				swal(data.resultado);
-			}
-		}
-	})
-}
- 
 
 function editarPerfil(){
 	$('.opciones_perfil').removeAttr('hidden');
@@ -488,161 +347,6 @@ function eliminarCuenta(){
 		});
 	}
 
-function actualizar_cargo(){
-	
-	var json={
-		'accion':'actualizar_cargo',
-		'nombre':$('#nuevo_tipo').val(),
-		'id':$('#nuevo_tipo').attr('data_id')
-	};
-
-	$.ajax({
-		type:'POST',
-		dataType:'Json',
-		data:json,
-		url:'../controllers/cargo_controlador.php',
-		success:function(data){
-			//swal(data);
-			$('#exampleModal2').modal('hide');
-			show_view_cargos();
-		},
-		error:function(data){
-			console.log(data);
-		}
-	});
-}
-
-function show_view_cargos(){
-	
-	
-
-	var json={
-		'accion':'buscar_cargos'
-	};
-	$.ajax({
-		type:"POST",
-		data:json,
-		url:'../controllers/cargo_controlador.php',
-		dataType:"Json",
-		success:function(data){
-			
-			if(data.estado=="ok"){
-				$('#vista_sin_Cargos').attr('hidden','true');
-				$('#tabla_cargos').removeAttr('hidden');
-				$('.menu_dia').addClass("treeview");
-				$('.mensaje_trabajador').attr('hidden','true');
-				$('.show_info').attr('hidden','true');
-				$('#nivel').html("Cargos");
-				$('.vista_encargados').attr('hidden','true');
-				$('.mensaje_encargados').attr('hidden','true');
-				$('.tabla_terrenos').attr('hidden','true');
-				$('.tabla').attr('hidden','true');
-
-				$('.opciones_perfil').attr('hidden','true');
-				$("#ConfiguracionDatos").attr('hidden','true');
-				var i=0;
-				var html="";
-				
-				
-				while(i<data.resultado.length){
-					html+="<tr>";
-					html+="<td value="+data.resultado[i][0]+">"+data.resultado[i][0]+"</td>";
-					html+="<td class='nombre_actual' value="+data.resultado[i][0]+">"+data.resultado[i][1]+"</td>";
-					html +=	'<td><button data_id='+data.resultado[i][0]+'  class="btn btn-danger borrar_cargo" type="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>';
-					html +=	'<button data_id='+data.resultado[i][0]+'   class="btn btn-success editar_cargo" type="submit" data-toggle="modal" data-target="#exampleModal2" data-whatever="@mdo"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>';
-					html+="</tr>";
-					i++;
-				}
-
-				
-				
-				$("#ver_cargos").html(html);
-				$('.registrar_cargo').off('click').on('click',registrar_cargo);
-
-				$('.editar_cargo').off('click').on('click',function(){
-					$('#nuevo_tipo').val($(this).parent().siblings('.nombre_actual').html());
-					$('#nuevo_tipo').attr('data_id',$(this).attr('data_id'));
-
-				});
-
-				$('.borrar_cargo').off('click').on('click',function(){
-					var opcion=confirm("Estas seguro de eliminar el cargo?");
-					if(opcion){
-						var json={
-							'accion':'eliminar_cargo',
-							'id_cargo':$(this).attr('data_id')
-						};
-
-						$.ajax({
-							type:'POST',
-							dataType:'Json',
-							data:json,
-							url:'../controllers/cargo_controlador.php',
-							success:function(data){
-								swal(data);
-								show_view_cargos();
-							}
-						})
-					}
-					
-				})
-
-				
-
-				$('#example3').DataTable().ajax.reload();
-				$(function(){
-
-				  $('#example3').DataTable(
-				  	{
-				  				    "language" :{
-				  						    "sProcessing":     "Procesando...",
-				  						    "sLengthMenu":     "Mostrar _MENU_ registros",
-				  						    "sZeroRecords":    "No se encontraron resultados",
-				  						    "sEmptyTable":     "Ningún dato disponible en esta tabla",
-				  						    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-				  						    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-				  						    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-				  						    "sInfoPostFix":    "",
-				  						    "sSearch":         "Buscar:",
-				  						    "sUrl":            "",
-				  						    "sInfoThousands":  ",",
-				  						    "sLoadingRecords": "Cargando...",
-				  						    "oPaginate": {
-				  						        "sFirst":    "Primero",
-				  						        "sLast":     "Último",
-				  						        "sNext":     "Siguiente",
-				  						        "sPrevious": "Anterior"
-				  						    },
-				  						    "oAria": {
-				  						        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-				  						        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-				  						    }
-				  					}	    		    
-				  				});
-				});
-			}else if(data.estado=="err"){
-				//Mostrar si no hay Cargos!
-
-				$('#vista_sin_Cargos').removeAttr('hidden');
-				$('.menu_dia').addClass("treeview");
-				$('.mensaje_trabajador').attr('hidden','true');
-				$('.show_info').attr('hidden','true');
-				$('#nivel').html("Cargos");
-				$('.vista_encargados').attr('hidden','true');
-				$('.mensaje_encargados').attr('hidden','true');
-				$('.tabla_terrenos').attr('hidden','true');
-				$('.tabla').attr('hidden','true');
-
-				//alert(data.resultado);
-			}else{
-				//alert("nada");			
-			}	
-		}
-	});
-
-
-}
-
 
 function cancelarDia(){
 	if (confirm("¿Deseas CANCELAR dia?. Si lo haces se perdera todos los registros referentes al dia de trabajo de hoy!")) {
@@ -657,8 +361,8 @@ function cancelarDia(){
        		data:json,
        		url:'../controllers/controlador_registro_dia.php',
        		success:function(data){
-       			swal(data);
-       			show_view_dashboard();
+       			alert(data);
+       			
        		}
        	});
        	
@@ -666,12 +370,11 @@ function cancelarDia(){
        	$('.menu_dia').removeClass("treeview");
        	$('.menu_dia_hover').removeClass("treeview-menu");
        	$('.menu_dia_hover').hide();
-       	
+       	show_view_dashboard();
 
     } 
         
 }
-
 
 function finalizarDia(){
 	localStorage['dia']="no";
@@ -692,7 +395,7 @@ function finalizarDia(){
 		data:json,
 		url:'../controllers/controlador_registro_dia.php',
 		success:function(data){
-			swal("Dia Terminado con Exito");
+			swal("Muchas gracias por estar con nosotros");
 		}
 	});
 
@@ -719,7 +422,7 @@ function hacerPago(){
 		data:json,
 		url:'../controllers/controller_pago_trabajadores.php',
 		success:function(data){
-			swal(data.result);
+			alert(data.result);
 			consultarPagosTrabajadores();
 		}
 	});
@@ -738,11 +441,11 @@ function realizarPagosTrabajadores(){
 		dataType: "Json",
 		url:"../controllers/controller_asignar_trabajador_a_terreno.php",
 		success:function(data){
-			//console.log(data);
+			console.log(data);
 			
 			if(data.estado=="ok"){
 					var html="";
-					//console.log(data);
+					console.log(data);
 					var i=0;
 					while(i<data.resultado.length){
 						html+='<tr>';
@@ -885,222 +588,25 @@ function buscarCantidadEncargados(){
 		data:json,
 		url:'../controllers/controller_encargado.php',
 		success:function(data){
-			swal(data);
+			alert(data);
 			
 		}
 
 	})
 }
 
-function show_view_managers(){
-	$('#nivel').html("Encargados");
-	$('#vista_sin_Cargos').attr('hidden','true');
-	var json={
-		'accion':'buscarEncargados'
-	};
-
-	$.ajax({
-		type:'POST',
-		dataType:'Json',
-		data:json,
-		url:'../controllers/controller_encargado.php',
-		success:function(data){
-			//console.log(data);
-			if(data.estado=="ok"){
-				$('#tabla_cargos').attr('hidden','true');
-				$('.dia').attr('hidden','true');
-				$(".tabla_terrenos").attr("hidden","true");
-				$(".show_info").attr("hidden","true");
-				$('.mensaje_trabajador').attr('hidden','true');
-				$('.caja_mas').attr('hidden','true');
-				$('.SearchByNamet').attr('hidden','true');
-				$('.tabla').attr('hidden','true');
-				$('.vista_encargados').removeAttr('hidden');
-
-				$('#tabla_encargados').removeAttr("hidden");
-				$('.opciones_perfil').attr('hidden','true');
-				$("#ConfiguracionDatos").attr('hidden','true');
-
-				var i=0;
-				var html="";
-
-				while(i<data.resultado.length){
-					html+="<tr>";
-					html+="<td class='"+data.resultado[i]['id_persona']+"'>"+data.resultado[i]['id_persona']+"</td>";
-					html+="<td class='"+data.resultado[i]['nombres']+"'>"+data.resultado[i]['nombres']+"</td>";
-					html+="<td class='"+data.resultado[i]['apellidos']+"'>"+data.resultado[i]['apellidos']+"</td>";
-					html+="<td class='"+data.resultado[i]['telefono']+"'>"+data.resultado[i]['telefono']+"</td>";
-					html+="<td class='"+data.resultado[i]['nombre_usuario']+"'>"+data.resultado[i]['nombre_usuario']+"</td>";
-					html+="<td class='"+data.resultado[i]['nombre_usuario']+"'><button data_id="+data.resultado[i]['nombre_usuario']+"   class='btn btn-success asignar_encargado' type='submit' data-toggle='modal' data-target='#modalAsignarEncargado' data-whatever='@mdo'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button></td>";
-					i++;
-
-					
-				}
-
-				$('#ver_encargados').html(html);
-
-				$('.asignar_encargado').off('click').on('click',function(){
-					var encargado=$(this).attr('data_id');
-					var json={
-						'nombre_usuario':localStorage['usuario'],
-						'accion':'buscar_todos_terrenos_2',
-						'encargado':encargado
-					};
-					$.ajax({
-						type:"POST",
-						dataType:"Json",
-						url:'../controllers/terreno_controlador.php',
-						data:json,
-						success:function(data){
-							var html="";
-							var i=0;
-							//Muestra la lista de terrenos en los que puede empezar dia
-							if(data.status=="ok"){
-								//console.log(data);
-								while(i<data.result.length){
-									html+="<tr>";
-									html+='<td>'+data.result[i]['id']+'</td>';
-									html+='<td>'+data.result[i]['nombre']+'</td>';
-									if(data.listaTerrenosAsignados.includes(data.result[i][0])){
-										html+='<td><input type="checkbox" data-id="'+data.result[i][0]+'" class="check_add_terreno asignarEncargado" checked></td>';
-									}else{
-										html+='<td><input type="checkbox" data-id="'+data.result[i][0]+'" class="check_add_terreno asignarEncargado"></td>';
-									}
-															
-									i++;
-								}
-								$('.terrenos').html(html);
-
-
-
-								$('.asignarEncargado').off('click').on('click',function(){
-									if ($(this).is(':checked')) {
-										//alert("Asignar");
-										json={
-											'accion':'Insertar',
-											'id_terreno':$(this).attr('data-id'),
-											'encargado':encargado
-										};
-										//console.log(json);
-										$.ajax({
-											type:'POST',
-											dataType:'Json',
-											data:json,
-											url:'../controllers/controlador_asignar_encargado_a_terreno.php',
-											success:function(data){
-												if(data.status=="ok"){
-													swal(data.result);
-												}else{
-													swal(data.result);
-												}
-											}
-										});
-
-									}else{
-										//alert("Quitar del terreno");
-
-										json={
-											'accion':'Eliminar',
-											'id_terreno':$(this).attr('data-id'),
-											'encargado':encargado
-									
-										};
-
-										$.ajax({
-											type:'POST',
-											dataType:'Json',
-											data:json,
-											url:'../controllers/controlador_asignar_encargado_a_terreno.php',
-											success:function(data){
-												if(data.status=="ok"){
-													swal(data.result);
-												}else{
-													swal(data.result);
-												}
-											}
-										});
-										
-									}
-								})
-
-							}else if(data.status=="err"){
-								$('#lista_terrenos').html(data.result);
-							}
-							
-						}
-
-
-					});
-				})
-
-				$('#example4').DataTable().ajax.reload();
-				$(function () {
-				  $('#example4').DataTable({
-			    "language" :{
-					    "sProcessing":     "Procesando...",
-					    "sLengthMenu":     "Mostrar _MENU_ registros",
-					    "sZeroRecords":    "No se encontraron resultados",
-					    "sEmptyTable":     "Ningún dato disponible en esta tabla",
-					    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-					    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-					    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-					    "sInfoPostFix":    "",
-					    "sSearch":         "Buscar:",
-					    "sUrl":            "",
-					    "sInfoThousands":  ",",
-					    "sLoadingRecords": "Cargando...",
-					    "oPaginate": {
-					        "sFirst":    "Primero",
-					        "sLast":     "Último",
-					        "sNext":     "Siguiente",
-					        "sPrevious": "Anterior"
-					    },
-					    "oAria": {
-					        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-					        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-					    }
-				}	    		    
-			});
-				  
-				});
-
-
-
-			}else if(data.estado=="No"){
-				$('#tabla_cargos').attr('hidden','true');
-				$('.dia').attr('hidden','true');
-				$(".tabla_terrenos").attr("hidden","true");
-				$(".show_info").attr("hidden","true");
-				$('.mensaje_trabajador').attr('hidden','true');
-				$('.caja_mas').attr('hidden','true');
-				$('.SearchByNamet').attr('hidden','true');
-				$('.tabla').attr('hidden','true');
-				$('.vista_encargados').removeAttr('hidden');
-				$('.mensaje_encargados').removeAttr('hidden');
-			}else if(data.estado="err"){
-				swal(data.resultado);
-			}
-		}
-	});
-
-
-
-
-	
-	
-}
-
 function show_view_day(){
 	$('#vista_sin_Cargos').attr('hidden','true');
-	
-	if(localStorage['tipo_usuario']=="administrador" && localStorage['dia']=="no"){
+	$('.tabla_terrenos').attr('hidden','true');
+	//alert(localStorage['dia']);
+	if(localStorage['tipo_usuario']=="encargado" && localStorage['dia']=="no"){
 		$('.menu_dia').removeClass("treeview");
 		$("#modal-default").modal("show");
 		
 
 		var json={
-			'nombre_usuario':localStorage['usuario'],
-			'accion':'buscar_todos_terrenos'
+			'nombre_encargado':localStorage['usuario'],
+			'accion':'buscar_todos_terrenos_asignados'
 		};
 		$.ajax({
 			type:"POST",
@@ -1120,9 +626,6 @@ function show_view_day(){
 						i++;
 					}
 					$('#lista_terrenos').html(html);
-
-
-
 
 				}else if(data.status=="err"){
 					$('#lista_terrenos').html(data.result);
@@ -1151,9 +654,6 @@ function show_view_day(){
 				$('.mas').attr('hidden','true');
 				$('#tabla_cargos').attr('hidden','true');
 
-				$('.opciones_perfil').attr('hidden','true');
-				$("#ConfiguracionDatos").attr('hidden','true');
-
 
 				
 				consultarPagosTrabajadores();
@@ -1161,7 +661,6 @@ function show_view_day(){
 
 			/*}else{
 				$(".menu_dia").removeClass("treeview");
-
 			}*/
 		}else{
 			$('.menu_dia').addClass("treeview");
@@ -1171,8 +670,6 @@ function show_view_day(){
 			$('.vista_encargados').attr('hidden','true');
 			$('.mensaje_encargados').attr('hidden','true');
 			$('#nivel').html("Empezar Dia");
-		$('.opciones_perfil').attr('hidden','true');
-		$("#ConfiguracionDatos").attr('hidden','true');
 		}
 	}
 }
@@ -1206,7 +703,7 @@ function consultarAsistenciasTrabajadores(){
 						$('#asistencia_trabajadores').val(porcentaje);
 						$("#asistencia_trabajadores").trigger('change');
 					}else if(data_2.status=="err"){
-						swal("El Terreno no tiene trabajadores, NO deberia empezar ningun dia sin almenos 1 trabajador");
+						alert("El Terreno no tiene trabajadores, NO deberia empezar ningun dia sin almenos 1 trabajador");
 					}
 				}
 			})
@@ -1246,7 +743,7 @@ function consultarPagosTrabajadores(){
 						$('#pagos_realizados').val(porcentaje);
 						$("#pagos_realizados").trigger('change');
 					}else if(data_2.status=="err"){
-						swal("El Terreno no tiene trabajadores, NO deberia empezar ningun dia sin almenos 1 trabajador");
+						alert("El Terreno no tiene trabajadores, NO deberia empezar ningun dia sin almenos 1 trabajador");
 					}
 				}
 			})
@@ -1294,9 +791,6 @@ function show_view_workers() {
 	$(".tabla_terrenos").attr("hidden","true");
 	$('.ver_informacion_trabajador').off('click').on('click',ver_informacion_trabajador);
 	$('#tabla_cargos').attr('hidden','true');
-
-	$('.opciones_perfil').attr('hidden','true');
-	$("#ConfiguracionDatos").attr('hidden','true');
 	//listaEmpleados();
 	var Json={
 		'accion':'mostrar_trabajadores',
@@ -1309,11 +803,10 @@ function show_view_workers() {
 		dataType:"Json",
 		url:"../controllers/controller_trabajador.php",
 		success: function (data) {
-				//console.log(data);
+				console.log(data);
 				if (data.estado=="err") {
 				
-					$(".mensaje_trabajador").removeAttr("hidden");
-					$(".show_info").attr("hidden","true");
+					
 					//Cambio de Nivel
 					$("#nivel").html("Trabajadores");
 				
@@ -1371,32 +864,11 @@ function show_view_workers() {
 					$('#example2').DataTable().ajax.reload();
 					$(function(){
 					  $('#example2').DataTable({
-			    		
-			    			"language" :{
-					    "sProcessing":     "Procesando...",
-					    "sLengthMenu":     "Mostrar _MENU_ registros",
-					    "sZeroRecords":    "No se encontraron resultados",
-					    "sEmptyTable":     "Ningún dato disponible en esta tabla",
-					    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-					    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-					    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-					    "sInfoPostFix":    "",
-					    "sSearch":         "Buscar:",
-					    "sUrl":            "",
-					    "sInfoThousands":  ",",
-					    "sLoadingRecords": "Cargando...",
-					    "oPaginate": {
-					        "sFirst":    "Primero",
-					        "sLast":     "Último",
-					        "sNext":     "Siguiente",
-					        "sPrevious": "Anterior"
-					    },
-					    "oAria": {
-					        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-					        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-					    	}
-						}	    		    
-					});
+					    "language": {
+					          "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+					        },
+					    "bDestroy": true
+					  });
 					  
 					});
 					
@@ -1405,7 +877,6 @@ function show_view_workers() {
 
 
 	});
-
 
 }
 
@@ -1439,7 +910,7 @@ function ver_informacion_trabajador() {
 		data:json,
 		url:'../controllers/controller_asignar_trabajador_a_terreno.php',
 		success:function(terrenos_asginados){
-			//console.log(terrenos_asginados);
+			console.log(terrenos_asginados);
 			var i=0;
 			if(terrenos_asginados.estado=="ok"){
 				//console.log[terrenos_asginados.resultado];
@@ -1494,6 +965,7 @@ function ver_informacion_trabajador() {
 			});
 		}
 	})
+
 }
 
 function consultarPagos(){
@@ -1594,7 +1066,6 @@ function borrar_trabajador(){
 		}
 	});
 
-
 }
 
 function show_view_dashboard(){
@@ -1611,12 +1082,10 @@ function show_view_dashboard(){
 	$(".mensaje_trabajador").attr("hidden","true");
 	$(".tabla_terrenos").attr("hidden","true");
 	$('#tabla_cargos').attr('hidden',"true");
-
-	$('.opciones_perfil').attr('hidden','true');
-	$("#ConfiguracionDatos").attr('hidden','true');
+	$('#EditarPerfil').attr('hidden','true');
 
 	var json_0={
-		'accion':'cantidad',
+		'accion':'cantidad_para_encargados',
 		'tipo':'encargado',
 		'user':localStorage['usuario']
 	};
@@ -1643,16 +1112,11 @@ function show_view_dashboard(){
 		}
 	})
 
-	
-	$.ajax({
-		type:"POST",
-		data:json_0,
-		dataType:"Json",
-		url:"../controllers/controller_administrador_encargado.php",
-		success:function(data){
-			$('.cantidad_encargados').html(data);
-		}
-	})
+	json_0={
+		'accion':'cantidad',
+		'tipo':'encargado',
+		'user':localStorage['usuario']
+	};
 
 
 	$.ajax({
@@ -1668,6 +1132,7 @@ function show_view_dashboard(){
 
 //Muestra la vista de Terrenos y esconde las demas vistas
 function show_view_ground(){
+
 	$('#vista_sin_Cargos').attr('hidden','true');
 	$('.vista_encargados').attr('hidden','true');
 	$('.mensaje_encargados').attr('hidden','true');
@@ -1677,15 +1142,11 @@ function show_view_ground(){
 	$(".SearchByNamet").attr("hidden","true");
 	$(".mensaje_trabajador").attr("hidden","true");
 	$(".tabla").attr("hidden","true");
-	$(".tabla_terrenos").removeAttr("hidden");
 	$('#tabla_cargos').attr('hidden','true');
-
-	$('.opciones_perfil').attr('hidden','true');
-	$("#ConfiguracionDatos").attr('hidden','true');
-
+	
 	var Json={
-		'accion':'buscar_todos_terrenos',
-		'nombre_usuario':localStorage['usuario'],
+		'accion':'buscar_todos_terrenos_asignados',
+		'nombre_encargado':localStorage['usuario'],
 	};
 	$.ajax({
 		type:"POST",
@@ -1693,70 +1154,49 @@ function show_view_ground(){
 		dataType:"Json",
 		url:"../controllers/terreno_controlador.php",
 		success:function(data){
-			//console.log(data); 
-			var i = 0;
+			console.log(data);
+			if(data.status=="err"){
 
-			var verterrenos ='';
+			}else{
+				$(".tabla_terrenos").removeAttr("hidden");
+				var i = 0;
 
-			while(i<data.result.length){
-				if(data.result.length>1){
-					verterrenos +='<tr>';
-					verterrenos += '<td class="nombre" id="'+data.result[i]['id']+'">'+data.result[i][1]+'</td>';
-					verterrenos += '<td  id="'+data.result[i]['id']+'"><button  class="btn btn-danger eliminar_terreno" type="submit"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>';
-					verterrenos += '<td  id="'+data.result[i]['id']+'"><button  class="btn btn-primary editar_terreno" type="submit" data-toggle="modal" data-target="#ModalEditarTerreno"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></td>';
-					verterrenos += '<td  id="'+data.result[i]['id']+'"><button  class="btn btn-success asignar_trabajadores" type="submit" data-toggle="modal" data-target="#ModalAsignarTrabajadores"><span class="glyphicon glyphicon-check"></span></button></td>';
-					verterrenos += '</tr>';
-				}else{
-					if(data.result.length==1){
+				var verterrenos ='';
+
+				while(i<data.result.length){
+					if(data.result.length>1){
 						verterrenos +='<tr>';
-						verterrenos += '<td class="nombre" id="'+data.result[i]['id']+'">'+data.result[i][1]+'</td>';
-						verterrenos += '<td  id="'+data.result[i]['id']+'"><button  disabled class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>';
-						verterrenos += '<td  id="'+data.result[i]['id']+'"><button  class="btn btn-primary editar_terreno" type="submit" data-toggle="modal" data-target="#ModalEditarTerreno"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></td>';
-						verterrenos += '<td  id="'+data.result[i]['id']+'"><button  class="btn btn-success asignar_trabajadores" type="submit" data-toggle="modal" data-target="#ModalAsignarTrabajadores"><span class="glyphicon glyphicon-check"></span></button></td>';
+						verterrenos += '<td class="nombre" id="'+data.result[i][0]+'">'+data.result[i][1]+'</td>';
+						verterrenos += '<td  id="'+data.result[i][0]+'" data_id="'+data.result[i][2]+'"><button  class="btn btn-success asignar_trabajadores" type="submit" data-toggle="modal" data-target="#ModalAsignarTrabajadores"><span class="glyphicon glyphicon-check"></span></button></td>';
 						verterrenos += '</tr>';
-					}					
+					}else{
+						if(data.result.length==1){
+							verterrenos +='<tr>';
+							verterrenos += '<td class="nombre" id="'+data.result[i][0]+'">'+data.result[i][1]+'</td>';		
+							verterrenos += '<td  id="'+data.result[i][0]+'" data_id="'+data.result[i][2]+'"><button  class="btn btn-success asignar_trabajadores" type="submit" data-toggle="modal" data-target="#ModalAsignarTrabajadores"><span class="glyphicon glyphicon-check"></span></button></td>';
+							verterrenos += '</tr>';
+						}					
+					}
+					i++;
 				}
-				i++;
+				$(".ver_terrenos").html(verterrenos);
+				$('.asignar_trabajadores').off('click').on('click',asignar_trabajadores_terreno);
+
+				$('#example1').DataTable().ajax.reload();
+				$(function () {
+				  $('#example1').DataTable({
+				    "language": {
+				          "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+				        },
+				    "bDestroy": true,
+				    "fnDestroy": true
+				  });
+				  
+				});
 			}
-			$(".ver_terrenos").html(verterrenos);
-			$(".eliminar_terreno").off('click').on("click",eliminar_terreno);
-			$('.editar_terreno').off('click').on('click',editar_terreno);
-			$('.asignar_trabajadores').off('click').on('click',asignar_trabajadores_terreno);
-
-			$('#example1').DataTable().ajax.reload();
-			$(function () {
-			  $('#example1').DataTable({
-			    "language" :{
-					    "sProcessing":     "Procesando...",
-					    "sLengthMenu":     "Mostrar _MENU_ registros",
-					    "sZeroRecords":    "No se encontraron resultados",
-					    "sEmptyTable":     "Ningún dato disponible en esta tabla",
-					    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-					    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-					    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-					    "sInfoPostFix":    "",
-					    "sSearch":         "Buscar:",
-					    "sUrl":            "",
-					    "sInfoThousands":  ",",
-					    "sLoadingRecords": "Cargando...",
-					    "oPaginate": {
-					        "sFirst":    "Primero",
-					        "sLast":     "Último",
-					        "sNext":     "Siguiente",
-					        "sPrevious": "Anterior"
-					    },
-					    "oAria": {
-					        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-					        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-					    }
-				}	    		    
-			});
-			});
-
-
-
-		
-
+		},
+		error:function(data){
+			console.log(data);
 		}
 	});
 }
@@ -1768,7 +1208,7 @@ function buscarTrabajadoresAsistencia(){
 		'nombre_usuario':localStorage['usuario'],
 		'fecha':localStorage['fecha']
 	};
-	//console.log(json);
+	console.log(json);
 
 	$.ajax({
 		type:'POST',
@@ -1800,11 +1240,11 @@ function buscarTrabajadoresAsistencia(){
 			dataType: "Json",
 			url:"../controllers/controller_asignar_trabajador_a_terreno.php",
 			success:function(data){
-				//console.log(data);
+				console.log(data);
 				
 				if(data.estado=="ok"){
 					var html="";
-					//console.log(data);
+					console.log(data);
 					var i=0;
 					while(i<data.resultado.length){
 						html+='<tr>';
@@ -1842,7 +1282,7 @@ function buscarTrabajadoresAsistencia(){
 							data:json,
 							url:'../controllers/controller_registro_asistencia.php',
 							success:function(data){
-								//alert(data.result);
+								alert(data.result);
 
 								consultarAsistenciasTrabajadores();
 
@@ -1865,7 +1305,7 @@ function buscarTrabajadoresAsistencia(){
 								data:json,
 								url:'../controllers/controller_registro_asistencia.php',
 								success:function(data){
-									//alert(data.result);
+									alert(data.result);
 									consultarAsistenciasTrabajadores();
 								}
 							});
@@ -1890,25 +1330,22 @@ function buscarTrabajadoresAsistencia(){
 
 }
 
-
-
-
-
 function asignar_trabajadores_terreno(){
-	var id_terreno=$(this).parent().siblings('.nombre').attr('id');
+	var id_terreno=$(this).parent().attr('id');
+	var usuario_admin=$(this).parent().attr('data_id');
 	var Json={
-		'accion':'mostrar_trabajadores_para_asignar',
-		'user':localStorage['usuario'],
+		'accion':'mostrar_trabajadores_para_asignar_encargados',
+		'user':usuario_admin,
 		'id_terreno' : id_terreno
 	};
-	
+	console.log(Json);
 	$.ajax({
 		type:"POST",
 		data:Json,
 		dataType: "Json",
 		url:"../controllers/controller_trabajador.php",
 		success:function(data){
-			//console.log(data.listaTrabajadoresAsignados);
+			console.log(data.listaTrabajadoresAsignados);
 			if(data.estado=="ok"){
 				var html="";
 				var i=0;
@@ -1949,7 +1386,7 @@ function asignar_trabajadores_terreno(){
 						dataType:'json',
 						url:'../controllers/controller_asignar_trabajador_a_terreno.php',
 						success:function(data){
-							//alert(data.result);
+							alert(data.result);
 						}
 					}); 
 
@@ -1969,7 +1406,7 @@ function asignar_trabajadores_terreno(){
 						dataType:'json',
 						url:'../controllers/controller_asignar_trabajador_a_terreno.php',
 						success:function(data){
-							//alert(data.result);
+							alert(data.result);
 						}
 					});
 
@@ -1981,113 +1418,11 @@ function asignar_trabajadores_terreno(){
 			});
 		},
 		error:function(data){
-			swal("Error mira la consola");
-			//console.log(data);
+			alert("Error mira la consola");
+			console.log(data);
 		}
 
 	});
-
-	/* mostrar lista de Encargados
-	$.ajax({
-
-	})*/
-}
-
-
-
-function registrar_terreno(){
-	var nombre_terreno=$('#nombre_terreno').val();
-	var json={
-		'usuario':localStorage['usuario'],
-		'accion':'registrar_terreno',
-		'terreno':nombre_terreno
-	};
-
-	$.ajax({
-		type:'POST',
-		data:json,
-		dataType:'Json',
-		url:'../controllers/terreno_controlador.php',
-		success:function(data){
-			swal("Terreno actualizado correctamente.");
-			show_view_ground();
-			$('#nombre_terreno').val("");			
-		}
-	})
-}
-
-function eliminar_terreno(){
-
-	swal({
-	  title: "Quieres eliminar este terreno?",
-	  text: "Una vez eliminado no podras recuperarlo!",
-	  icon: "warning",
-	  buttons: true,
-	  dangerMode: true,
-	})
-	.then((willDelete) => {
-	  if (willDelete) {
-
-	  		var json={
-	  			'accion':'eliminar_terreno',
-	  			'id_terreno':$(this).parent().siblings('.nombre').attr('id')
-	  		};
-
-	  		$.ajax({
-	  			type:'POST',
-	  			dataType:'json',
-	  			data:json,
-	  			url:'../controllers/terreno_controlador.php',
-	  			success:function(data){
-	  				if(data.status=="ok"){
-	  					show_view_ground();
-	  					swal("El terreno fue eliminado con exito !", {
-	     				icon: "success",
-	   					});	 
-
-	  				}else if(data.status=="err"){
-	  					swal("No se pudo eliminar el terreno");	  					  			
-	  				}
-	  				
-	  			}
-	  		});				
-	  
-	  } else {	    
-	    swal("El terreno no ha sido eliminado!");	
-	  }
-	});
-
-
-	
-}
-
-function editar_terreno(){
-	var nombre_terreno=$(this).parent().siblings('.nombre').html();
-	var id=$(this).parent().siblings('.nombre').attr('id');
-	
-	$('#nombreTerreno').attr('value',nombre_terreno);
-
-	$('.actualizar_terreno').off('click').on('click',function(){
-		var nuevo_nombre_terreno=$('#nombreTerreno').val();
-		$('#nombreTerreno').val("");
-		var json={
-			'accion':'actualizar_terreno',
-			'nombre_terreno':nuevo_nombre_terreno,
-			'id':id
-		};
-
-		$.ajax({
-			type:'POST',
-			dataType:'Json',
-			url:'../controllers/terreno_controlador.php',
-			data:json,
-			success:function(data){
-				$('#ModalEditarTerreno').modal('hide');
-				show_view_ground();
-				swal("Nombre del terreno actualizado con exito!");				
-			}
-		})
-	})
 
 }
 
@@ -2175,7 +1510,6 @@ function SearchByName(e) {
 
 						/*
 						$.ajax({
-
 							type:'POST',
 							dataType:'Json',
 							data:json,
@@ -2203,7 +1537,7 @@ function SearchByName(e) {
 						$('#actualizar_trabajador').attr('data_id',$(this).attr('data_id'));
 					});
 				}else if(data.status=="err"){
-					swal(data.result);
+					alert(data.result);
 				}
 				
 		}
@@ -2216,34 +1550,6 @@ function clean(){
 	$("#telefono").val("");
 }
 
-function buscar_cargos(){
-
-	var json={
-		'accion':'buscar_cargos'
-	};
-	$.ajax({
-		type:"POST",
-		data:json,
-		url:'../controllers/cargo_controlador.php',
-		dataType:"Json",
-		success:function(data){
-			
-			if(data.estado=="ok"){
-				var i=0;
-				var html;
-				while(i<data.resultado.length){
-					html+="<option value="+data.resultado[i][0]+">"+data.resultado[i][1]+"</option>";
-					i++;
-				}
-				$(".cargo").html(html);
-			}else if(data.estado=="err"){
-				swal(data.resultado);
-			}else{
-				swal("nada");			
-			}	
-		}
-	});
-}
 
 function empezarDia(){
 
@@ -2266,7 +1572,7 @@ function empezarDia(){
 			url:'../controllers/controlador_registro_dia.php',
 			success:function(data){
 				if(data.resultado=="finalizado"){
-					swal("ya se ha realizado un dia de trabajo ");
+					alert("Hoy ya se realizo un dia de trabajo en este terreno.");
 					localStorage['dia']="no";
 				}else{
 					localStorage['consultarTrabajadoresAsistencia'] = false;
@@ -2300,6 +1606,7 @@ function empezarDia(){
 						data:json,
 						success:function(data){
 							if(data.estado=="disponible"){
+
 								json={
 									'accion':'nuevoDia',
 									'terreno_id':id_terreno,
@@ -2313,7 +1620,7 @@ function empezarDia(){
 									data:json,
 									success:function(data){
 										if(data.estado=="ok"){
-											swal(data.resultado);
+											alert(data.resultado);
 											$('.menu_dia').addClass("treeview");
 											$('.menu_dia_hover').addClass('treeview-menu');
 											$('.mensaje_trabajador').attr('hidden','true');
@@ -2325,18 +1632,19 @@ function empezarDia(){
 											$('.tabla_terrenos').attr('hidden','true');
 											$('.tabla').attr('hidden','true');
 											$('.SearchByNamet').attr('hidden','true');
-											$('.opciones_perfil').attr('hidden','true');
-											$("#ConfiguracionDatos").attr('hidden','true');
+
 
 											consultarPagosTrabajadores();
 											consultarAsistenciasTrabajadores();
+
 										}else
-										swal(data.estado);
+										alert(data.estado);
+										
+
 									}
 								})
 							}else{
-								swal("Ya empezaron dia en este terreno");
-								localStorage['dia']="no";
+								swal("Ya has trabajo este dia.");
 							}
 						}
 
@@ -2347,33 +1655,3 @@ function empezarDia(){
 	}
 	
 }
-
-function buscar_todos_terrenos_lista_option(){
-	var json={
-		'nombre_usuario':localStorage['usuario'],
-		'accion':'buscar_todos_terrenos'
-	};
-
-	$.ajax({
-		type:"POST",
-		dataType:"Json",
-		url:'../controllers/terreno_controlador.php',
-		data:json,
-		success:function(data){
-			var html="";
-			var i=0;
-			if(data.status=="ok"){
-				while(i<data.result.length){
-					html+="<option value="+data.result[i][0]+">"+data.result[i][1]+"</option>";
-					i++;
-				}
-				$('.terreno_asignado_encargado').html(html);
-			}else if(data.status=="err"){
-				$('.terreno_asignado_encargado').html(data.result);
-			}
-		}
-
-	});
-
-}
-

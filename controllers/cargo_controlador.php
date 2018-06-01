@@ -4,8 +4,8 @@
 
 	class cargo_controlador 
 	{
-		public function getCargos(){
-			Cargo::getRegistros();
+		public function getCargos2(){
+			Cargo::getRegistros2();
 		}
 		public function buscarCargoId($id_cargo){
 			$buscar=new Cargo($id_cargo,null);
@@ -53,6 +53,11 @@
 		case 'eliminar_cargo':
 			$id_cargo=$_POST['id_cargo'];
 			cargo_controlador::deleteCargo($id_cargo);
+		break;
+
+		case 'buscar_cargos':
+			$obj=new cargo_controlador;
+			$obj->getCargos2();
 		break;
 		
 		default:

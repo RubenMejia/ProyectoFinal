@@ -39,7 +39,7 @@
 				$nombre_archivo = str_replace(" ", "_", $nombre_archivo);								// Reemplazar los espacios en blanco por _
 				$directorio = "../views/files/".$nombre_archivo;											// Crear la ruta con el nombre con el que se guardara el archivo
 
-				if (($archivo_foto['foto_usuario']['type']=="image/png") || ($archivo_foto['foto_usuario']['type']=="image/jpeg")) {
+				if (($archivo_foto['foto_usuario']['type']=="image/png") || ($archivo_foto['foto_usuario']['type']=="image/jpeg") ||  ($archivo_foto['foto_usuario']['type']=="image/jpg") || ($archivo_foto['foto_usuario']['type']=="image/gif")) {
 					
 					if(move_uploaded_file($archivo_foto['foto_usuario']['tmp_name'], $directorio)) { 
 						// Instrucciones para guardar en la base de datos

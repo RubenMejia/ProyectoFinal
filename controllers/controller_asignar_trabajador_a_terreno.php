@@ -1,4 +1,4 @@
-<?php
+consultarCantidadTrabajadores<?php
 	require_once'../models/AsignarTrabajadorATerreno.php';
 	
 	class controller_asignar_trabajador_a_terreno

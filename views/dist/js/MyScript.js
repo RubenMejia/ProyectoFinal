@@ -907,7 +907,8 @@ function show_view_managers(){
 		success:function(data){
 			//console.log(data);
 			if(data.estado=="ok"){
-				$('#tabla_cargos').attr('hidden','true');
+				$('#tabla_cargos').removeAttr('hidden');
+				$('.mensaje_encargados').attr('hidden','true');
 				$('.dia').attr('hidden','true');
 				$(".tabla_terrenos").attr("hidden","true");
 				$(".show_info").attr("hidden","true");
@@ -916,7 +917,7 @@ function show_view_managers(){
 				$('.SearchByNamet').attr('hidden','true');
 				$('.tabla').attr('hidden','true');
 				$('.vista_encargados').removeAttr('hidden');
-
+				$('#tabla_cargos').attr('hidden','true');
 				$('#tabla_encargados').removeAttr("hidden");
 				$('.opciones_perfil').attr('hidden','true');
 				$("#ConfiguracionDatos").attr('hidden','true');
@@ -1067,6 +1068,7 @@ function show_view_managers(){
 
 
 			}else if(data.estado=="No"){
+				$('#tabla_encargados').attr('hidden','true');
 				$('#tabla_cargos').attr('hidden','true');
 				$('.dia').attr('hidden','true');
 				$(".tabla_terrenos").attr("hidden","true");
@@ -1611,7 +1613,7 @@ function show_view_dashboard(){
 	$(".mensaje_trabajador").attr("hidden","true");
 	$(".tabla_terrenos").attr("hidden","true");
 	$('#tabla_cargos').attr('hidden',"true");
-
+	$('#EditarPerfil').attr('hidden','true');
 	$('.opciones_perfil').attr('hidden','true');
 	$("#ConfiguracionDatos").attr('hidden','true');
 
@@ -2009,7 +2011,7 @@ function registrar_terreno(){
 		dataType:'Json',
 		url:'../controllers/terreno_controlador.php',
 		success:function(data){
-			swal("Terreno actualizado correctamente.");
+			swal("Terreno Registrado correctamente.");
 			show_view_ground();
 			$('#nombre_terreno').val("");			
 		}
